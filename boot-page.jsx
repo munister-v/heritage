@@ -1,8 +1,16 @@
-/* Boot Page v3 — refined */
+/* Boot Page v4 — Fraunces display, amber palette, cert platform emphasis */
 const BootPage = ({ onEnter }) => {
   const [prog, setProg] = React.useState(0);
   const [rdy, setRdy] = React.useState(false);
   const [out, setOut] = React.useState(false);
+  const [seqVisible, setSeqVisible] = React.useState([false, false, false, false]);
+
+  const SEQ = [
+    { label: 'АРХІВ · СПАДЩИНА', status: 'ЗАВАНТАЖЕНО' },
+    { label: 'ЛАБОРАТОРІЇ · СИМУЛЯЦІЇ', status: 'ONLINE' },
+    { label: 'СЕРТИФІКАЦІЙНА ПЛАТФОРМА', status: 'АКТИВНА' },
+    { label: 'ЦИФРОВИЙ ДВІЙНИК', status: 'SYNC' },
+  ];
 
   React.useEffect(() => {
     let p = 0;
@@ -11,18 +19,29 @@ const BootPage = ({ onEnter }) => {
       if (p >= 100) { p = 100; clearInterval(iv); setTimeout(() => setRdy(true), 500); }
       setProg(Math.min(100, Math.round(p)));
     }, 130);
-    return () => clearInterval(iv);
+
+    // reveal seq lines with stagger
+    const timers = SEQ.map((_, i) =>
+      setTimeout(() => {
+        setSeqVisible(prev => {
+          const next = [...prev];
+          next[i] = true;
+          return next;
+        });
+      }, 900 + i * 420)
+    );
+
+    return () => { clearInterval(iv); timers.forEach(clearTimeout); };
   }, []);
 
   const go = () => { setOut(true); setTimeout(onEnter, 700); };
 
   return (
     <div className="boot" style={out ? {opacity:0, transform:'scale(.98)', transition:'all .7s'} : {}}>
-      <div className="boot-bg"></div>
+      <div className="boot-grad"></div>
       <StarField density={400} opacity={0.55} />
       <div className="boot-neb boot-n1"></div>
       <div className="boot-neb boot-n2"></div>
-      <div className="boot-grad"></div>
 
       <div className="boot-ui">
         <div className="boot-top">
@@ -33,7 +52,7 @@ const BootPage = ({ onEnter }) => {
           <div style={{display:'flex',gap:'0.5rem'}}>
             <span className="lbl">EN</span>
             <span className="lbl lbl-dim">·</span>
-            <span className="lbl lbl-gold">UA</span>
+            <span className="lbl lbl-amber">UA</span>
           </div>
         </div>
 
@@ -42,15 +61,18 @@ const BootPage = ({ onEnter }) => {
             ЗАСНОВАНО · 1921 &nbsp;·&nbsp; ДОНЕЦЬК → ПОКРОВСЬК → ЛУЦЬК → ДРОГОБИЧ
           </div>
 
-          <h1 className="boot-h1"><b>Don</b>NTU OS</h1>
-          <div className="boot-sub">Віртуальний інженерний кампус</div>
-          <div className="boot-sub2">VIRTUAL ENGINEERING CAMPUS</div>
+          <h1 className="boot-h1"><em>Don</em>NTU</h1>
+          <div className="boot-tagline">ЦИФРОВА СПАДЩИНА · СЕРТИФІКАЦІЙНА ПЛАТФОРМА</div>
+          <div className="boot-sub2">DIGITAL HERITAGE · CERTIFICATION PLATFORM</div>
 
-          <div className="boot-pills">
-            <span className="boot-pill">АРХІТЕКТУРА</span>
-            <span className="boot-pill">ІНЖЕНЕРІЯ</span>
-            <span className="boot-pill">ПАМ'ЯТЬ</span>
-            <span className="boot-pill">ВІДНОВЛЕННЯ</span>
+          <div className="boot-seq">
+            {SEQ.map((s, i) => (
+              <div key={i} className={`boot-seq-line ${seqVisible[i] ? 'visible' : ''}`}>
+                <span className="boot-seq-dot"></span>
+                <span className="boot-seq-label">{s.label}</span>
+                {seqVisible[i] && <span className="boot-seq-status">{s.status}</span>}
+              </div>
+            ))}
           </div>
 
           <div className="boot-prog">
@@ -68,11 +90,11 @@ const BootPage = ({ onEnter }) => {
 
         <div className="boot-ft">
           <div>
-            <span className="lbl lbl-gold">РОЗПОДІЛЕНИЙ ВУЗОЛ</span>
+            <span className="lbl lbl-amber">РОЗПОДІЛЕНИЙ ВУЗОЛ</span>
             <span className="lbl lbl-dim">ЛУЦЬК · ПОКРОВСЬК · ДРОГОБИЧ · КИЇВ</span>
           </div>
           <div className="r">
-            <span className="lbl lbl-gold">ПЕРЕМІЩЕНИЙ УНІВЕРСИТЕТ · УКРАЇНА</span>
+            <span className="lbl lbl-amber">ПЕРЕМІЩЕНИЙ УНІВЕРСИТЕТ · УКРАЇНА</span>
             <span className="lbl lbl-dim">ДОНЕЦЬКИЙ НАЦІОНАЛЬНИЙ ТЕХНІЧНИЙ УНІВЕРСИТЕТ</span>
           </div>
         </div>

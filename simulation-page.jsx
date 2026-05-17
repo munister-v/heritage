@@ -15,7 +15,7 @@ const SimulationPage = ({ onNavigate }) => {
     return () => clearInterval(iv);
   }, []);
 
-  const mc = meth > 4 ? 'var(--red)' : meth > 3 ? 'var(--gold)' : 'var(--green)';
+  const mc = meth > 4 ? 'var(--rust)' : meth > 3 ? 'var(--amber)' : 'var(--sage)';
   const mLbl = meth > 4 ? 'НЕБЕЗПЕЧНО' : meth > 3 ? 'ПІДВИЩЕНО' : 'НОРМА';
 
   return (
@@ -97,7 +97,7 @@ const SimulationPage = ({ onNavigate }) => {
               )}</div>
               <div className="gal-line"></div>
               <div className="lbl lbl-dim" style={{marginTop:'0.25rem'}}>
-                ШТРЕК <span style={{color:'var(--cyan)'}}>●</span> ▽ -742 м
+                ШТРЕК <span style={{color:'var(--slate)'}}>●</span> ▽ -742 м
               </div>
             </div>
             <div className="shaft-face lbl lbl-dim">ВИБІЙ · CH₄</div>

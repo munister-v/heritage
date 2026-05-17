@@ -1,5 +1,13 @@
-/* Assessment + Archive Pages v3 — Ukrainian */
-const AssessmentPage = ({ onNavigate }) => {
+/* Assessment + Archive Pages v4 — certification system, amber palette */
+
+const generateCertId = () =>
+  'DONTU-' + new Date().getFullYear() + '-M01-' +
+  Math.random().toString(36).slice(2, 6).toUpperCase();
+
+const AssessmentPage = ({ onNavigate, onCertGenerated }) => {
+  const [certGenerated, setCertGenerated] = React.useState(null);
+  const [copied, setCopied] = React.useState(false);
+
   const sc = [
     { l:'РЕАКЦІЯ НА СЦЕНАРІЙ', v:91 },
     { l:'ДОТРИМАННЯ ПРОТОКОЛУ', v:86 },
@@ -7,6 +15,34 @@ const AssessmentPage = ({ onNavigate }) => {
     { l:'КОМУНІКАЦІЯ РИЗИКУ', v:94 },
   ];
   const ov = Math.round(sc.reduce((s,c) => s+c.v, 0) / sc.length);
+
+  const handleGenerateCert = () => {
+    const cert = {
+      id: generateCertId(),
+      student: 'Ірина Гринько',
+      module: 'Гірнича безпека · Рівень II',
+      score: ov,
+      date: new Date().toLocaleDateString('uk-UA'),
+      issued: new Date().toISOString(),
+    };
+    try {
+      localStorage.setItem('donntu_cert_' + cert.id, JSON.stringify(cert));
+    } catch(e) {}
+    setCertGenerated(cert);
+    if (onCertGenerated) onCertGenerated(cert.id);
+  };
+
+  const certUrl = certGenerated
+    ? window.location.origin + window.location.pathname + '?cert=' + certGenerated.id
+    : '';
+
+  const handleCopy = () => {
+    if (certUrl) {
+      try { navigator.clipboard.writeText(certUrl); } catch(e) {}
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
 
   return (
     <div className="page">
@@ -17,7 +53,7 @@ const AssessmentPage = ({ onNavigate }) => {
           <p className="body" style={{marginTop:'0.5rem'}}>Сесія 06 · завершено 24 квітня 2026</p>
         </div>
         <div className="as-ov">
-          <span className="lbl lbl-gold">ЗАГАЛЬНИЙ БАЛ</span>
+          <span className="lbl lbl-amber">ЗАГАЛЬНИЙ БАЛ</span>
           <div className="as-score">{ov}</div>
           <Badge status="featured" label="ВІДМІННО" />
         </div>
@@ -38,9 +74,33 @@ const AssessmentPage = ({ onNavigate }) => {
           <div className="cert-in">
             <span className="lbl">СЕРТИФІКАТ ЗАВЕРШЕННЯ</span>
             <div className="cert-nm">Ірина Гринько</div>
-            <div className="serif-i" style={{color:'var(--t3)',fontSize:'0.875rem'}}>підтверджує засвоєння модуля</div>
+            <div style={{color:'var(--t3)',fontSize:'0.875rem',fontStyle:'italic'}}>підтверджує засвоєння модуля</div>
             <div className="cert-co">Гірнича безпека · <em>рівень II</em></div>
             <div className="caption">DonNTU OS · Ректорат · 24.04.2026</div>
+
+            {!certGenerated ? (
+              <button
+                className="btn btn-g"
+                style={{marginTop:'1.25rem',padding:'0.875rem 2rem',fontSize:'0.75rem'}}
+                onClick={handleGenerateCert}
+              >
+                ГЕНЕРУВАТИ СЕРТИФІКАТ →
+              </button>
+            ) : (
+              <div className="cert-gen-box" style={{width:'100%',marginTop:'1.25rem',textAlign:'left'}}>
+                <span className="lbl lbl-amber" style={{display:'block',marginBottom:'0.5rem'}}>СЕРТИФІКАТ ВИДАНО</span>
+                <div className="cert-id-display">{certGenerated.id}</div>
+                <div className="cert-url-display">{certUrl}</div>
+                <div style={{display:'flex',gap:'0.5rem',marginTop:'0.875rem',flexWrap:'wrap'}}>
+                  <button className="btn btn-sm btn-g" onClick={handleCopy}>
+                    {copied ? 'СКОПІЙОВАНО ✓' : 'КОПІЮВАТИ ПОСИЛАННЯ'}
+                  </button>
+                  <button className="btn btn-sm" onClick={() => onNavigate && onNavigate('certs')}>
+                    МОЇ СЕРТИФІКАТИ →
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -50,22 +110,27 @@ const AssessmentPage = ({ onNavigate }) => {
             <div className="bdg-row">
               <div className="bdg-ic"><span className="bdg-rm">II</span></div>
               <div>
-                <div className="serif" style={{fontSize:'1.0625rem',fontWeight:500}}>Інженер з безпеки II</div>
+                <div style={{fontFamily:'var(--sans)',fontSize:'1rem',fontWeight:600}}>Інженер з безпеки II</div>
                 <span className="caption">SAFETY ENGINEER II</span>
-                <div className="lbl lbl-gold" style={{marginTop:'0.375rem'}}>+120 XP · НОВИЙ РІВЕНЬ</div>
+                <div className="lbl lbl-amber" style={{marginTop:'0.375rem'}}>+120 XP · НОВИЙ РІВЕНЬ</div>
               </div>
             </div>
           </div>
 
           <span className="lbl" style={{marginTop:'1.5rem'}}>ДАЛІ</span>
-          <button className="btn btn-full" style={{marginTop:'0.625rem'}} onClick={() => onNavigate('achievements')}>
+          <button className="btn btn-full" style={{marginTop:'0.625rem'}} onClick={() => onNavigate && onNavigate('achievements')}>
             УСІ ДОСЯГНЕННЯ <span>→</span>
           </button>
-          <button className="btn btn-full" style={{marginTop:'0.5rem'}} onClick={() => onNavigate('labs')}>
+          <button className="btn btn-full" style={{marginTop:'0.5rem'}} onClick={() => onNavigate && onNavigate('labs')}>
             НАСТУПНА ЛАБОРАТОРІЯ <span>→</span>
           </button>
-          <button className="btn btn-full" style={{marginTop:'0.5rem'}}>
-            ЗАВАНТАЖИТИ PDF <span>→</span>
+          {certGenerated && (
+            <button className="btn btn-full btn-g" style={{marginTop:'0.5rem'}} onClick={() => onNavigate && onNavigate('certs')}>
+              МОЇ СЕРТИФІКАТИ <span>→</span>
+            </button>
+          )}
+          <button className="btn btn-full" style={{marginTop:'0.5rem'}} onClick={() => window.print()}>
+            ДРУКУВАТИ СЕРТИФІКАТ <span>→</span>
           </button>
         </div>
       </div>
@@ -74,15 +139,15 @@ const AssessmentPage = ({ onNavigate }) => {
 };
 
 const ARC_F = [
-  { id:'all',   ua:'ВСІ' },
+  { id:'all',       ua:'ВСІ' },
   { id:'PHOTOGRAPH', ua:'ФОТО' },
-  { id:'PLAN',  ua:'ПЛАНИ' },
-  { id:'ORAL',  ua:'УСНІ' },
-  { id:'DOCUMENT', ua:'ДОКУМЕНТИ' },
+  { id:'PLAN',      ua:'ПЛАНИ' },
+  { id:'ORAL',      ua:'УСНІ' },
+  { id:'DOCUMENT',  ua:'ДОКУМЕНТИ' },
 ];
 
 const ARC_I = [
-  { tp:'DOCUMENT', st:'УСТАНОВЧИЙ СТАТУТ', yr:1921, en:'Установчий статут', ua:'Засновницький документ Донецького гірничого технікуму',
+  { tp:'DOCUMENT', st:'УСТАНОВЧИЙ СТАТУТ', yr:1921, en:'Установчий статут', ua:'Засновницький документ Донецького гірничого практичного інституту',
     desc:'Оригінальний статут 1921 року, транскрибовано та звірено з документами розширення 1976 року. Активація цього артефакту відкриває рідкісну відзнаку «Спадкоємець».',
     feat:true, img:'https://images.unsplash.com/photo-1568667256549-094345857637?w=600&h=800&fit=crop' },
   { tp:'PHOTOGRAPH', yr:2013, en:'Інженерний корпус', ua:'Головний фасад · до переміщення', img:'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&h=400&fit=crop' },
@@ -111,7 +176,7 @@ const ArchivePage = ({ onNavigate }) => {
             корпусом, дисципліною та живим свідком.
           </p>
         </div>
-        <div className="ov-stats" style={{gridTemplateColumns:'repeat(2,1fr)',gap:'0.75rem'}}>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(2,1fr)',gap:'0.75rem'}}>
           <Stat v="4 832" label="Одиниці" />
           <Stat v="412" label="Усні свідчення" />
           <Stat v="89" label="Плани" />
@@ -136,16 +201,18 @@ const ArchivePage = ({ onNavigate }) => {
             <div className="arc-img">
               <img src={it.img} alt={it.en} loading="lazy" />
               <div className="arc-img-ov"></div>
-              {it.feat && <div style={{position:'absolute',top:'1rem',left:'1rem',zIndex:2}}>
-                <Badge status="featured" label="ПОКАЗОВИЙ" />
-              </div>}
+              {it.feat && (
+                <div style={{position:'absolute',top:'1rem',left:'1rem',zIndex:2}}>
+                  <Badge status="featured" label="ПОКАЗОВИЙ" />
+                </div>
+              )}
               <div style={{position:'absolute',bottom:'1rem',left:'1rem',zIndex:2}}>
                 <span className="lbl" style={{color:'rgba(255,255,255,.7)'}}>{it.tp} · {it.yr}</span>
               </div>
             </div>
             <div className="arc-info">
               <span className="lbl">{it.tp}{it.st ? ' · ' + it.st : ''}</span>
-              <h3 className="serif" style={{fontSize:it.feat?'1.75rem':'1.125rem',fontWeight:500,marginTop:'0.5rem',lineHeight:1.25}}>
+              <h3 style={{fontFamily:'var(--display)',fontSize:it.feat?'1.75rem':'1.125rem',fontWeight:500,marginTop:'0.5rem',lineHeight:1.25}}>
                 {it.en}
               </h3>
               <p className="caption" style={{marginTop:'0.25rem'}}>{it.ua}</p>

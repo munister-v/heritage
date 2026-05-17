@@ -1,9 +1,9 @@
 /* Achievements Page — comprehensive badge system */
 const ACH_CATEGORIES = [
-  { id:'engineering', name:'Інженерія',    ic:'⚙', earned:8,  total:14, color:'var(--cyan)' },
-  { id:'memory',      name:'Пам\'ять',      ic:'✦', earned:5,  total:12, color:'var(--gold)' },
-  { id:'recovery',    name:'Відновлення',  ic:'↺', earned:3,  total:10, color:'var(--green)' },
-  { id:'discipline',  name:'Дисципліна',   ic:'◆', earned:4,  total:8,  color:'var(--purple)' },
+  { id:'engineering', name:'Інженерія',    ic:'⚙', earned:8,  total:14, color:'var(--slate)' },
+  { id:'memory',      name:'Пам\'ять',      ic:'✦', earned:5,  total:12, color:'var(--amber)' },
+  { id:'recovery',    name:'Відновлення',  ic:'↺', earned:3,  total:10, color:'var(--sage)' },
+  { id:'discipline',  name:'Дисципліна',   ic:'◆', earned:4,  total:8,  color:'var(--violet)' },
 ];
 
 const ACHIEVEMENTS = [
@@ -53,7 +53,7 @@ const AchievementsPage = ({ onNavigate }) => {
           </p>
         </div>
         <div style={{display:'flex',gap:'2rem'}}>
-          <div><div className="stat-v" style={{color:'var(--gold)'}}>{earned}<span style={{color:'var(--t3)',fontSize:'1.25rem'}}>/{total}</span></div><span className="stat-l">ВІДЗНАК</span></div>
+          <div><div className="stat-v" style={{color:'var(--amber)'}}>{earned}<span style={{color:'var(--t3)',fontSize:'1.25rem'}}>/{total}</span></div><span className="stat-l">ВІДЗНАК</span></div>
           <div><div className="stat-v">{xpTotal}<span style={{color:'var(--t3)',fontSize:'1rem',marginLeft:4}}>XP</span></div><span className="stat-l">ДОСВІД</span></div>
         </div>
       </div>
@@ -155,7 +155,7 @@ const AchievementsPage = ({ onNavigate }) => {
             background: p.me ? 'var(--gold-g)' : undefined,
             color: p.me ? 'var(--t1)' : undefined,
           }}>
-            <span className="serif" style={{fontSize:'1.5rem',fontWeight:300,color: p.me?'var(--gold)':'var(--t2)'}}>{p.rank}</span>
+            <span className="serif" style={{fontSize:'1.5rem',fontWeight:300,color: p.me?'var(--amber)':'var(--t2)'}}>{p.rank}</span>
             <div>
               <div className="serif" style={{fontSize:'1rem',fontWeight:500}}>{p.name}{p.me && ' ← ви'}</div>
               <div className="caption">{p.course} курс</div>

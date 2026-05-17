@@ -1,18 +1,18 @@
-/* UI Shell v3 — refined Ukrainian-first navigation */
+/* UI Shell v4 — Syne sans, amber palette, certification system */
 const PAGES = [
-  { id:'overview',   n:'01', ua:'Огляд' },
-  { id:'heritage',   n:'02', ua:'Спадщина',     core:true },
-  { id:'campus',     n:'03', ua:'Кампус' },
-  { id:'building',   n:'04', ua:'Корпус' },
-  { id:'labs',       n:'05', ua:'Лабораторії' },
-  { id:'simulation', n:'06', ua:'Симуляція' },
-  { id:'achievements', n:'07', ua:'Досягнення', core:true },
-  { id:'archive',    n:'08', ua:'Архів' },
-  { id:'student',    n:'09', ua:'Профіль' },
+  { id:'overview',     n:'01', ua:'Огляд' },
+  { id:'heritage',     n:'02', ua:'Спадщина',     core:true },
+  { id:'campus',       n:'03', ua:'Кампус' },
+  { id:'building',     n:'04', ua:'Корпус' },
+  { id:'labs',         n:'05', ua:'Лабораторії' },
+  { id:'simulation',   n:'06', ua:'Симуляція' },
+  { id:'achievements', n:'07', ua:'Досягнення',   core:true },
+  { id:'archive',      n:'08', ua:'Архів' },
+  { id:'certs',        n:'09', ua:'Сертифікати',  core:true },
 ];
 
 const TopBar = ({ cur, nav, lang }) => {
-  const quick = ['01','02','05','07','08'];
+  const quick = ['01','02','05','07','08','09'];
   return (
     <header className="top">
       <div className="top-l">
@@ -39,38 +39,58 @@ const TopBar = ({ cur, nav, lang }) => {
   );
 };
 
-const Sidebar = ({ cur, nav }) => (
-  <aside className="side">
-    <div className="side-hdr">
-      <span className="lbl">СИСТЕМА</span>
-      <span className="lbl lbl-dim">IX</span>
-    </div>
-    <nav className="side-nav">
-      {PAGES.map(p => (
-        <button key={p.id} className={`si ${cur===p.id?'act':''}`} onClick={() => nav(p.id)}>
-          <span className="si-num">{p.n}</span>
-          <span className="si-label">{p.ua}</span>
-          <span className="si-mark">{p.core ? '⟡' : ''}</span>
-        </button>
-      ))}
-    </nav>
-  </aside>
-);
+const Sidebar = ({ cur, nav }) => {
+  const certCount = (() => {
+    try {
+      return Object.keys(localStorage).filter(k => k.startsWith('donntu_cert_')).length;
+    } catch(e) { return 0; }
+  })();
 
-const StatusBar = ({ route }) => (
-  <footer className="sbar">
-    <div className="sbar-l">
-      <span><span style={{color:'var(--green)',fontSize:'0.5rem'}}>●</span> DONNTU OS · НАЖИВО</span>
-      <span className="lbl-dim">ROUTE · {route||'OVERVIEW'}</span>
-      <span className="lbl-dim">SEL · B-02 · ІНЖЕНЕРНИЙ КОРПУС</span>
-    </div>
-    <div className="sbar-r">
-      <span>ЦИФРОВИЙ ДВІЙНИК · SYNC</span>
-      <span>АРХІВ · 4.8K</span>
-      <span className="lbl-dim">LATENCY 42MS</span>
-    </div>
-  </footer>
-);
+  return (
+    <aside className="side">
+      <div className="side-hdr">
+        <span className="lbl">СИСТЕМА</span>
+        <span className="lbl lbl-dim">IX</span>
+      </div>
+      <nav className="side-nav">
+        {PAGES.map(p => (
+          <button key={p.id} className={`si ${cur===p.id?'act':''}`} onClick={() => nav(p.id)}>
+            <span className="si-num">{p.n}</span>
+            <span className="si-label">
+              {p.ua}
+              {p.id === 'certs' && certCount > 0 ? ` (${certCount})` : ''}
+            </span>
+            <span className="si-mark">{p.core ? '⟡' : ''}</span>
+          </button>
+        ))}
+      </nav>
+    </aside>
+  );
+};
+
+const StatusBar = ({ route }) => {
+  const certCount = (() => {
+    try {
+      return Object.keys(localStorage).filter(k => k.startsWith('donntu_cert_')).length;
+    } catch(e) { return 0; }
+  })();
+
+  return (
+    <footer className="sbar">
+      <div className="sbar-l">
+        <span><span style={{color:'var(--sage)',fontSize:'0.5rem'}}>●</span> DONNTU OS · НАЖИВО</span>
+        <span className="lbl-dim">ROUTE · {route||'OVERVIEW'}</span>
+        <span className="lbl-dim">SEL · B-02 · ІНЖЕНЕРНИЙ КОРПУС</span>
+      </div>
+      <div className="sbar-r">
+        <span>ЦИФРОВА СПАДЩИНА · СЕРТИФІКАТИ</span>
+        {certCount > 0 && <span style={{color:'var(--amber)'}}>CERTS · {certCount}</span>}
+        <span>АРХІВ · 4.8K</span>
+        <span className="lbl-dim">LATENCY 42MS</span>
+      </div>
+    </footer>
+  );
+};
 
 const Shell = ({ cur, nav, lang, children }) => (
   <div className="shell">
@@ -93,9 +113,9 @@ const Inst = () => (
 
 const Badge = ({ status, label }) => {
   const colors = {
-    open:'var(--t2)', completed:'var(--green)', flagship:'var(--green)',
-    now:'var(--gold)', featured:'var(--gold)', elevated:'var(--red)',
-    locked:'var(--t3)', earned:'var(--gold)', rare:'var(--purple)',
+    open:'var(--t2)', completed:'var(--sage)', flagship:'var(--sage)',
+    now:'var(--amber)', featured:'var(--amber)', elevated:'var(--rust)',
+    locked:'var(--t3)', earned:'var(--amber)', rare:'var(--violet)',
   };
   const c = colors[status] || colors.open;
   return (
