@@ -1,163 +1,72 @@
-/* UI Shell v4 — Syne sans, amber palette, certification system */
-const PAGES = [
-  { id:'overview',     n:'01', ua:'Огляд' },
-  { id:'heritage',     n:'02', ua:'Спадщина',     core:true },
-  { id:'campus',       n:'03', ua:'Кампус' },
-  { id:'building',     n:'04', ua:'Корпус' },
-  { id:'labs',         n:'05', ua:'Лабораторії' },
-  { id:'simulation',   n:'06', ua:'Симуляція' },
-  { id:'achievements', n:'07', ua:'Досягнення',   core:true },
-  { id:'archive',      n:'08', ua:'Архів' },
-  { id:'certs',        n:'09', ua:'Сертифікати',  core:true },
+/* Shell: TopNav + Footer for the heritage platform */
+
+const NAV = [
+  { id: 'gallery',  ua: 'Архів' },
+  { id: 'campus3d', ua: '3D Кампус' },
+  { id: 'archive',  ua: 'Наука' },
+  { id: 'voices',   ua: 'Голоси' },
+  { id: 'timeline', ua: 'Хронологія' },
+  { id: 'certify',  ua: 'Сертифікація' },
 ];
 
-const TopBar = ({ cur, nav, lang }) => {
-  const quick = ['01','02','05','07','08','09'];
+const TopNav = ({ cur, nav }) => {
+  const [scrolled, setScrolled] = React.useState(false);
+  React.useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
   return (
-    <header className="top">
-      <div className="top-l">
-        <span className="top-logo" onClick={() => nav('boot')}>⊡</span>
-        <span className="top-brand">DONNTU · OS</span>
-        <span className="top-ver">V · 2026.05</span>
-      </div>
-      <nav className="top-nav">
-        {PAGES.filter(p => quick.includes(p.n)).map(p => (
-          <button key={p.id} className={`top-btn ${cur===p.id?'act':''}`} onClick={() => nav(p.id)}>
-            {p.n} {p.ua.toUpperCase()}{p.core ? ' ⟡' : ''}
-          </button>
-        ))}
-      </nav>
-      <div className="top-r">
-        <span>Ірина · 3 курс</span>
-        <span>
-          <span className={lang==='en'?'lang-act':''}>EN</span>{' · '}
-          <span className={lang==='ua'?'lang-act':''}>UA</span>
-        </span>
-        <span className="top-time">{new Date().toLocaleTimeString('uk-UA',{hour:'2-digit',minute:'2-digit'})} · ЛУЦЬК</span>
+    <header className={'topnav' + (scrolled ? ' scrolled' : '')}>
+      <div className="topnav-inner">
+        <button className="brand" onClick={() => nav('home')} aria-label="На головну">
+          <span className="brand-mark">Д</span>
+          <span>онНТУ</span>
+          <span className="brand-sep">·</span>
+          <span className="brand-sub">Цифрова Спадщина</span>
+        </button>
+        <nav className="navlinks">
+          {NAV.map(item => (
+            <button
+              key={item.id}
+              className={'navlink' + (cur === item.id ? ' active' : '')}
+              onClick={() => nav(item.id)}
+            >
+              {item.ua}
+            </button>
+          ))}
+        </nav>
+        <div className="nav-right">
+          <button className="lang-toggle" title="Мова">UA / EN</button>
+        </div>
       </div>
     </header>
   );
 };
 
-const Sidebar = ({ cur, nav }) => {
-  const certCount = (() => {
-    try {
-      return Object.keys(localStorage).filter(k => k.startsWith('donntu_cert_')).length;
-    } catch(e) { return 0; }
-  })();
-
-  return (
-    <aside className="side">
-      <div className="side-hdr">
-        <span className="lbl">СИСТЕМА</span>
-        <span className="lbl lbl-dim">IX</span>
+const Footer = ({ nav }) => (
+  <footer className="site-footer">
+    <div className="site-footer-inner">
+      <div>
+        Цифрова спадщина Донецького НТУ · <span className="muted">© 2026</span>
       </div>
-      <nav className="side-nav">
-        {PAGES.map(p => (
-          <button key={p.id} className={`si ${cur===p.id?'act':''}`} onClick={() => nav(p.id)}>
-            <span className="si-num">{p.n}</span>
-            <span className="si-label">
-              {p.ua}
-              {p.id === 'certs' && certCount > 0 ? ` (${certCount})` : ''}
-            </span>
-            <span className="si-mark">{p.core ? '⟡' : ''}</span>
-          </button>
-        ))}
-      </nav>
-    </aside>
-  );
-};
-
-const StatusBar = ({ route }) => {
-  const certCount = (() => {
-    try {
-      return Object.keys(localStorage).filter(k => k.startsWith('donntu_cert_')).length;
-    } catch(e) { return 0; }
-  })();
-
-  return (
-    <footer className="sbar">
-      <div className="sbar-l">
-        <span><span style={{color:'var(--sage)',fontSize:'0.5rem'}}>●</span> DONNTU OS · НАЖИВО</span>
-        <span className="lbl-dim">ROUTE · {route||'OVERVIEW'}</span>
-        <span className="lbl-dim">SEL · B-02 · ІНЖЕНЕРНИЙ КОРПУС</span>
-      </div>
-      <div className="sbar-r">
-        <span>ЦИФРОВА СПАДЩИНА · СЕРТИФІКАТИ</span>
-        {certCount > 0 && <span style={{color:'var(--amber)'}}>CERTS · {certCount}</span>}
-        <span>АРХІВ · 4.8K</span>
-        <span className="lbl-dim">LATENCY 42MS</span>
-      </div>
-    </footer>
-  );
-};
-
-const Shell = ({ cur, nav, lang, children }) => (
-  <div className="shell">
-    <TopBar cur={cur} nav={nav} lang={lang} />
-    <div className="shell-body">
-      <Sidebar cur={cur} nav={nav} />
-      <main className="main">{children}</main>
-    </div>
-    <StatusBar route={cur?.toUpperCase()} />
-  </div>
-);
-
-const Inst = () => (
-  <div className="inst">
-    <span className="lbl">ВУЗОЛ</span>
-    <span className="lbl-dim">NODE · LUTSK-02</span>
-    <span className="lbl-dim">50.7472°N · 25.3254°E</span>
-  </div>
-);
-
-const Badge = ({ status, label }) => {
-  const colors = {
-    open:'var(--t2)', completed:'var(--sage)', flagship:'var(--sage)',
-    now:'var(--amber)', featured:'var(--amber)', elevated:'var(--rust)',
-    locked:'var(--t3)', earned:'var(--amber)', rare:'var(--violet)',
-  };
-  const c = colors[status] || colors.open;
-  return (
-    <span className="badge" style={{ borderColor: c+'44' }}>
-      <span className="badge-dot" style={{ background: c }}></span>
-      {label||status.toUpperCase()}
-    </span>
-  );
-};
-
-const Bar = ({ value, max=100, variant='gold' }) => (
-  <div className="bar">
-    <div className={`bar-fill ${variant==='cyan'?'bar-c':variant==='green'?'bar-g':''}`}
-         style={{ width: Math.min(100, value/max*100) + '%' }}></div>
-  </div>
-);
-
-const PDots = ({ filled, total=5 }) => (
-  <span className="pdots">
-    {Array.from({length:total},(_,i) =>
-      <span key={i} className={i<filled?'pd-f':'pd-e'}>●</span>
-    )}
-  </span>
-);
-
-const Stat = ({ v, label }) => (
-  <div className="stat">
-    <div className="stat-v">{v}</div>
-    <span className="stat-l">{label}</span>
-  </div>
-);
-
-const Modal = ({ open, onClose, children }) => {
-  if (!open) return null;
-  return (
-    <div className="modal-bg" onClick={onClose}>
-      <div className="gc modal" onClick={e => e.stopPropagation()}>
-        <button className="modal-close" onClick={onClose}>✕</button>
-        {children}
+      <div className="site-footer-links">
+        <a onClick={() => nav && nav('home')}>Про проєкт</a>
+        <a href="mailto:archive@donntu.heritage">Зв'язатися</a>
+        <a href="https://github.com/munister-v/heritage" target="_blank" rel="noopener">GitHub</a>
       </div>
     </div>
-  );
-};
+  </footer>
+);
 
-Object.assign(window, { PAGES, Shell, Inst, Badge, Bar, PDots, Stat, Modal });
+const Shell = ({ cur, nav, children }) => (
+  <>
+    <TopNav cur={cur} nav={nav} />
+    <main>{children}</main>
+    <Footer nav={nav} />
+  </>
+);
+
+Object.assign(window, { Shell, TopNav, Footer });

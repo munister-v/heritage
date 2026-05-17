@@ -3,26 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DonNTU Heritage OS · Цифрова Спадщина · Сертифікаційна Платформа</title>
+  <title>Цифрова Спадщина ДонНТУ · Архів та сертифікаційна платформа</title>
+  <meta name="description" content="Цифрова Спадщина Донецького національного технічного університету: архів фотографій, 3D-кампус, наукові праці, усна історія, хронологія та сертифікація.">
+  <meta property="og:title" content="Цифрова Спадщина ДонНТУ">
+  <meta property="og:description" content="Кампус, що існує цифрово. Архів, 3D-реконструкція та сертифікація.">
+  <meta property="og:type" content="website">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%230a0a0c'/%3E%3Ctext x='12' y='17' font-family='Times,serif' font-size='16' fill='%23d4a574' text-anchor='middle'%3EД%3C/text%3E%3C/svg%3E">
   <link rel="stylesheet" href="styles-base.css">
   <link rel="stylesheet" href="styles-pages.css">
   <link rel="stylesheet" href="styles-details.css">
-  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
-  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.0/build/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.132.0/examples/js/controls/OrbitControls.js"></script>
 </head>
 <body>
   <div id="root"></div>
-  <script type="text/babel" src="star-field.jsx"></script>
   <script type="text/babel" src="ui-shell.jsx"></script>
-  <script type="text/babel" src="boot-page.jsx"></script>
-  <script type="text/babel" src="overview-page.jsx"></script>
-  <script type="text/babel" src="heritage-page.jsx"></script>
-  <script type="text/babel" src="campus-page.jsx"></script>
-  <script type="text/babel" src="labs-page.jsx"></script>
-  <script type="text/babel" src="simulation-page.jsx"></script>
-  <script type="text/babel" src="achievements-page.jsx"></script>
-  <script type="text/babel" src="assess-archive-page.jsx"></script>
+  <script type="text/babel" src="home-page.jsx"></script>
+  <script type="text/babel" src="gallery-page.jsx"></script>
+  <script type="text/babel" src="campus3d-page.jsx"></script>
+  <script type="text/babel" src="archive-page.jsx"></script>
+  <script type="text/babel" src="voices-page.jsx"></script>
+  <script type="text/babel" src="timeline-page.jsx"></script>
+  <script type="text/babel" src="certify-page.jsx"></script>
+  <script type="text/babel" src="assessment-page.jsx"></script>
   <script type="text/babel" src="cert-page.jsx"></script>
   <script type="text/babel" src="app.jsx"></script>
 </body>

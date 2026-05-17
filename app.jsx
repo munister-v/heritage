@@ -1,63 +1,65 @@
-/* Main App v4 — certification routing, cert URL param */
+/* App — Цифрова Спадщина ДонНТУ */
+
 const App = () => {
-  const [page, setPage] = React.useState('boot');
-  const [lang, setLang] = React.useState('ua');
+  const [page, setPage] = React.useState('home');
   const [certId, setCertId] = React.useState(null);
 
   React.useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const cert = params.get('cert');
-    if (cert) {
-      setCertId(cert);
-      setPage('cert');
-    }
+    const c = params.get('cert');
+    if (c) { setCertId(c); setPage('cert'); }
   }, []);
 
   const nav = (p) => {
     setPage(p);
-    const main = document.querySelector('.main');
-    if (main) main.scrollTop = 0;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleCertGenerated = (id) => {
     setCertId(id);
-    nav('certs');
+    const u = new URL(window.location.href);
+    u.searchParams.set('cert', id);
+    window.history.pushState({}, '', u);
+    setPage('cert');
   };
-
-  if (page === 'boot') return React.createElement(BootPage, { onEnter: () => nav('overview') });
 
   if (page === 'cert') {
-    const data = certId
-      ? (() => { try { return JSON.parse(localStorage.getItem('donntu_cert_' + certId) || 'null'); } catch(e) { return null; } })()
-      : null;
-    return React.createElement(CertPage, { certId, certData: data, onBack: () => nav('overview') });
+    let data = null;
+    if (certId) {
+      try { data = JSON.parse(localStorage.getItem('donntu_cert_' + certId) || 'null'); } catch (e) {}
+    }
+    return React.createElement(CertPage, {
+      certId,
+      certData: data,
+      onBack: () => {
+        const u = new URL(window.location.href);
+        u.searchParams.delete('cert');
+        window.history.pushState({}, '', u);
+        nav('home');
+      },
+    });
   }
 
-  const PM = {
-    overview:     OverviewPage,
-    heritage:     HeritagePage,
-    campus:       CampusPage,
-    building:     BuildingPage,
-    labs:         LabsPage,
-    simulation:   SimulationPage,
-    achievements: AchievementsPage,
-    assessment:   AssessmentPage,
-    archive:      ArchivePage,
-    certs:        CertsListPage,
+  const PAGES = {
+    home: HomePage,
+    gallery: GalleryPage,
+    campus3d: Campus3DPage,
+    archive: ArchivePage,
+    voices: VoicesPage,
+    timeline: TimelinePage,
+    certify: CertifyPage,
+    assessment: AssessmentPage,
   };
-  const P = PM[page] || OverviewPage;
-  const pageProps = { onNavigate: nav };
-  if (page === 'assessment') pageProps.onCertGenerated = handleCertGenerated;
+  const P = PAGES[page] || HomePage;
 
-  return (
-    <div style={{height:'100%',position:'relative'}}>
-      <div style={{position:'fixed',inset:0,zIndex:0,pointerEvents:'none'}}>
-        <StarField density={80} opacity={0.06} subtle />
-      </div>
-      <Shell cur={page} nav={nav} lang={lang}>
-        <P key={page} {...pageProps} />
-      </Shell>
-    </div>
+  return React.createElement(
+    Shell,
+    { cur: page, nav },
+    React.createElement(P, {
+      key: page,
+      onNavigate: nav,
+      onCertGenerated: handleCertGenerated,
+    })
   );
 };
 
