@@ -1,4 +1,18 @@
-/* Simulation Page v3 — Ukrainian */
+/* Simulation Page v4 — deepened: real incidents, additional simulators, scenario selection */
+const REAL_INCIDENTS = [
+  { id: 'INC-01', name: 'Вибух на шахті ім. Засядька', year: 2007, casualties: 101, desc: 'Вибух метану на глибині 1 070 м. Найбільша шахтна катастрофа в Україні XXI століття. Причина: накопичення CH₄ у тупиковій виробці.', lesson: 'Критична важливість безперервного моніторингу метану та дегазації.' },
+  { id: 'INC-02', name: 'Аварія на шахті Суходільська-Східна', year: 2011, casualties: 2, desc: 'Раптове обвалення покрівлі в лаві. Порушення паспорта кріплення через зміну гірничо-геологічних умов.', lesson: 'Необхідність адаптивного кріплення та геомеханічного моніторингу.' },
+  { id: 'INC-03', name: 'Затоплення шахти Степова', year: 2017, casualties: 8, desc: 'Прорив води з виробленого простору. Швидке затоплення нижніх горизонтів. Евакуація ускладнена через пошкоджені комунікації.', lesson: 'Гідрогеологічний моніторинг та резервні шляхи евакуації.' },
+  { id: 'INC-04', name: 'Блекаут Донецької енергосистеми', year: 2014, casualties: 0, desc: 'Каскадне відключення через пошкодження ЛЕП. Шахти без електропостачання — загроза затоплення та загазування.', lesson: 'Автономне енергозабезпечення шахт та АВР (автоматичне введення резерву).' },
+];
+
+const ADDITIONAL_SIMULATORS = [
+  { id: 'SIM-E01', name: 'Симулятор енергосистеми', icon: '⚡', desc: 'Моделювання електричної мережі 110/35/6 кВ. Аварійні сценарії: короткі замикання, перевантаження, каскадні відключення. Інтеграція відновлювальних джерел.', difficulty: 4, time: '60 хв', status: 'open' },
+  { id: 'SIM-C01', name: 'Кіберполігон АСУ ТП', icon: '🛡', desc: 'Захист промислових систем від кібератак. Сценарії: атака на SCADA шахти, перехоплення телеметрії, ransomware на диспетчерській. Реагування в реальному часі.', difficulty: 5, time: '75 хв', status: 'open' },
+  { id: 'SIM-R01', name: 'Симулятор відновлення міста', icon: '🏗', desc: 'Планування відбудови зруйнованої інфраструктури. Тріаж будівель, розмінування, екологічна оцінка, пріоритезація ресурсів. На основі даних Маріуполя.', difficulty: 5, time: '90 хв', status: 'flagship' },
+  { id: 'SIM-G01', name: 'Геомеханічний симулятор', icon: '⛏', desc: 'Моделювання стійкості гірничих виробок. Вибір кріплення, аналіз гірського тиску, прогноз деформацій. Реальні геологічні розрізи Донбасу.', difficulty: 4, time: '55 хв', status: 'open' },
+];
+
 const SimulationPage = ({ onNavigate }) => {
   const [af, setAf] = React.useState(62);
   const [fans, setFans] = React.useState(2);
@@ -152,6 +166,67 @@ const SimulationPage = ({ onNavigate }) => {
             ЗАВЕРШИТИ ТА ОЦІНИТИ <span>→</span>
           </button>
         </div>
+      </div>
+
+      {/* Real Incidents */}
+      <div className="div-row" style={{marginTop:'2.5rem'}}>
+        <span className="lbl">РЕАЛЬНІ АВАРІЇ · НАВЧАННЯ НА ПОМИЛКАХ</span>
+        <div className="div-line"></div>
+      </div>
+      <p className="body" style={{marginTop:'0.75rem',marginBottom:'1.25rem',maxWidth:'64ch',lineHeight:1.7}}>
+        Сценарії симулятора базуються на реальних інцидентах шахтної промисловості Донбасу.
+        Кожна аварія — урок, який врятує життя в майбутньому.
+      </p>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(280px,1fr))',gap:'1rem'}}>
+        {REAL_INCIDENTS.map(inc => (
+          <div key={inc.id} className="gc" style={{padding:'1.25rem'}}>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.75rem'}}>
+              <span className="lbl" style={{color:'var(--rust)'}}>{inc.id}</span>
+              <span className="mono" style={{fontSize:'0.75rem',color:'var(--t3)'}}>{inc.year}</span>
+            </div>
+            <h3 className="serif" style={{fontSize:'1rem',marginBottom:'0.5rem'}}>{inc.name}</h3>
+            {inc.casualties > 0 && (
+              <div style={{display:'inline-block',padding:'0.125rem 0.5rem',background:'rgba(180,60,40,.15)',borderRadius:'var(--r-sm)',marginBottom:'0.5rem'}}>
+                <span className="mono" style={{fontSize:'0.6875rem',color:'var(--rust)'}}>{inc.casualties} загиблих</span>
+              </div>
+            )}
+            <p className="caption" style={{lineHeight:1.6,marginBottom:'0.75rem'}}>{inc.desc}</p>
+            <div style={{paddingTop:'0.625rem',borderTop:'1px solid var(--border)'}}>
+              <span className="lbl lbl-dim" style={{fontSize:'0.5625rem'}}>УРОК</span>
+              <p className="caption" style={{lineHeight:1.5,marginTop:'0.25rem',color:'var(--amber)'}}>{inc.lesson}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Additional Simulators */}
+      <div className="div-row" style={{marginTop:'2.5rem'}}>
+        <span className="lbl">ДОДАТКОВІ СИМУЛЯТОРИ</span>
+        <div className="div-line"></div>
+      </div>
+      <p className="body" style={{marginTop:'0.75rem',marginBottom:'1.25rem',maxWidth:'64ch',lineHeight:1.7}}>
+        Окрім гірничої безпеки, DonNTU розробляє симулятори для суміжних інженерних дисциплін —
+        від енергосистем до кібербезпеки та відбудови міст.
+      </p>
+      <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(280px,1fr))',gap:'1rem'}}>
+        {ADDITIONAL_SIMULATORS.map(sim => (
+          <div key={sim.id} className="gc" style={{padding:'1.25rem'}}>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'0.75rem'}}>
+              <span style={{fontSize:'1.5rem'}}>{sim.icon}</span>
+              <Badge status={sim.status} label={sim.status === 'flagship' ? 'ФЛАГМАН' : 'ВІДКРИТО'} />
+            </div>
+            <span className="lbl" style={{color:'var(--t3)',marginBottom:'0.25rem',display:'block'}}>{sim.id}</span>
+            <h3 className="serif" style={{fontSize:'1rem',marginBottom:'0.5rem'}}>{sim.name}</h3>
+            <p className="caption" style={{lineHeight:1.6,marginBottom:'0.75rem'}}>{sim.desc}</p>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',paddingTop:'0.625rem',borderTop:'1px solid var(--border)'}}>
+              <div style={{display:'flex',alignItems:'center',gap:'0.5rem'}}>
+                <PDots filled={sim.difficulty} />
+                <span className="caption">{sim.time}</span>
+              </div>
+              <span className="lbl lbl-gold" style={{cursor:'pointer'}}>ЗАПУСТИТИ →</span>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
