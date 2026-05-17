@@ -54,6 +54,9 @@ const App = () => {
     timecapsule:  TimeCapsulePage,
     eras:         ErasPage,
     voices:       VoicesPage,
+    science:      SciencePage,
+    international:InternationalPage,
+    departments:  DepartmentsPage,
   };
   const P = PM[page] || OverviewPage;
   const pageProps = { onNavigate: nav };

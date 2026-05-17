@@ -19,6 +19,9 @@ const PAGES = [
   { id:'timecapsule', n:'17', ua:'Часова капсула' },
   { id:'eras',         n:'18', ua:'Порівняння епох' },
   { id:'voices',       n:'19', ua:'Голоси',        core:true },
+  { id:'science',      n:'20', ua:'Наука' },
+  { id:'international',n:'21', ua:'Міжнародне' },
+  { id:'departments',  n:'22', ua:'Кафедри',       core:true },
 ];
 
 const TopBar = ({ cur, nav, lang }) => {
@@ -60,7 +63,7 @@ const Sidebar = ({ cur, nav }) => {
     <aside className="side">
       <div className="side-hdr">
         <span className="lbl">СИСТЕМА</span>
-        <span className="lbl lbl-dim">XIX</span>
+        <span className="lbl lbl-dim">XXII</span>
       </div>
       <nav className="side-nav">
         {PAGES.map(p => (
