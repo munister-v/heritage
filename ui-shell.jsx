@@ -16,6 +16,9 @@ const PAGES = [
   { id:'applicant',    n:'14', ua:'Абітурієнту',  core:true },
   { id:'studentlife', n:'15', ua:'Студентське життя' },
   { id:'map',          n:'16', ua:'Мапа',         core:true },
+  { id:'timecapsule', n:'17', ua:'Часова капсула' },
+  { id:'eras',         n:'18', ua:'Порівняння епох' },
+  { id:'voices',       n:'19', ua:'Голоси',        core:true },
 ];
 
 const TopBar = ({ cur, nav, lang }) => {
@@ -57,7 +60,7 @@ const Sidebar = ({ cur, nav }) => {
     <aside className="side">
       <div className="side-hdr">
         <span className="lbl">СИСТЕМА</span>
-        <span className="lbl lbl-dim">XVI</span>
+        <span className="lbl lbl-dim">XIX</span>
       </div>
       <nav className="side-nav">
         {PAGES.map(p => (

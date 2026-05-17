@@ -51,6 +51,9 @@ const App = () => {
     applicant:    ApplicantPage,
     studentlife:  StudentLifePage,
     map:          MapPage,
+    timecapsule:  TimeCapsulePage,
+    eras:         ErasPage,
+    voices:       VoicesPage,
   };
   const P = PM[page] || OverviewPage;
   const pageProps = { onNavigate: nav };
