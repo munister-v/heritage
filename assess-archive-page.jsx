@@ -144,25 +144,78 @@ const ARC_F = [
   { id:'PLAN',      ua:'ПЛАНИ' },
   { id:'ORAL',      ua:'УСНІ' },
   { id:'DOCUMENT',  ua:'ДОКУМЕНТИ' },
+  { id:'VIDEO',     ua:'ВІДЕО' },
+  { id:'ARTIFACT',  ua:'АРТЕФАКТИ' },
+];
+
+const ARC_ERAS = [
+  { id:'all', label:'ВСІ ЕПОХИ' },
+  { id:'founding', label:'1921–1940', from:1921, to:1940 },
+  { id:'war', label:'1941–1945', from:1941, to:1945 },
+  { id:'soviet', label:'1946–1990', from:1946, to:1990 },
+  { id:'independence', label:'1991–2013', from:1991, to:2013 },
+  { id:'displacement', label:'2014–н.ч.', from:2014, to:2099 },
 ];
 
 const ARC_I = [
   { tp:'DOCUMENT', st:'УСТАНОВЧИЙ СТАТУТ', yr:1921, en:'Установчий статут', ua:'Засновницький документ Донецького гірничого практичного інституту',
     desc:'Оригінальний статут 1921 року, транскрибовано та звірено з документами розширення 1976 року. Активація цього артефакту відкриває рідкісну відзнаку «Спадкоємець».',
-    feat:true, img:'https://images.unsplash.com/photo-1568667256549-094345857637?w=600&h=800&fit=crop' },
-  { tp:'PHOTOGRAPH', yr:2013, en:'Інженерний корпус', ua:'Головний фасад · до переміщення', img:'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&h=400&fit=crop' },
-  { tp:'PHOTOGRAPH', yr:2008, en:'Головний кампус', ua:'Аерофотозйомка · Донецьк', img:'https://images.unsplash.com/photo-1592280771190-3e2e4d571952?w=600&h=400&fit=crop' },
-  { tp:'ORAL', yr:2024, en:'Інтерв\'ю проф. Коваленко', ua:'42 роки в інституції · 38 хв', img:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=400&fit=crop' },
-  { tp:'PLAN', yr:1976, en:'План розширення кампусу', ua:'Креслення нових корпусів', img:'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600&h=400&fit=crop' },
-  { tp:'DOCUMENT', yr:2014, en:'Запис переміщення', ua:'Протокол евакуації · Покровськ', img:'https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=600&h=400&fit=crop' },
-  { tp:'PHOTOGRAPH', yr:2022, en:'Відкриття кампусу в Луцьку', ua:'Перший день нової адреси', img:'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=600&h=400&fit=crop' },
-  { tp:'ORAL', yr:2023, en:'Свідчення студентів', ua:'12 голосів · збірка', img:'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&h=400&fit=crop' },
-  { tp:'PLAN', yr:2025, en:'Карта відновлення', ua:'Інфраструктура Донбасу · робочий план', img:'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&h=400&fit=crop' },
+    feat:true, geo:'Донецьк', img:'https://images.unsplash.com/photo-1568667256549-094345857637?w=600&h=800&fit=crop' },
+  { tp:'PHOTOGRAPH', yr:2013, en:'Інженерний корпус', ua:'Головний фасад · до переміщення', geo:'Донецьк', img:'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=600&h=400&fit=crop' },
+  { tp:'PHOTOGRAPH', yr:2008, en:'Головний кампус', ua:'Аерофотозйомка · Донецьк', geo:'Донецьк', img:'https://images.unsplash.com/photo-1592280771190-3e2e4d571952?w=600&h=400&fit=crop' },
+  { tp:'ORAL', yr:2024, en:'Інтерв\'ю проф. Коваленко', ua:'42 роки в інституції · 38 хв', geo:'Луцьк', img:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=400&fit=crop' },
+  { tp:'PLAN', yr:1976, en:'План розширення кампусу', ua:'Креслення нових корпусів', geo:'Донецьк', img:'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600&h=400&fit=crop' },
+  { tp:'DOCUMENT', yr:2014, en:'Запис переміщення', ua:'Протокол евакуації · Покровськ', geo:'Покровськ', img:'https://images.unsplash.com/photo-1586281380349-632531db7ed4?w=600&h=400&fit=crop' },
+  { tp:'PHOTOGRAPH', yr:2022, en:'Відкриття кампусу в Луцьку', ua:'Перший день нової адреси', geo:'Луцьк', img:'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=600&h=400&fit=crop' },
+  { tp:'ORAL', yr:2023, en:'Свідчення студентів', ua:'12 голосів · збірка', geo:'Луцьк · Дрогобич', img:'https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=600&h=400&fit=crop' },
+  { tp:'PLAN', yr:2025, en:'Карта відновлення', ua:'Інфраструктура Донбасу · робочий план', geo:'Луцьк', img:'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&h=400&fit=crop' },
+  { tp:'PHOTOGRAPH', yr:1936, en:'Будівництво головного корпусу', ua:'Фундамент та перші поверхи · вул. Артема, 58', geo:'Донецьк',
+    desc:'Рідкісне фото початку будівництва головного корпусу. Проєкт архітектора у стилі соціалістичного класицизму.',
+    img:'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&h=400&fit=crop' },
+  { tp:'DOCUMENT', yr:1941, en:'Наказ про евакуацію', ua:'Евакуація до Прокоп\'євська · Кузбас', geo:'Донецьк → Прокоп\'євськ',
+    desc:'Наказ Наркомату освіти про евакуацію інституту до Кузбасу. Збережено частину обладнання та бібліотеку.',
+    img:'https://images.unsplash.com/photo-1569025743873-ea3a9ber?w=600&h=400&fit=crop' },
+  { tp:'PHOTOGRAPH', yr:1958, en:'Реорганізація в політехнічний', ua:'Церемонія перейменування · Донецький політехнічний', geo:'Донецьк',
+    img:'https://images.unsplash.com/photo-1523580846011-d3a5bc25702b?w=600&h=400&fit=crop' },
+  { tp:'ARTIFACT', yr:1971, en:'Ювілейна медаль 50 років', ua:'Пам\'ятна медаль · бронза · Ø 60 мм', geo:'Донецьк',
+    desc:'Ювілейна медаль до 50-річчя заснування інституту. Аверс — герб із копром та шестернею, реверс — «1921–1971».',
+    img:'https://images.unsplash.com/photo-1605792657660-596af9009e82?w=600&h=400&fit=crop' },
+  { tp:'ORAL', yr:2024, en:'Свідчення ректора Завгороднього', ua:'Подвійне переміщення · 45 хв', geo:'Луцьк',
+    desc:'Ю.Є. Завгородній розповідає про досвід керівництва університетом під час двох переміщень — 2014 та 2022 років.',
+    img:'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&h=400&fit=crop' },
+  { tp:'VIDEO', yr:2022, en:'Евакуація з Покровська', ua:'Документальні кадри · 12 хв', geo:'Покровськ',
+    desc:'Відеозапис евакуації обладнання та архівів з Покровська після 24 лютого 2022 року. Знято співробітниками університету.',
+    img:'https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?w=600&h=400&fit=crop' },
+  { tp:'PHOTOGRAPH', yr:2000, en:'Церемонія надання національного статусу', ua:'ДонНТУ — національний університет', geo:'Донецьк',
+    desc:'Урочисте вручення свідоцтва про надання статусу національного технічного університету.',
+    feat:true, img:'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&h=400&fit=crop' },
+  { tp:'DOCUMENT', yr:2022, en:'Угода з Луцьким НТУ', ua:'Меморандум про співпрацю та спільне використання кампусу', geo:'Луцьк',
+    img:'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&h=400&fit=crop' },
+  { tp:'PLAN', yr:1935, en:'Генеральний план кампусу', ua:'Оригінальне креслення · масштаб 1:500', geo:'Донецьк',
+    desc:'Генеральний план розташування корпусів, гуртожитків та навчально-виробничих споруд.',
+    img:'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&h=400&fit=crop' },
+  { tp:'ARTIFACT', yr:2014, en:'Прапор DonNTU', ua:'Прапор університету, вивезений з Донецька', geo:'Донецьк → Покровськ → Луцьк',
+    desc:'Офіційний прапор ДонНТУ, евакуйований у 2014 році. Пройшов три міста разом з університетом.',
+    img:'https://images.unsplash.com/photo-1569974507005-6dc61f97fb5c?w=600&h=400&fit=crop' },
+  { tp:'VIDEO', yr:2024, en:'100 років ДонНТУ — документальний фільм', ua:'Прем\'єра · 52 хв', geo:'Луцьк',
+    desc:'Повнометражний документальний фільм до 103-річчя університету. Інтерв\'ю з випускниками, хроніка, сучасні кадри.',
+    img:'https://images.unsplash.com/photo-1485846234645-a62644f84728?w=600&h=400&fit=crop' },
+  { tp:'ORAL', yr:2023, en:'Голоси Донбасу — подкаст', ua:'Серія з 8 епізодів · викладачі та студенти', geo:'Луцьк · Дрогобич',
+    desc:'Подкаст-серія, де викладачі та студенти діляться досвідом навчання та життя після переміщення.',
+    img:'https://images.unsplash.com/photo-1478737270239-2f02b77fc618?w=600&h=400&fit=crop' },
 ];
 
 const ArchivePage = ({ onNavigate }) => {
   const [fi, setFi] = React.useState('all');
-  const flt = fi === 'all' ? ARC_I : ARC_I.filter(it => it.tp === fi);
+  const [era, setEra] = React.useState('all');
+  const flt = ARC_I.filter(it => {
+    if (fi !== 'all' && it.tp !== fi) return false;
+    if (era !== 'all') {
+      const e = ARC_ERAS.find(er => er.id === era);
+      if (e && (it.yr < e.from || it.yr > e.to)) return false;
+    }
+    return true;
+  });
 
   return (
     <div className="page">
@@ -195,6 +248,16 @@ const ArchivePage = ({ onNavigate }) => {
         <span className="lbl lbl-dim">ПОКАЗАНО {flt.length} З {ARC_I.length}</span>
       </div>
 
+      <div style={{display:'flex',gap:'0.5rem',flexWrap:'wrap',marginBottom:'1.25rem'}}>
+        {ARC_ERAS.map(e => (
+          <button key={e.id} className={`arc-tab ${era===e.id?'act':''}`}
+            style={{fontSize:'0.625rem',padding:'0.25rem 0.625rem'}}
+            onClick={() => setEra(e.id)}>
+            {e.label}
+          </button>
+        ))}
+      </div>
+
       <div className="arc-grid">
         {flt.map((it,i) => (
           <div key={i} className={`arc-item ${it.feat?'arc-feat':''}`}>
@@ -216,6 +279,12 @@ const ArchivePage = ({ onNavigate }) => {
                 {it.en}
               </h3>
               <p className="caption" style={{marginTop:'0.25rem'}}>{it.ua}</p>
+              {it.geo && (
+                <div style={{display:'flex',alignItems:'center',gap:'0.375rem',marginTop:'0.375rem'}}>
+                  <span className="mono" style={{fontSize:'0.6875rem',color:'var(--amber)'}}>◈</span>
+                  <span className="caption" style={{color:'var(--t3)'}}>{it.geo}</span>
+                </div>
+              )}
               {it.desc && <p className="body" style={{fontSize:'0.875rem',marginTop:'0.75rem'}}>{it.desc}</p>}
             </div>
           </div>

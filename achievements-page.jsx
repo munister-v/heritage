@@ -1,9 +1,9 @@
 /* Achievements Page — comprehensive badge system */
 const ACH_CATEGORIES = [
-  { id:'engineering', name:'Інженерія',    ic:'⚙', earned:8,  total:14, color:'var(--slate)' },
-  { id:'memory',      name:'Пам\'ять',      ic:'✦', earned:5,  total:12, color:'var(--amber)' },
-  { id:'recovery',    name:'Відновлення',  ic:'↺', earned:3,  total:10, color:'var(--sage)' },
-  { id:'discipline',  name:'Дисципліна',   ic:'◆', earned:4,  total:8,  color:'var(--violet)' },
+  { id:'engineering', name:'Інженерія',    ic:'⚙', earned:10, total:18, color:'var(--slate)' },
+  { id:'memory',      name:'Пам\'ять',      ic:'✦', earned:7,  total:16, color:'var(--amber)' },
+  { id:'recovery',    name:'Відновлення',  ic:'↺', earned:4,  total:12, color:'var(--sage)' },
+  { id:'discipline',  name:'Дисципліна',   ic:'◆', earned:5,  total:10, color:'var(--violet)' },
 ];
 
 const ACHIEVEMENTS = [
@@ -17,11 +17,25 @@ const ACHIEVEMENTS = [
   { id:7, tier:'b', cat:'recovery', earned:true, name:'Початок шляху', desc:'Розпочато курс відновлення Донбасу.', date:'08 бер 2026', xp:30, mark:'R' },
   { id:8, tier:'s', cat:'discipline', earned:true, name:'Перфекціоніст', desc:'Чотири оцінювання поспіль з результатом ≥90.', date:'15 квіт 2026', xp:90, mark:'★' },
 
+  // NEW EARNED — tied to deepened content
+  { id:13, tier:'s', cat:'engineering', earned:true, name:'Кіберзахисник', desc:'Завершено лабораторію з кібербезпеки АСУ ТП. Захист промислових систем.', date:'28 квіт 2026', xp:85, mark:'🛡' },
+  { id:14, tier:'b', cat:'engineering', earned:true, name:'Автоматизатор', desc:'Програмування ПЛК для конвеєрної лінії — перша автоматизація.', date:'20 квіт 2026', xp:40, mark:'⚙' },
+  { id:15, tier:'s', cat:'memory', earned:true, name:'Картограф переміщень', desc:'Переглянуто всі 4 локації кампусу та порівняння «було-стало».', date:'10 квіт 2026', xp:70, mark:'◈' },
+  { id:16, tier:'g', cat:'memory', earned:true, name:'Знавець ректорів', desc:'Прочитано біографії всіх 8 ректорів DonNTU від заснування до сьогодення.', date:'05 квіт 2026', xp:100, mark:'♛' },
+  { id:17, tier:'b', cat:'recovery', earned:true, name:'Еколог', desc:'Пройдено лабораторну роботу з екологічної оцінки забруднення ґрунтів.', date:'22 бер 2026', xp:35, mark:'♲' },
+  { id:18, tier:'s', cat:'discipline', earned:true, name:'Дослідник інцидентів', desc:'Вивчено всі 4 реальні аварійні сценарії та їхні уроки.', date:'25 квіт 2026', xp:80, mark:'⚠' },
+
   // LOCKED
   { id:9,  tier:'g', cat:'engineering', earned:false, name:'Майстер симулятора', desc:'Завершити всі 6 рівнів гірничої безпеки без жодної аварії.', xp:250, mark:'M', prog:62 },
   { id:10, tier:'h', cat:'recovery', earned:false, name:'Архітектор відбудови', desc:'Створити повний план відновлення модельного міста Донбасу.', xp:300, mark:'⟡', rare:true, prog:18 },
   { id:11, tier:'g', cat:'memory', earned:false, name:'Літописець', desc:'Внести власне свідчення до архіву усної історії DonNTU.', xp:180, mark:'L', prog:0 },
   { id:12, tier:'s', cat:'discipline', earned:false, name:'Наставник', desc:'Допомогти 5 молодшим студентам пройти базові лабораторії.', xp:100, mark:'N', prog:40 },
+  { id:19, tier:'g', cat:'engineering', earned:false, name:'Геомеханік', desc:'Завершити геомеханічний симулятор — аналіз стійкості виробок Донбасу.', xp:200, mark:'⛏', prog:0 },
+  { id:20, tier:'h', cat:'recovery', earned:false, name:'Урбаніст Донбасу', desc:'Створити повний план відновлення міської інфраструктури на основі реальних даних.', xp:350, mark:'⟡', rare:true, prog:5 },
+  { id:21, tier:'g', cat:'memory', earned:false, name:'Архіваріус', desc:'Переглянуто 20+ одиниць архіву з усіх епох та категорій.', xp:160, mark:'📜', prog:45 },
+  { id:22, tier:'s', cat:'engineering', earned:false, name:'Енергетик-оптимізатор', desc:'Завершити симулятор енергосистеми та оптимізувати графік навантаження.', xp:120, mark:'⚡', prog:0 },
+  { id:23, tier:'g', cat:'discipline', earned:false, name:'Науковець', desc:'Прочитано 10+ наукових публікацій у лабораторіях DonNTU.', xp:140, mark:'📖', prog:30 },
+  { id:24, tier:'h', cat:'memory', earned:false, name:'Голос покоління', desc:'Записати та додати власне усне свідчення до серії «Голоси Донбасу».', xp:250, mark:'⟡', rare:true, prog:0 },
 ];
 
 const ACH_LEADERBOARD = [

@@ -1,4 +1,4 @@
-/* Campus Page v4 — real building data, SVG floor plan, amber palette */
+/* Campus Page v5 — deepened: displacement locations, було-стало comparison */
 const BLDS = [
   { id:'B-01', ua:'Головний корпус', en:'Main Building', x:35, y:52, act:true, depth:'6 поверхів (вежа) · 38 кімнат', use:'Адмін., великі лекційні, Ректорат' },
   { id:'B-02', ua:'Інженерний корпус', en:'Engineering', x:52, y:42, depth:'4 поверхи · 24 кімнати', use:'Автоматизація, кіберсистеми' },
@@ -17,6 +17,48 @@ const BUILDING_INFO = {
   floors: '6 (головний корпус з вежею), 4 (крила)',
   shape: 'П-подібний (U-shaped)',
 };
+
+const DISPLACEMENT_LOCATIONS = [
+  {
+    id: 'donetsk', name: 'Донецьк', period: '1921–2014', status: 'Окуповано',
+    address: 'вул. Артема, 58, Донецьк, 83001',
+    desc: 'Історичний кампус. Головний корпус у стилі соціалістичного класицизму (1936–1958). П-подібна будівля з вежею, ~42 000 м². 6 корпусів, бібліотека, 8 гуртожитків, стадіон.',
+    stats: { buildings: 6, students: '~20 000', staff: 1500, area: '42 000 м²' },
+    color: 'var(--t3)',
+  },
+  {
+    id: 'pokrovsk', name: 'Покровськ', period: '2014–2022', status: 'Евакуйовано',
+    address: 'м. Покровськ, Донецька обл.',
+    desc: 'Тимчасовий кампус після першого переміщення. Орендовані приміщення, адаптовані під навчальний процес. Збережено основні факультети та наукові школи. Обмежена лабораторна база.',
+    stats: { buildings: 2, students: '~4 000', staff: 420, area: '8 000 м²' },
+    color: 'var(--amber)',
+  },
+  {
+    id: 'lutsk', name: 'Луцьк', period: '2022–н.ч.', status: 'Активний',
+    address: 'м. Луцьк, Волинська обл.',
+    desc: 'Основний кампус після другого переміщення. Навчальні корпуси Луцького НТУ, спільне використання аудиторій та лабораторій. Гібридний формат навчання.',
+    stats: { buildings: 3, students: '~2 800', staff: 310, area: '12 000 м²' },
+    color: 'var(--sage)',
+  },
+  {
+    id: 'drohobych', name: 'Дрогобич', period: '2022–н.ч.', status: 'Активний',
+    address: 'м. Дрогобич, Львівська обл.',
+    desc: 'Додатковий кампус. Корпуси Дрогобицького державного педагогічного університету. Гірничо-геологічний та екологічний факультети. Близькість до Карпатського регіону — нові можливості для геологічної практики.',
+    stats: { buildings: 2, students: '~1 200', staff: 140, area: '6 000 м²' },
+    color: 'var(--slate)',
+  },
+];
+
+const БУЛО_СТАЛО = [
+  { category: 'Площа кампусу', було: '42 000 м²', стало: '~18 000 м² (розподілено)', trend: 'down' },
+  { category: 'Студенти', було: '~20 000', стало: '~4 000 (очно + дистанційно)', trend: 'down' },
+  { category: 'Корпуси', було: '6 корпусів', стало: '7 корпусів (3 міста)', trend: 'up' },
+  { category: 'Локації', було: '1 місто', стало: '3 міста + онлайн', trend: 'up' },
+  { category: 'Факультети', було: '12 факультетів', стало: '8 факультетів (реорганізовано)', trend: 'neutral' },
+  { category: 'Формат навчання', було: '100% очно', стало: 'Гібридний (очно + дистанційно)', trend: 'neutral' },
+  { category: 'Бібліотека', було: '2 чит. зали · 500 000 томів', стало: 'Цифрова бібліотека + 1 зал', trend: 'neutral' },
+  { category: 'Гуртожитки', було: '8 гуртожитків', стало: '2 гуртожитки (орендовані)', trend: 'down' },
+];
 
 // SVG floor plan of main building — schematic U-shape
 const FloorPlanSVG = () => (
@@ -216,6 +258,86 @@ const CampusPage = ({ onNavigate }) => {
           <button className="btn" onClick={() => onNavigate('labs')}>ЛАБОРАТОРІЇ</button>
           <button className="btn" onClick={() => onNavigate('simulation')}>СИМУЛЯЦІЯ</button>
           <button className="btn" onClick={() => onNavigate('archive')}>АРХІВ</button>
+        </div>
+      </div>
+
+      {/* DISPLACEMENT LOCATIONS */}
+      <div style={{marginTop:'2rem'}}>
+        <div className="div-row">
+          <span className="lbl">ЛОКАЦІЇ · ГЕОГРАФІЯ ПЕРЕМІЩЕНЬ</span>
+          <div className="div-line"></div>
+        </div>
+        <p className="body" style={{maxWidth:'60ch',marginBottom:'1.25rem'}}>
+          Один університет — чотири адреси. Кожне переміщення — втрата і водночас адаптація.
+        </p>
+        <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fill,minmax(280px,1fr))',gap:'1rem'}}>
+          {DISPLACEMENT_LOCATIONS.map(loc => (
+            <div key={loc.id} className="gc" style={{padding:'1.5rem',borderLeft:`3px solid ${loc.color}`}}>
+              <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:'0.75rem'}}>
+                <span className="lbl lbl-amber">{loc.period}</span>
+                <span className="badge" style={{
+                  borderColor: loc.status === 'Активний' ? 'var(--sage)' : loc.status === 'Окуповано' ? 'var(--err)' : 'var(--amber)',
+                  color: loc.status === 'Активний' ? 'var(--sage)' : loc.status === 'Окуповано' ? 'var(--err)' : 'var(--amber)',
+                }}>
+                  <span className="badge-dot" style={{
+                    background: loc.status === 'Активний' ? 'var(--sage)' : loc.status === 'Окуповано' ? 'var(--err)' : 'var(--amber)',
+                  }}></span>
+                  {loc.status}
+                </span>
+              </div>
+              <h3 className="h3" style={{fontSize:'1.25rem',marginBottom:'0.375rem'}}>{loc.name}</h3>
+              <span className="mono caption" style={{display:'block',marginBottom:'0.75rem'}}>{loc.address}</span>
+              <p className="caption" style={{lineHeight:1.65,marginBottom:'1rem'}}>{loc.desc}</p>
+              <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:'0.5rem',paddingTop:'0.75rem',borderTop:'1px solid var(--border)'}}>
+                <div><span className="lbl lbl-dim" style={{fontSize:'0.5625rem'}}>КОРПУСИ</span><div className="mono" style={{fontSize:'0.875rem',color:'var(--t1)'}}>{loc.stats.buildings}</div></div>
+                <div><span className="lbl lbl-dim" style={{fontSize:'0.5625rem'}}>СТУДЕНТИ</span><div className="mono" style={{fontSize:'0.875rem',color:'var(--t1)'}}>{loc.stats.students}</div></div>
+                <div><span className="lbl lbl-dim" style={{fontSize:'0.5625rem'}}>ПЕРСОНАЛ</span><div className="mono" style={{fontSize:'0.875rem',color:'var(--t1)'}}>{loc.stats.staff}</div></div>
+                <div><span className="lbl lbl-dim" style={{fontSize:'0.5625rem'}}>ПЛОЩА</span><div className="mono" style={{fontSize:'0.875rem',color:'var(--t1)'}}>{loc.stats.area}</div></div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* БУЛО — СТАЛО */}
+      <div style={{marginTop:'2rem'}}>
+        <div className="div-row">
+          <span className="lbl">БУЛО — СТАЛО · ПОРІВНЯННЯ ЕПОХ</span>
+          <div className="div-line"></div>
+        </div>
+        <p className="body" style={{maxWidth:'60ch',marginBottom:'1.25rem'}}>
+          Що змінилось після подвійного переміщення. Цифри — не вирок, а відправна точка відновлення.
+        </p>
+        <div className="gc gc-amber" style={{padding:'1.5rem',overflow:'auto'}}>
+          <table style={{width:'100%',borderCollapse:'collapse',fontSize:'0.8125rem'}}>
+            <thead>
+              <tr style={{borderBottom:'1px solid var(--border)'}}>
+                <th style={{textAlign:'left',padding:'0.625rem 0.75rem',fontFamily:'var(--mono)',fontSize:'0.625rem',letterSpacing:'0.1em',color:'var(--t3)',fontWeight:400}}>ПАРАМЕТР</th>
+                <th style={{textAlign:'left',padding:'0.625rem 0.75rem',fontFamily:'var(--mono)',fontSize:'0.625rem',letterSpacing:'0.1em',color:'var(--t3)',fontWeight:400}}>БУЛО (2014)</th>
+                <th style={{textAlign:'left',padding:'0.625rem 0.75rem',fontFamily:'var(--mono)',fontSize:'0.625rem',letterSpacing:'0.1em',color:'var(--t3)',fontWeight:400}}>СТАЛО (2026)</th>
+                <th style={{textAlign:'center',padding:'0.625rem 0.75rem',fontFamily:'var(--mono)',fontSize:'0.625rem',letterSpacing:'0.1em',color:'var(--t3)',fontWeight:400}}>ТРЕНД</th>
+              </tr>
+            </thead>
+            <tbody>
+              {БУЛО_СТАЛО.map((row, i) => (
+                <tr key={i} style={{borderBottom:'1px solid var(--border)'}}>
+                  <td style={{padding:'0.625rem 0.75rem',fontWeight:600,color:'var(--t1)'}}>{row.category}</td>
+                  <td style={{padding:'0.625rem 0.75rem',color:'var(--t2)'}}>{row.було}</td>
+                  <td style={{padding:'0.625rem 0.75rem',color:'var(--t2)'}}>{row.стало}</td>
+                  <td style={{padding:'0.625rem 0.75rem',textAlign:'center',fontSize:'1rem'}}>
+                    {row.trend === 'up' ? '↑' : row.trend === 'down' ? '↓' : '→'}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+        <div className="gc" style={{marginTop:'1rem',padding:'1.5rem',textAlign:'center'}}>
+          <span className="lbl lbl-amber">ВИСНОВОК</span>
+          <p className="body" style={{marginTop:'0.75rem',maxWidth:'52ch',margin:'0.75rem auto 0',lineHeight:1.7}}>
+            Університет втратив 80% площі, 80% студентів. Але зберіг 100% наукових шкіл, 
+            100% акредитацій, 100% волі до існування. Розподілений кампус — не слабкість, а нова архітектура стійкості.
+          </p>
         </div>
       </div>
 
