@@ -57,6 +57,9 @@ const App = () => {
     science:      SciencePage,
     international:InternationalPage,
     departments:  DepartmentsPage,
+    sports:       SportsPage,
+    alumni:       AlumniPage,
+    culture:      CulturePage,
   };
   const P = PM[page] || OverviewPage;
   const pageProps = { onNavigate: nav };

@@ -22,6 +22,9 @@ const PAGES = [
   { id:'science',      n:'20', ua:'Наука' },
   { id:'international',n:'21', ua:'Міжнародне' },
   { id:'departments',  n:'22', ua:'Кафедри',       core:true },
+  { id:'sports',       n:'23', ua:'Спорт' },
+  { id:'alumni',       n:'24', ua:'Випускники' },
+  { id:'culture',      n:'25', ua:'Культура',      core:true },
 ];
 
 const TopBar = ({ cur, nav, lang }) => {
@@ -63,7 +66,7 @@ const Sidebar = ({ cur, nav }) => {
     <aside className="side">
       <div className="side-hdr">
         <span className="lbl">СИСТЕМА</span>
-        <span className="lbl lbl-dim">XXII</span>
+        <span className="lbl lbl-dim">XXV</span>
       </div>
       <nav className="side-nav">
         {PAGES.map(p => (
