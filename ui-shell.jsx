@@ -9,10 +9,13 @@ const PAGES = [
   { id:'achievements', n:'07', ua:'Досягнення',   core:true },
   { id:'archive',      n:'08', ua:'Архів' },
   { id:'certs',        n:'09', ua:'Сертифікати',  core:true },
+  { id:'war',          n:'10', ua:'Війна',        core:true },
+  { id:'people',       n:'11', ua:'Люди' },
+  { id:'future',       n:'12', ua:'Майбутнє',     core:true },
 ];
 
 const TopBar = ({ cur, nav, lang }) => {
-  const quick = ['01','02','05','07','08','09'];
+  const quick = ['01','02','05','07','08','10','12'];
   return (
     <header className="top">
       <div className="top-l">
@@ -50,7 +53,7 @@ const Sidebar = ({ cur, nav }) => {
     <aside className="side">
       <div className="side-hdr">
         <span className="lbl">СИСТЕМА</span>
-        <span className="lbl lbl-dim">IX</span>
+        <span className="lbl lbl-dim">XII</span>
       </div>
       <nav className="side-nav">
         {PAGES.map(p => (
