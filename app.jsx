@@ -47,6 +47,8 @@ const App = () => {
     war:          WarPage,
     people:       PeoplePage,
     future:       FuturePage,
+    library:      LibraryPage,
+    applicant:    ApplicantPage,
   };
   const P = PM[page] || OverviewPage;
   const pageProps = { onNavigate: nav };
