@@ -47,6 +47,13 @@ const App = () => {
     war:          WarPage,
     people:       PeoplePage,
     future:       FuturePage,
+    library:      LibraryPage,
+    applicant:    ApplicantPage,
+    studentlife:  StudentLifePage,
+    map:          MapPage,
+    timecapsule:  TimeCapsulePage,
+    eras:         ErasPage,
+    voices:       VoicesPage,
   };
   const P = PM[page] || OverviewPage;
   const pageProps = { onNavigate: nav };

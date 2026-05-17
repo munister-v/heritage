@@ -12,10 +12,17 @@ const PAGES = [
   { id:'war',          n:'10', ua:'Війна',        core:true },
   { id:'people',       n:'11', ua:'Люди' },
   { id:'future',       n:'12', ua:'Майбутнє',     core:true },
+  { id:'library',      n:'13', ua:'Бібліотека' },
+  { id:'applicant',    n:'14', ua:'Абітурієнту',  core:true },
+  { id:'studentlife', n:'15', ua:'Студентське життя' },
+  { id:'map',          n:'16', ua:'Мапа',         core:true },
+  { id:'timecapsule', n:'17', ua:'Часова капсула' },
+  { id:'eras',         n:'18', ua:'Порівняння епох' },
+  { id:'voices',       n:'19', ua:'Голоси',        core:true },
 ];
 
 const TopBar = ({ cur, nav, lang }) => {
-  const quick = ['01','02','05','07','08','10','12'];
+  const quick = ['01','02','05','07','10','12','14'];
   return (
     <header className="top">
       <div className="top-l">
@@ -53,7 +60,7 @@ const Sidebar = ({ cur, nav }) => {
     <aside className="side">
       <div className="side-hdr">
         <span className="lbl">СИСТЕМА</span>
-        <span className="lbl lbl-dim">XII</span>
+        <span className="lbl lbl-dim">XIX</span>
       </div>
       <nav className="side-nav">
         {PAGES.map(p => (
