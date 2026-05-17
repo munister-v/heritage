@@ -176,7 +176,7 @@ const AchievementsPage = ({ onNavigate }) => {
             <div style={{display:'flex',justifyContent:'center',gap:'1.5rem',marginTop:'1.75rem',paddingTop:'1.5rem',borderTop:'1px solid var(--border)'}}>
               <div><span className="lbl">КАТЕГОРІЯ</span><div className="serif" style={{fontSize:'1rem',marginTop:'0.25rem'}}>{ACH_CATEGORIES.find(c => c.id === modal.cat)?.name}</div></div>
               <div><span className="lbl">ДОСВІД</span><div className="serif tg" style={{fontSize:'1rem',marginTop:'0.25rem'}}>+{modal.xp} XP</div></div>
-              <div><span className="lbl">СТАТУС</span><div className="serif" style={{fontSize:'1rem',marginTop:'0.25rem',color:modal.earned?'var(--green)':'var(--t3)'}}>{modal.earned ? 'ЗДОБУТО' : 'ЗАКРИТО'}</div></div>
+              <div><span className="lbl">СТАТУС</span><div className="serif" style={{fontSize:'1rem',marginTop:'0.25rem',color:modal.earned?'var(--sage)':'var(--t3)'}}>{modal.earned ? 'ЗДОБУТО' : 'ЗАКРИТО'}</div></div>
             </div>
             {modal.earned && <div className="caption" style={{marginTop:'1rem'}}>Здобуто: {modal.date}</div>}
           </div>
