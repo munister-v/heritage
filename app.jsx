@@ -17,6 +17,11 @@ const App = () => {
     setPage(p);
     const main = document.querySelector('.main');
     if (main) main.scrollTop = 0;
+    try {
+      const v = JSON.parse(localStorage.getItem('donntu_visits') || '{}');
+      v[p] = (v[p] || 0) + 1;
+      localStorage.setItem('donntu_visits', JSON.stringify(v));
+    } catch {}
   };
 
   const handleCertGenerated = (id) => {

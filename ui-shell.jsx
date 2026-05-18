@@ -208,4 +208,64 @@ const Modal = ({ open, onClose, children }) => {
   );
 };
 
-Object.assign(window, { PAGES, Shell, Inst, Badge, Bar, PDots, Stat, Modal });
+const LazyImg = ({ src, alt, style, className, fallbackText }) => {
+  const [status, setStatus] = React.useState('loading');
+
+  React.useEffect(() => {
+    if (!src) { setStatus('error'); return; }
+    setStatus('loading');
+    const img = new window.Image();
+    img.onload = () => setStatus('loaded');
+    img.onerror = () => setStatus('error');
+    img.src = src;
+    return () => { img.onload = null; img.onerror = null; };
+  }, [src]);
+
+  return (
+    <div style={{ position:'relative', overflow:'hidden', background:'var(--s1)', ...style }} className={className}>
+      {/* Shimmer skeleton */}
+      {status === 'loading' && (
+        <div style={{
+          position:'absolute', inset:0,
+          background:'linear-gradient(90deg, var(--s1) 0%, var(--s2) 50%, var(--s1) 100%)',
+          backgroundSize:'200% 100%',
+          animation:'shimmer 1.4s ease infinite',
+        }}/>
+      )}
+      {/* Actual image */}
+      {status !== 'error' && src && (
+        <img src={src} alt={alt||''}
+          loading="lazy"
+          decoding="async"
+          style={{
+            width:'100%', height:'100%', objectFit:'cover', display:'block',
+            opacity: status === 'loaded' ? 1 : 0,
+            transition:'opacity 0.5s ease',
+          }}
+          onLoad={() => setStatus('loaded')}
+          onError={() => setStatus('error')}
+        />
+      )}
+      {/* Error state */}
+      {status === 'error' && (
+        <div style={{
+          position:'absolute', inset:0, display:'flex',
+          flexDirection:'column', alignItems:'center', justifyContent:'center',
+          gap:'0.5rem',
+        }}>
+          <span style={{fontSize:'1.25rem', opacity:0.2}}>⊡</span>
+          <span style={{fontFamily:'var(--mono)', fontSize:'0.5625rem', color:'var(--t3)', letterSpacing:'0.06em'}}>
+            {fallbackText || 'ЗОБРАЖЕННЯ НЕДОСТУПНЕ'}
+          </span>
+          {src && <button onClick={() => setStatus('loading')} style={{
+            fontFamily:'var(--mono)', fontSize:'0.5rem', color:'var(--t3)',
+            background:'none', border:'1px solid var(--b2)', cursor:'pointer',
+            padding:'0.2rem 0.5rem', letterSpacing:'0.06em', marginTop:'0.25rem',
+          }}>↺ RETRY</button>}
+        </div>
+      )}
+    </div>
+  );
+};
+
+Object.assign(window, { PAGES, Shell, Inst, Badge, Bar, PDots, Stat, Modal, LazyImg });

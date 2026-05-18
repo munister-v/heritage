@@ -262,7 +262,7 @@ const ArchivePage = ({ onNavigate }) => {
         {flt.map((it,i) => (
           <div key={i} className={`arc-item ${it.feat?'arc-feat':''}`}>
             <div className="arc-img">
-              <img src={it.img} alt={it.en} loading="lazy" />
+              <LazyImg src={it.img} alt={it.en} style={{width:'100%',height:'100%'}} />
               <div className="arc-img-ov"></div>
               {it.feat && (
                 <div style={{position:'absolute',top:'1rem',left:'1rem',zIndex:2}}>
