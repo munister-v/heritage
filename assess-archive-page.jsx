@@ -17,9 +17,10 @@ const AssessmentPage = ({ onNavigate, onCertGenerated }) => {
   const ov = Math.round(sc.reduce((s,c) => s+c.v, 0) / sc.length);
 
   const handleGenerateCert = () => {
+    const settings = (() => { try { return JSON.parse(localStorage.getItem('donntu_admin_settings') || '{}'); } catch { return {}; } })();
     const cert = {
       id: generateCertId(),
-      student: 'Ірина Гринько',
+      student: settings.studentName || 'Студент',
       module: 'Гірнича безпека · Рівень II',
       score: ov,
       date: new Date().toLocaleDateString('uk-UA'),
@@ -73,7 +74,7 @@ const AssessmentPage = ({ onNavigate, onCertGenerated }) => {
         <div className="gc cert">
           <div className="cert-in">
             <span className="lbl">СЕРТИФІКАТ ЗАВЕРШЕННЯ</span>
-            <div className="cert-nm">Ірина Гринько</div>
+            <div className="cert-nm">{(() => { try { return JSON.parse(localStorage.getItem('donntu_admin_settings') || '{}').studentName || 'Студент'; } catch { return 'Студент'; } })()}</div>
             <div style={{color:'var(--t3)',fontSize:'0.875rem',fontStyle:'italic'}}>підтверджує засвоєння модуля</div>
             <div className="cert-co">Гірнича безпека · <em>рівень II</em></div>
             <div className="caption">DonNTU OS · Ректорат · 24.04.2026</div>

@@ -61,7 +61,7 @@ const TopBar = ({ cur, nav, lang }) => {
         ))}
       </nav>
       <div className="top-r">
-        <span>{settings.studentName || 'Ірина'} · {settings.studentCourse || '3 курс'}</span>
+        <span>{settings.studentName || 'Студент'} · {settings.studentCourse || '3 курс'}</span>
         <span>
           <span className={lang==='en'?'lang-act':''}>EN</span>{' · '}
           <span className={lang==='ua'?'lang-act':''}>UA</span>

@@ -56,12 +56,12 @@
 }
 
 *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
-html { font-size: 14px; }
+html { font-size: 15px; }
 html, body { height:100%; }
 body {
   font-family: var(--sans);
-  font-size: 0.875rem;
-  line-height: 1.5;
+  font-size: 0.9375rem;
+  line-height: 1.6;
   color: var(--t1);
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
@@ -84,23 +84,28 @@ body {
   color: var(--t3);
   display: inline-block;
 }
-.lbl-amber { color: var(--ac); }
-.lbl-gold  { color: var(--ac); }
-.lbl-dim   { color: var(--t3); }
+.lbl-amber  { color: var(--ac); }
+.lbl-gold   { color: var(--ac); }
+.lbl-dim    { color: var(--t3); }
+.lbl-lime   { color: var(--lime); }
+.lbl-violet { color: var(--violet); }
+.lbl-sage   { color: var(--sage); }
+.lbl-slate  { color: var(--slate); }
+.lbl-rust   { color: var(--rust); }
 .t2  { color: var(--t2); }
 .t3  { color: var(--t3); }
 .tg  { color: var(--ac); }
 .tc  { color: var(--slate); }
 .tgr { color: var(--gr); }
 
-.h1 { font-family: var(--display); font-size: clamp(2.5rem,5vw,4rem); font-weight: 300; line-height: 1.05; letter-spacing: -0.02em; }
+.h1 { font-family: var(--display); font-size: clamp(3rem,6vw,5rem); font-weight: 300; line-height: 1.0; letter-spacing: -0.025em; }
 .h2 { font-family: var(--display); font-size: clamp(1.75rem,3vw,2.5rem); font-weight: 300; line-height: 1.15; letter-spacing: -0.01em; }
 .h3 { font-family: var(--display); font-size: 1.5rem; font-weight: 400; line-height: 1.3; }
 .h4 { font-family: var(--display); font-size: 1.25rem; font-weight: 500; line-height: 1.3; }
 .h1 em, .h2 em { font-style: italic; font-weight: 300; color: var(--ac); }
 
-.body   { font-size: 0.875rem; line-height: 1.65; color: var(--t2); }
-.caption { font-size: 0.75rem; color: var(--t3); }
+.body   { font-size: 0.9375rem; line-height: 1.7; color: var(--t2); }
+.caption { font-size: 0.8rem; color: var(--t3); }
 
 /* ══ SHELL ══ */
 .shell { height: 100%; display: grid; grid-template-rows: 44px 1fr 28px; position: relative; z-index: 1; }
@@ -211,6 +216,14 @@ body {
 .gc-flush { padding: 0; overflow: hidden; }
 .gc-lime { border-color: rgba(205,242,79,.18); }
 .gc-lime:hover { border-color: rgba(205,242,79,.4); background: rgba(205,242,79,.025); }
+.gc-violet { border-color: rgba(155,127,219,.2); }
+.gc-violet:hover { border-color: rgba(155,127,219,.45); background: rgba(155,127,219,.03); }
+.gc-sage { border-color: rgba(106,159,116,.2); }
+.gc-sage:hover { border-color: rgba(106,159,116,.45); background: rgba(106,159,116,.03); }
+.gc-slate { border-color: rgba(136,152,170,.2); }
+.gc-slate:hover { border-color: rgba(136,152,170,.45); background: rgba(136,152,170,.03); }
+.gc-rust { border-color: rgba(196,80,57,.2); }
+.gc-rust:hover { border-color: rgba(196,80,57,.45); background: rgba(196,80,57,.03); }
 
 /* corner brackets — WeeGo signature */
 .gc::before, .gc::after {

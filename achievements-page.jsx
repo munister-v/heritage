@@ -42,7 +42,7 @@ const ACH_LEADERBOARD = [
   { rank:1, name:'Олексій Г.', course:5, xp:4280, lvl:'Магістр' },
   { rank:2, name:'Софія К.', course:4, xp:3640, lvl:'Бакалавр VII' },
   { rank:3, name:'Дмитро П.', course:4, xp:3420, lvl:'Бакалавр VII' },
-  { rank:7, name:'Ірина Г.', course:3, xp:1240, lvl:'Бакалавр V', me:true },
+  { rank:7, name:'Ви', course:3, xp:1240, lvl:'Бакалавр V', me:true },
 ];
 
 const AchievementsPage = ({ onNavigate }) => {
