@@ -1,4 +1,4 @@
-/* UI Shell v4 — Syne sans, amber palette, certification system */
+/* UI Shell v5 — admin panel access, amber palette, certification system */
 const PAGES = [
   { id:'overview',     n:'01', ua:'Огляд' },
   { id:'heritage',     n:'02', ua:'Спадщина',     core:true },
@@ -26,12 +26,32 @@ const PAGES = [
 
 const TopBar = ({ cur, nav, lang }) => {
   const quick = ['01','02','05','07','10','12','14'];
+  const [logoClicks, setLogoClicks] = React.useState(0);
+  const logoClickRef = React.useRef(null);
+
+  const handleLogoClick = () => {
+    nav('boot');
+    // 5 кліків за 3 секунди → admin
+    setLogoClicks(n => {
+      const next = n + 1;
+      clearTimeout(logoClickRef.current);
+      if (next >= 5) { nav('admin'); return 0; }
+      logoClickRef.current = setTimeout(() => setLogoClicks(0), 3000);
+      return next;
+    });
+  };
+
+  const settings = (() => {
+    try { return JSON.parse(localStorage.getItem('donntu_admin_settings') || '{}'); } catch { return {}; }
+  })();
+  const buildVer = settings.buildVersion || 'V · 2026.05';
+
   return (
     <header className="top">
       <div className="top-l">
-        <span className="top-logo" onClick={() => nav('boot')}>⊡</span>
+        <span className="top-logo" onClick={handleLogoClick} title="Клікніть 5 разів для входу в адмін">⊡</span>
         <span className="top-brand">DONNTU · OS</span>
-        <span className="top-ver">V · 2026.05</span>
+        <span className="top-ver">{buildVer}</span>
       </div>
       <nav className="top-nav">
         {PAGES.filter(p => quick.includes(p.n)).map(p => (
@@ -41,12 +61,12 @@ const TopBar = ({ cur, nav, lang }) => {
         ))}
       </nav>
       <div className="top-r">
-        <span>Ірина · 3 курс</span>
+        <span>{settings.studentName || 'Ірина'} · {settings.studentCourse || '3 курс'}</span>
         <span>
           <span className={lang==='en'?'lang-act':''}>EN</span>{' · '}
           <span className={lang==='ua'?'lang-act':''}>UA</span>
         </span>
-        <span className="top-time">{new Date().toLocaleTimeString('uk-UA',{hour:'2-digit',minute:'2-digit'})} · ЛУЦЬК</span>
+        <span className="top-time">{new Date().toLocaleTimeString('uk-UA',{hour:'2-digit',minute:'2-digit'})} · {settings.city || 'ЛУЦЬК'}</span>
       </div>
     </header>
   );
@@ -58,6 +78,10 @@ const Sidebar = ({ cur, nav }) => {
       return Object.keys(localStorage).filter(k => k.startsWith('donntu_cert_')).length;
     } catch(e) { return 0; }
   })();
+  const settings = (() => {
+    try { return JSON.parse(localStorage.getItem('donntu_admin_settings') || '{}'); } catch { return {}; }
+  })();
+  const disabled = settings.disabledPages || [];
 
   return (
     <aside className="side">
@@ -66,7 +90,7 @@ const Sidebar = ({ cur, nav }) => {
         <span className="lbl lbl-dim">XXII</span>
       </div>
       <nav className="side-nav">
-        {PAGES.map(p => (
+        {PAGES.filter(p => !disabled.includes(p.id)).map(p => (
           <button key={p.id} className={`si ${cur===p.id?'act':''}`} onClick={() => nav(p.id)}>
             <span className="si-num">{p.n}</span>
             <span className="si-label">
@@ -77,6 +101,17 @@ const Sidebar = ({ cur, nav }) => {
           </button>
         ))}
       </nav>
+      {/* Admin button — at the bottom of sidebar */}
+      <div style={{marginTop:'auto', borderTop:'1px solid var(--b1)', padding:'0.5rem 0'}}>
+        <button className={`si ${cur==='admin'?'act':''}`} onClick={() => nav('admin')} style={{
+          borderLeft: cur==='admin' ? '2px solid var(--lime)' : '2px solid transparent',
+          color: cur==='admin' ? 'var(--lime)' : 'var(--t3)',
+        }}>
+          <span className="si-num" style={{color:'var(--lime)', opacity:0.7}}>⟡</span>
+          <span className="si-label" style={{letterSpacing:'0.06em'}}>АДМІН</span>
+          <span className="si-mark" style={{color:'var(--lime)', fontSize:'0.5rem'}}>●</span>
+        </button>
+      </div>
     </aside>
   );
 };

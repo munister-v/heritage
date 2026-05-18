@@ -169,7 +169,7 @@ body {
   padding: 0 1.25rem 0.875rem;
   border-bottom: 1px solid var(--b1); margin-bottom: 0.5rem;
 }
-.side-nav { display: flex; flex-direction: column; gap: 0; }
+.side-nav { display: flex; flex-direction: column; gap: 0; flex: 1; overflow-y: auto; }
 .si {
   display: grid; grid-template-columns: 28px 1fr auto; align-items: center; gap: 0.75rem;
   padding: 0.65rem 1.25rem;

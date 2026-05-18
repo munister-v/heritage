@@ -1,4 +1,4 @@
-/* Main App v4 — certification routing, cert URL param */
+/* Main App v5 — admin panel + certification routing */
 const App = () => {
   const [page, setPage] = React.useState('boot');
   const [lang, setLang] = React.useState('ua');
@@ -57,6 +57,7 @@ const App = () => {
     science:      SciencePage,
     international:InternationalPage,
     departments:  DepartmentsPage,
+    admin:        AdminPage,
   };
   const P = PM[page] || OverviewPage;
   const pageProps = { onNavigate: nav };
