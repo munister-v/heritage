@@ -298,17 +298,17 @@
 }
 .wuf-reach-inner { max-width: 1280px; margin: 0 auto; }
 .wuf-reach-title {
-  font-family: var(--sans); font-size: 1.875rem; font-weight: 700;
-  color: var(--t1); margin-bottom: 1.5rem;
+  font-family: var(--display); font-size: 2.5rem; font-weight: 400;
+  color: var(--t1); margin-bottom: 1.5rem; line-height: 1.2;
 }
 .wuf-reach-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
 @media (max-width: 700px) { .wuf-reach-grid { grid-template-columns: 1fr; } }
 .wuf-reach-item { display: flex; flex-direction: column; gap: 0.25rem; }
 .wuf-reach-n {
-  font-family: var(--sans); font-size: clamp(3.5rem, 7vw, 5.5rem);
+  font-family: var(--display); font-size: clamp(3.5rem, 7vw, 5.5rem);
   font-weight: 300; line-height: 1; color: #5B9BD5; letter-spacing: -0.02em;
 }
-.wuf-reach-l { font-family: var(--sans); font-size: 1rem; color: var(--t2); }
+.wuf-reach-l { font-family: var(--display); font-size: 1.125rem; font-weight: 400; color: var(--t2); }
 
 /* ══ News block (white, large card left + list right) ══ */
 .wuf-news {
@@ -319,7 +319,7 @@
   display: flex; justify-content: space-between; align-items: baseline;
   margin-bottom: 1.75rem;
 }
-.wuf-news-title { font-family: var(--sans); font-size: 1.875rem; font-weight: 700; color: var(--t1); }
+.wuf-news-title { font-family: var(--display); font-size: 2.5rem; font-weight: 400; color: var(--t1); line-height: 1.2; }
 .wuf-news-view-all {
   font-family: var(--sans); font-size: 0.875rem; color: var(--t1);
   text-decoration: none; border-bottom: 1.5px solid #1F8F6E;
@@ -349,7 +349,7 @@
 }
 .wuf-theme-inner { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; }
 @media (max-width: 900px) { .wuf-theme-inner { grid-template-columns: 1fr; gap: 1.5rem; } }
-.wuf-theme-h { font-family: var(--sans); font-size: 1.875rem; font-weight: 700; color: var(--t1); }
+.wuf-theme-h { font-family: var(--display); font-size: 2.5rem; font-weight: 400; color: var(--t1); line-height: 1.2; }
 .wuf-theme-body { font-family: var(--sans); font-size: 1.0625rem; line-height: 1.65; color: var(--t1); }
 .wuf-theme-body strong { font-weight: 700; color: var(--t1); }
 
@@ -378,7 +378,7 @@
 .wuf-speaker { display: flex; flex-direction: column; gap: 0.75rem; cursor: pointer; }
 .wuf-speaker-img { aspect-ratio: 1/1; background: var(--s2); border-radius: 4px; overflow: hidden; }
 .wuf-speaker-img img { width: 100%; height: 100%; object-fit: cover; }
-.wuf-speaker-name { font-family: var(--sans); font-size: 1.125rem; font-weight: 600; color: var(--t1); }
+.wuf-speaker-name { font-family: var(--display); font-size: 1.25rem; font-weight: 600; color: var(--t1); }
 .wuf-speaker-role { font-family: var(--sans); font-size: 0.875rem; color: var(--t3); }
 
 /* ══ Key Focus / Dialogues cards (pale teal) ══ */
@@ -396,7 +396,7 @@
 }
 .wuf-focus-card:hover { background: #B5D9D0; }
 .wuf-focus-card-num { font-family: var(--sans); font-size: 0.875rem; color: var(--t2); font-weight: 500; }
-.wuf-focus-card-title { font-family: var(--sans); font-size: 1.25rem; font-weight: 600; line-height: 1.35; color: var(--t1); }
+.wuf-focus-card-title { font-family: var(--display); font-size: 1.375rem; font-weight: 500; line-height: 1.35; color: var(--t1); }
 
 /* ── WUF13 STATS BAR ── */
 .wuf-stats {
@@ -595,17 +595,18 @@
 }
 .wuf-host-blue-h {
   font-family: var(--display);
-  font-size: clamp(1.6rem, 2.5vw, 2.4rem);
-  font-weight: 800;
-  line-height: 1.15;
-  margin-bottom: 1.5rem;
+  font-size: clamp(1.75rem, 2.8vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.1;
+  margin-bottom: 1.75rem;
   color: #fff;
+  letter-spacing: -0.01em;
 }
 .wuf-host-blue-p {
-  font-size: 0.9375rem;
-  line-height: 1.7;
-  color: rgba(255,255,255,.85);
-  margin-bottom: 1rem;
+  font-size: clamp(1rem, 1.4vw, 1.5rem);  /* WUF13: 24px */
+  line-height: 2rem;                        /* WUF13: 32px */
+  color: rgba(255,255,255,.88);
+  margin-bottom: 1.5rem;
 }
 .wuf-host-blue-p:last-child { margin-bottom: 0; }
 
@@ -617,10 +618,10 @@
   display: flex; flex-direction: column; justify-content: center;
 }
 .wuf-host-pink-p {
-  font-size: 0.9375rem;
-  line-height: 1.75;
-  color: #1a1a1a;
-  margin-bottom: 1.25rem;
+  font-size: clamp(1rem, 1.4vw, 1.5rem);  /* WUF13: 24px */
+  line-height: 2rem;                        /* WUF13: 32px */
+  color: #111;
+  margin-bottom: 1.5rem;
 }
 .wuf-host-pink-p:last-child { margin-bottom: 0; }
 
@@ -662,22 +663,22 @@
 }
 .wuf-host-quote-name {
   font-family: var(--display);
-  font-size: 1.05rem;
+  font-size: 1.25rem;
   font-weight: 700;
   color: #0d1b3e;
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.4rem;
 }
 .wuf-host-quote-role {
-  font-size: 0.775rem;
+  font-size: 0.8125rem;
   color: #1a3a5c;
-  line-height: 1.45;
-  margin-bottom: 1.25rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
 }
 .wuf-host-quote-text {
-  font-size: 0.875rem;
+  font-size: 1rem;
   line-height: 1.7;
   color: #0d1b3e;
-  font-style: italic;
+  font-style: normal;
   margin: 0;
   border: none;
   padding: 0;
