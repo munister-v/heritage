@@ -63,6 +63,7 @@ const App = () => {
     international:InternationalPage,
     departments:  DepartmentsPage,
     admin:        AdminPage,
+    panneau:      HeritageDonntuPage,
   };
   const P = PM[page] || OverviewPage;
   const pageProps = { onNavigate: nav };

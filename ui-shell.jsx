@@ -22,6 +22,7 @@ const PAGES = [
   { id:'science',      n:'20', ua:'Наука' },
   { id:'international',n:'21', ua:'Міжнародне' },
   { id:'departments',  n:'22', ua:'Кафедри',       core:true },
+  { id:'panneau',      n:'23', ua:'Панно',         core:true },
 ];
 
 const TopBar = ({ cur, nav, lang }) => {
