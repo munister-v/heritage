@@ -47,10 +47,10 @@
 .boot-seq-status { color: var(--sage); }
 .boot-prog { display: flex; align-items: center; gap: 1rem; width: min(380px, 82%); margin-top: 2rem; animation: tIn 1s 1.3s var(--ease) both; }
 .boot-track { flex: 1; height: 2px; background: rgba(255,255,255,.03); border-radius: 1px; overflow: hidden; }
-.boot-bar { height: 100%; background: linear-gradient(90deg, #b8db3a, var(--lime)); transition: width .3s; box-shadow: 0 0 10px rgba(205,242,79,.35); }
+.boot-bar { height: 100%; background: linear-gradient(90deg, #C5641A, var(--ac)); transition: width .3s; box-shadow: 0 0 10px rgba(224,120,48,.4); }
 .boot-go { margin-top: 2rem; padding: 0.9rem 3.5rem; background: transparent; border: 1px solid var(--b1); color: var(--t3); font: inherit; font-family: var(--mono); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.16em; cursor: pointer; transition: all .5s var(--ease); opacity: 0; transform: translateY(12px); pointer-events: none; border-radius: 0; }
-.boot-go.rdy { opacity: 1; pointer-events: auto; transform: none; background: var(--lime); border-color: var(--lime); color: #050505; }
-.boot-go.rdy:hover { background: #b8db3a; border-color: #b8db3a; transform: translateY(-2px); box-shadow: 0 6px 32px rgba(205,242,79,.3); }
+.boot-go.rdy { opacity: 1; pointer-events: auto; transform: none; background: var(--ac); border-color: var(--ac); color: #fff; }
+.boot-go.rdy:hover { background: var(--ac2); border-color: var(--ac2); transform: translateY(-2px); box-shadow: 0 6px 32px rgba(224,120,48,.3); }
 .boot-ft { display: flex; justify-content: space-between; padding: 1.4rem 1.75rem; border-top: 1px solid var(--b1); animation: tIn 1s 1.6s var(--ease) both; gap: 1rem; flex-wrap: wrap; }
 .boot-ft div { display: flex; flex-direction: column; gap: 4px; }
 .boot-ft .r { text-align: right; }

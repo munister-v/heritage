@@ -407,11 +407,12 @@ const PANNEAU_PERSONS = [
   },
   {
     "id": "pamphletu11852",
-    "name": "Янукович Виктор Федорович 1950 г. р. Выпускник ДонНТУ",
-    "bio": "Янукович Виктор Федорович 1950 г. р. Выпускник ДонНТУ (ДПИ) 1980г. Почетный доктор ДонНТУ. Проф., д. э. н. Премьер-министр Украины (2002-2005 гг. и 2006-2007 гг.). Президент Украины (2010-2014 гг.).",
+    "name": "Янукович Віктор Федорович",
+    "bio": "Янукович Віктор Федорович (нар. 1950). Випускник ДонНТУ (ДПІ) 1980 р. Почесний доктор ДонНТУ. Проф., д. е. н. Прем'єр-міністр України (2002–2005 та 2006–2007). Президент України (2010–2014). Втік до Росії після Революції Гідності, підписавши наказ на розстріл мирних демонстрантів. Заочно засуджений за державну зраду.",
     "photo": "https://donntu.ru/sites/default/files/images/kartina/images/viktor_yanukovych_-_yukiya_amano_(01910428)_(10992648186)_(cropped)-crop-u11954.jpg",
     "x": 39.05,
-    "y": 33.11
+    "y": 33.11,
+    "traitor": true
   },
   {
     "id": "pamphletu10823",
@@ -848,46 +849,45 @@ const PANNEAU_PERSONS = [
 ];
 
 /* ── Hotspot dot ── */
-const Dot = ({ person, onClick, active }) => (
-  <button
-    onClick={() => onClick(person)}
-    title={person.name}
-    style={{
-      position: 'absolute',
-      left: `calc(${person.x}% - 6px)`,
-      top:  `calc(${person.y}% - 6px)`,
-      width: 14,
-      height: 14,
-      borderRadius: '50%',
-      border: active ? '2px solid var(--lime)' : '2px solid rgba(212,196,181,0.7)',
-      background: active ? 'var(--lime)' : 'rgba(212,196,181,0.25)',
-      backdropFilter: 'blur(2px)',
-      cursor: 'pointer',
-      padding: 0,
-      transition: 'all 0.15s',
-      zIndex: active ? 10 : 5,
-      boxShadow: active ? '0 0 8px var(--lime)' : '0 0 4px rgba(0,0,0,0.6)',
-    }}
-    onMouseEnter={e => {
-      if (!active) {
-        e.currentTarget.style.background = 'rgba(212,196,181,0.6)';
-        e.currentTarget.style.transform = 'scale(1.4)';
-      }
-    }}
-    onMouseLeave={e => {
-      if (!active) {
-        e.currentTarget.style.background = 'rgba(212,196,181,0.25)';
+const Dot = ({ person, onClick, active }) => {
+  const isTraitor = person.traitor;
+  const dotColor  = isTraitor ? (active ? '#e53935' : 'rgba(229,57,53,0.55)') : (active ? 'var(--ac)' : 'rgba(212,196,181,0.25)');
+  const border    = isTraitor ? (active ? '2px solid #e53935' : '2px solid rgba(229,57,53,0.85)') : (active ? '2px solid var(--ac)' : '2px solid rgba(212,196,181,0.7)');
+  const shadow    = isTraitor ? '0 0 6px rgba(229,57,53,0.8)' : (active ? '0 0 8px var(--ac)' : '0 0 4px rgba(0,0,0,0.6)');
+  return (
+    <button
+      onClick={() => onClick(person)}
+      title={person.name}
+      style={{
+        position: 'absolute',
+        left: `calc(${person.x}% - 6px)`,
+        top:  `calc(${person.y}% - 6px)`,
+        width: isTraitor ? 16 : 14,
+        height: isTraitor ? 16 : 14,
+        borderRadius: '50%',
+        border,
+        background: dotColor,
+        backdropFilter: 'blur(2px)',
+        cursor: 'pointer',
+        padding: 0,
+        transition: 'all 0.15s',
+        zIndex: active ? 10 : (isTraitor ? 7 : 5),
+        boxShadow: shadow,
+      }}
+      onMouseEnter={e => {
+        e.currentTarget.style.transform = 'scale(1.5)';
+      }}
+      onMouseLeave={e => {
         e.currentTarget.style.transform = 'scale(1)';
-      }
-    }}
-  />
-);
+      }}
+    />
+  );
+};
 
 /* ── Person card (side panel) ── */
 const PersonCard = ({ person, onClose }) => {
   if (!person) return null;
-  // Parse name + years from bio
-  const bioLines = person.bio.split(/(?<=[\).])\s+/);
+  const isTraitor = person.traitor;
   return (
     <div style={{
       position: 'absolute',
@@ -895,8 +895,8 @@ const PersonCard = ({ person, onClose }) => {
       right: 0,
       width: 320,
       height: '100%',
-      background: 'rgba(13,13,13,0.96)',
-      borderLeft: '1px solid var(--b2)',
+      background: 'rgba(13,13,13,0.97)',
+      borderLeft: isTraitor ? '1px solid rgba(229,57,53,0.5)' : '1px solid var(--b2)',
       backdropFilter: 'blur(20px)',
       display: 'flex',
       flexDirection: 'column',
@@ -909,16 +909,48 @@ const PersonCard = ({ person, onClose }) => {
         alignItems:'center',
         justifyContent:'space-between',
         padding:'12px 16px',
-        borderBottom:'1px solid var(--b1)',
+        borderBottom: isTraitor ? '1px solid rgba(229,57,53,0.3)' : '1px solid var(--b1)',
         flexShrink:0,
+        background: isTraitor ? 'rgba(229,57,53,0.08)' : 'transparent',
       }}>
-        <span className="lbl" style={{color:'var(--ac)'}}>ПОРТРЕТ</span>
+        <span className="lbl" style={{color: isTraitor ? '#e53935' : 'var(--ac)'}}>
+          {isTraitor ? '⚠ ЗРАДНИК' : 'ПОРТРЕТ'}
+        </span>
         <button onClick={onClose} style={{
           background:'none', border:'none', color:'var(--t3)',
           cursor:'pointer', fontSize:18, lineHeight:1,
           padding:'2px 4px',
         }}>×</button>
       </div>
+
+      {/* Traitor warning */}
+      {isTraitor && (
+        <div style={{
+          background:'rgba(229,57,53,0.12)',
+          borderBottom:'1px solid rgba(229,57,53,0.3)',
+          padding:'12px 16px',
+          flexShrink:0,
+        }}>
+          <p style={{
+            fontSize:'0.85rem',
+            fontWeight:700,
+            color:'#ff6b6b',
+            lineHeight:1.5,
+            fontStyle:'italic',
+          }}>
+            «В сім'ї не без виродка — зрадник і ганьба України»
+          </p>
+          <p style={{
+            marginTop:6,
+            fontSize:'0.72rem',
+            color:'rgba(229,57,53,0.7)',
+            fontFamily:'var(--mono)',
+            letterSpacing:'0.05em',
+          }}>
+            ЗАСУДЖЕНИЙ ЗАОЧНО · ВТІК ДО РОСІЇ 2014
+          </p>
+        </div>
+      )}
 
       {/* Photo */}
       {person.photo && (
@@ -930,16 +962,16 @@ const PersonCard = ({ person, onClose }) => {
           alignItems:'center',
           justifyContent:'center',
           padding:16,
-          minHeight:200,
+          minHeight:180,
         }}>
           <img
             src={person.photo}
             alt={person.name}
             style={{
               maxWidth:'100%',
-              maxHeight:240,
+              maxHeight:220,
               objectFit:'contain',
-              filter:'grayscale(30%) contrast(1.05)',
+              filter: isTraitor ? 'grayscale(60%) sepia(20%) contrast(1.05)' : 'grayscale(30%) contrast(1.05)',
               display:'block',
             }}
             onError={e => { e.currentTarget.style.display='none'; }}
@@ -953,7 +985,7 @@ const PersonCard = ({ person, onClose }) => {
           fontFamily:'var(--display)',
           fontSize:'1rem',
           fontWeight:500,
-          color:'var(--t1)',
+          color: isTraitor ? '#ff6b6b' : 'var(--t1)',
           marginBottom:12,
           lineHeight:1.4,
         }}>{person.name}</h3>
@@ -1024,8 +1056,8 @@ const HeritageDonntuPage = ({ onNavigate }) => {
         </div>
       </div>
 
-      {/* Painting area */}
-      <div style={{flex:1, overflow:'hidden', position:'relative', background:'#0a0a0a'}}>
+      {/* Painting area — dark bg intentional to contrast painting */}
+      <div style={{flex:1, overflow:'hidden', position:'relative', background:'#1a1e2a'}}>
 
         {/* Painting + dots */}
         <div style={{
