@@ -74,7 +74,7 @@ const CityscapeSVG = () => (
 
 const NEWS_ITEMS = [
   { date: '19 травня 2026', title: 'Стартує цифрова реставрація панно «Історія ДонНТУ» — 105 портретів у HD', img: 'https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=900&h=560&fit=crop' },
-  { date: '12 травня 2026', title: 'ДонНТУ відкриває новий науковий центр у Покровську' },
+  { date: '12 травня 2026', title: 'ДонНТУ відкриває новий науковий центр у Дрогобичі' },
   { date: '5 травня 2026', title: 'Випускники-захисники: біографії 300 студентів, що стали до лав ЗСУ' },
   { date: '28 квітня 2026', title: 'Архів університету поповнився 4 800 цифровими документами' },
 ];
@@ -101,7 +101,7 @@ const OverviewPage = ({ onNavigate }) => (
       <div className="wuf-hero-city"><CityscapeSVG /></div>
       <div className="wuf-hero-dome">
         <div className="wuf-hero-date">1921 — наш час</div>
-        <div className="wuf-hero-place">Покровськ · Україна</div>
+        <div className="wuf-hero-place">Дрогобич · Львівська обл. · Україна</div>
         <h1 className="wuf-hero-title">DONNTU</h1>
         <h2 className="wuf-hero-theme">
           Цифрова спадщина:<br/>
@@ -131,6 +131,119 @@ const OverviewPage = ({ onNavigate }) => (
       <button className="wuf-section-tab" onClick={() => onNavigate('panneau')}>Панно</button>
       <button className="wuf-section-tab" onClick={() => onNavigate('voices')}>Голоси</button>
     </div>
+
+    {/* ══ HOST CITY — WUF13-identical 4-column Mondrian block ══ */}
+    <section className="wuf-host">
+      <div className="wuf-host-grid">
+
+        {/* ① Blue — welcome text */}
+        <div className="wuf-host-blue">
+          <h2 className="wuf-host-blue-h">
+            Ми вітаємо ДонНТУ<br/>у Дрогобичі
+          </h2>
+          <p className="wuf-host-blue-p">
+            Ми пишаємося тим, що Донецький національний технічний університет продовжує
+            свою столітню місію в нових умовах — у Дрогобичі, Львівська область. Як
+            університет-переселенець, ДонНТУ зберігає понад 100 років інженерної освіти
+            Донбасу і відкриває нову сторінку в серці Галичини.
+          </p>
+          <p className="wuf-host-blue-p">
+            Учасники порталу знайдуть тут унікальне поєднання цифрового архіву, живих
+            спогадів та інтерактивних ресурсів — де спадщина і сучасність існують поруч,
+            а люди залишаються в центрі кожної сторінки.
+          </p>
+        </div>
+
+        {/* ② Pink — city description */}
+        <div className="wuf-host-pink">
+          <p className="wuf-host-pink-p">
+            Дрогобич — стародавнє місто Галичини з багатою культурною спадщиною, розташоване
+            у Львівській області, неподалік Карпат. Місто, де народився Іван Франко і Бруно
+            Шульц, стало новим домом для ДонНТУ після початку повномасштабного вторгнення
+            Росії у 2022 році.
+          </p>
+          <p className="wuf-host-pink-p">
+            Відмінна зв'язність, наукова та культурна інфраструктура роблять Дрогобич
+            ідеальним місцем для відродження університету. Разом з містом ДонНТУ будує
+            майбутнє, зберігаючи пам'ять.
+          </p>
+        </div>
+
+        {/* ③ Photo (right top) */}
+        <div className="wuf-host-photo-box">
+          <div className="wuf-host-photo-inner">
+            <div style={{
+              width:'100%', height:'100%', background:'#E8EAF0',
+              display:'flex', alignItems:'center', justifyContent:'center',
+              fontSize:'5rem', color:'#9199AA', fontFamily:'var(--display)', fontWeight:700,
+            }}>О</div>
+          </div>
+        </div>
+
+        {/* ④ City photo (bottom-left, spans 2 cols) */}
+        <div className="wuf-host-city-photo">
+          <img
+            src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=900&h=600&fit=crop"
+            alt="Дрогобич"
+            style={{width:'100%', height:'100%', objectFit:'cover', display:'block'}}
+            loading="lazy"
+          />
+        </div>
+
+        {/* ⑤ Illustration (bottom-middle) */}
+        <div className="wuf-host-illustration">
+          <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',height:'100%'}}>
+            {/* Sky */}
+            <rect width="300" height="300" fill="#6BC8E5"/>
+            {/* Sun */}
+            <circle cx="240" cy="60" r="38" fill="#F5D248" stroke="#000" strokeWidth="2"/>
+            {/* Ground */}
+            <rect x="0" y="200" width="300" height="100" fill="#5FB85F"/>
+            {/* Big building — orange */}
+            <rect x="90" y="100" width="120" height="110" fill="#F08D3F" stroke="#000" strokeWidth="2.5"/>
+            <polygon points="90,100 150,55 210,100" fill="#C0392B" stroke="#000" strokeWidth="2.5"/>
+            {/* Windows on building */}
+            {[115,155,195].map((x,i) => [120,150,178].map((y,j) => (
+              <rect key={i*3+j} x={x} y={y} width="16" height="18" fill="#6BC8E5" stroke="#000" strokeWidth="1.5"/>
+            )))}
+            {/* Left small house */}
+            <rect x="10" y="160" width="60" height="50" fill="#E84A6A" stroke="#000" strokeWidth="2"/>
+            <polygon points="10,160 40,130 70,160" fill="#9B59B6" stroke="#000" strokeWidth="2"/>
+            {/* Right tower */}
+            <rect x="235" y="130" width="45" height="80" fill="#1F3A9C" stroke="#000" strokeWidth="2"/>
+            <polygon points="235,130 257,95 280,130" fill="#2ECC71" stroke="#000" strokeWidth="2"/>
+            {/* Trees */}
+            <rect x="78" y="210" width="8" height="30" fill="#7A4A2F"/>
+            <ellipse cx="82" cy="200" rx="18" ry="22" fill="#27AE60" stroke="#000" strokeWidth="1.5"/>
+            <rect x="215" y="215" width="8" height="25" fill="#7A4A2F"/>
+            <ellipse cx="219" cy="206" rx="16" ry="20" fill="#27AE60" stroke="#000" strokeWidth="1.5"/>
+            {/* Road */}
+            <rect x="130" y="210" width="40" height="90" fill="#BDC3C7"/>
+            <rect x="147" y="220" width="6" height="15" fill="#fff"/>
+            <rect x="147" y="245" width="6" height="15" fill="#fff"/>
+            <rect x="147" y="270" width="6" height="15" fill="#fff"/>
+            {/* Grid lines — stained-glass feel */}
+            <line x1="90" y1="0" x2="90" y2="300" stroke="#000" strokeWidth="1.5" opacity=".2"/>
+            <line x1="210" y1="0" x2="210" y2="300" stroke="#000" strokeWidth="1.5" opacity=".2"/>
+            <line x1="0" y1="200" x2="300" y2="200" stroke="#000" strokeWidth="1.5" opacity=".2"/>
+          </svg>
+        </div>
+
+        {/* ⑥ Quote (bottom-right, light blue) */}
+        <div className="wuf-host-quote">
+          <div className="wuf-host-quote-name">Олександр Янчуков</div>
+          <div className="wuf-host-quote-role">
+            Ректор Донецького національного<br/>технічного університету
+          </div>
+          <blockquote className="wuf-host-quote-text">
+            "Ми запрошуємо вас долучитися до нашої цифрової спадщини —
+            зберегти ім'я, обличчя і голос університету, який подолав
+            евакуацію, але не зломився. Наша місія триває."
+          </blockquote>
+        </div>
+
+      </div>
+    </section>
 
     {/* ══ NEWS ══ */}
     <section className="wuf-news">
@@ -297,7 +410,7 @@ const OverviewPage = ({ onNavigate }) => (
         </div>
         <div className="wuf-footer-bottom">
           <span className="wuf-footer-copy">© 2026 DONNTU · Цифрова спадщина · Всі права захищені</span>
-          <span className="wuf-footer-copy">Покровськ · Україна · donntu.edu.ua</span>
+          <span className="wuf-footer-copy">Дрогобич · Львівська обл. · donntu.edu.ua</span>
         </div>
       </div>
     </footer>

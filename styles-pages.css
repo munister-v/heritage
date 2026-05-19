@@ -576,3 +576,159 @@
 /* ── Divider ── */
 .wuf-divider { width: 60px; height: 3px; background: var(--ac); margin: 1.5rem 0 2.5rem; border-radius: 2px; }
 .wuf-divider-white { background: rgba(255,255,255,.3); }
+
+/* ── WUF13 Host-City Mondrian block ── */
+.wuf-host { background: #fff; }
+.wuf-host-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  min-height: 560px;
+}
+/* ① Blue welcome — row1 col1 */
+.wuf-host-blue {
+  grid-column: 1; grid-row: 1;
+  background: #1F3A9C;
+  color: #fff;
+  padding: 3.5rem 3.5rem 3rem;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.wuf-host-blue-h {
+  font-family: var(--display);
+  font-size: clamp(1.6rem, 2.5vw, 2.4rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+  color: #fff;
+}
+.wuf-host-blue-p {
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  color: rgba(255,255,255,.85);
+  margin-bottom: 1rem;
+}
+.wuf-host-blue-p:last-child { margin-bottom: 0; }
+
+/* ② Pink city desc — row1 col2 */
+.wuf-host-pink {
+  grid-column: 2; grid-row: 1;
+  background: #F5A0A0;
+  padding: 2.5rem 2rem;
+  display: flex; flex-direction: column; justify-content: center;
+}
+.wuf-host-pink-p {
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  color: #1a1a1a;
+  margin-bottom: 1.25rem;
+}
+.wuf-host-pink-p:last-child { margin-bottom: 0; }
+
+/* ③ Official photo — row1 col3 */
+.wuf-host-photo-box {
+  grid-column: 3; grid-row: 1;
+  background: #f0f0f0;
+  overflow: hidden;
+}
+.wuf-host-photo-inner {
+  width: 100%; height: 100%;
+  min-height: 260px;
+}
+.wuf-host-photo-inner img {
+  width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block;
+}
+
+/* ④ City photo — row2 col1 (spans 2 rows) */
+.wuf-host-city-photo {
+  grid-column: 1; grid-row: 2;
+  overflow: hidden;
+  min-height: 260px;
+}
+
+/* ⑤ Illustration — row2 col2 */
+.wuf-host-illustration {
+  grid-column: 2; grid-row: 2;
+  background: #CCE6E0;
+  overflow: hidden;
+  min-height: 260px;
+}
+
+/* ⑥ Quote — row2 col3 */
+.wuf-host-quote {
+  grid-column: 3; grid-row: 2;
+  background: #A8D5E2;
+  padding: 2rem 1.75rem 2.5rem;
+  display: flex; flex-direction: column; justify-content: flex-start;
+}
+.wuf-host-quote-name {
+  font-family: var(--display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0d1b3e;
+  margin-bottom: 0.35rem;
+}
+.wuf-host-quote-role {
+  font-size: 0.775rem;
+  color: #1a3a5c;
+  line-height: 1.45;
+  margin-bottom: 1.25rem;
+}
+.wuf-host-quote-text {
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: #0d1b3e;
+  font-style: italic;
+  margin: 0;
+  border: none;
+  padding: 0;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .wuf-host-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+  }
+  .wuf-host-blue  { grid-column: 1 / 3; grid-row: 1; }
+  .wuf-host-pink  { grid-column: 1;     grid-row: 2; }
+  .wuf-host-photo-box { grid-column: 2; grid-row: 2; }
+  .wuf-host-city-photo { grid-column: 1 / 3; grid-row: 3; }
+  .wuf-host-illustration { display: none; }
+  .wuf-host-quote { grid-column: 1 / 3; grid-row: 4; }
+}
+@media (max-width: 560px) {
+  .wuf-host-grid { grid-template-columns: 1fr; }
+  .wuf-host-blue { grid-column: 1; grid-row: 1; }
+  .wuf-host-pink { grid-column: 1; grid-row: 2; }
+  .wuf-host-photo-box { grid-column: 1; grid-row: 3; min-height: 200px; }
+  .wuf-host-city-photo { grid-column: 1; grid-row: 4; }
+  .wuf-host-quote { grid-column: 1; grid-row: 5; }
+}
+
+/* ── Panneau card (side panel) ── */
+:root { --card-width: 320px; }
+.panneau-card {
+  position: absolute;
+  top: 0; right: 0;
+  width: var(--card-width);
+  height: 100%;
+  background: rgba(13,13,13,0.97);
+  backdrop-filter: blur(20px);
+  display: flex;
+  flex-direction: column;
+  z-index: 50;
+  overflow: hidden;
+}
+@media (max-width: 640px) {
+  :root { --card-width: 100%; }
+  .panneau-card {
+    top: auto;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60%;
+    border-left: none !important;
+    border-top: 1px solid var(--b2);
+    border-radius: 12px 12px 0 0;
+  }
+}
