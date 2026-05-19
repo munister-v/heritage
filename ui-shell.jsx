@@ -1,11 +1,10 @@
-/* UI Shell v5 — admin panel access, amber palette, certification system */
+/* UI Shell v6 — WUF13 style: fixed navbar, no sidebar, no statusbar */
 const PAGES = [
   { id:'overview',     n:'01', ua:'Огляд' },
   { id:'heritage',     n:'02', ua:'Спадщина',     core:true },
   { id:'campus',       n:'03', ua:'Кампус' },
   { id:'building',     n:'04', ua:'Корпус' },
   { id:'labs',         n:'05', ua:'Лабораторії' },
-  { id:'simulation',   n:'06', ua:'Симуляція' },
   { id:'achievements', n:'07', ua:'Досягнення',   core:true },
   { id:'archive',      n:'08', ua:'Архів' },
   { id:'certs',        n:'09', ua:'Сертифікати',  core:true },
@@ -14,9 +13,9 @@ const PAGES = [
   { id:'future',       n:'12', ua:'Майбутнє',     core:true },
   { id:'library',      n:'13', ua:'Бібліотека' },
   { id:'applicant',    n:'14', ua:'Абітурієнту',  core:true },
-  { id:'studentlife', n:'15', ua:'Студентське життя' },
+  { id:'studentlife',  n:'15', ua:'Студентське життя' },
   { id:'map',          n:'16', ua:'Мапа',         core:true },
-  { id:'timecapsule', n:'17', ua:'Часова капсула' },
+  { id:'timecapsule',  n:'17', ua:'Часова капсула' },
   { id:'eras',         n:'18', ua:'Порівняння епох' },
   { id:'voices',       n:'19', ua:'Голоси',        core:true },
   { id:'science',      n:'20', ua:'Наука' },
@@ -25,14 +24,22 @@ const PAGES = [
   { id:'panneau',      n:'23', ua:'Панно',         core:true },
 ];
 
-const TopBar = ({ cur, nav, lang }) => {
-  const quick = ['01','02','05','07','10','12','14'];
+/* WUF13-style top navbar — logo · nav links · CTA */
+const TopBar = ({ cur, nav }) => {
+  const NAV_LINKS = [
+    { id:'heritage',  ua:'Спадщина' },
+    { id:'people',    ua:'Люди' },
+    { id:'war',       ua:"Пам’ять" },
+    { id:'voices',    ua:'Голоси' },
+    { id:'archive',   ua:'Архів' },
+    { id:'panneau',   ua:'Панно' },
+  ];
+
   const [logoClicks, setLogoClicks] = React.useState(0);
   const logoClickRef = React.useRef(null);
 
   const handleLogoClick = () => {
-    nav('boot');
-    // 5 кліків за 3 секунди → admin
+    nav('overview');
     setLogoClicks(n => {
       const next = n + 1;
       clearTimeout(logoClickRef.current);
@@ -42,113 +49,52 @@ const TopBar = ({ cur, nav, lang }) => {
     });
   };
 
-  const settings = (() => {
-    try { return JSON.parse(localStorage.getItem('donntu_admin_settings') || '{}'); } catch { return {}; }
-  })();
-  const buildVer = settings.buildVersion || 'V · 2026.05';
-
   return (
-    <header className="top">
-      <div className="top-l">
-        <span className="top-logo" onClick={handleLogoClick} title="Клікніть 5 разів для входу в адмін">⊡</span>
-        <span className="top-brand">DONNTU · OS</span>
-        <span className="top-ver">{buildVer}</span>
+    <header className="wuf-nav">
+      {/* Logo */}
+      <div className="wuf-nav-logo" onClick={handleLogoClick} title="Клікніть 5 разів для адмін-панелі">
+        <div className="wuf-nav-logo-mark">D</div>
+        <div className="wuf-nav-logo-text">
+          <span className="wuf-nav-brand">DONNTU</span>
+          <span className="wuf-nav-sub">ЦИФРОВА СПАДЩИНА</span>
+        </div>
       </div>
-      <nav className="top-nav">
-        {PAGES.filter(p => quick.includes(p.n)).map(p => (
-          <button key={p.id} className={`top-btn ${cur===p.id?'act':''}`} onClick={() => nav(p.id)}>
-            {p.n} {p.ua.toUpperCase()}{p.core ? ' ⟡' : ''}
+
+      {/* Nav links */}
+      <nav className="wuf-nav-links">
+        {NAV_LINKS.map(l => (
+          <button
+            key={l.id}
+            className={`wuf-nav-link ${cur === l.id ? 'act' : ''}`}
+            onClick={() => nav(l.id)}
+          >
+            {l.ua}
           </button>
         ))}
       </nav>
-      <div className="top-r">
-        <span>{settings.studentName || 'Студент'} · {settings.studentCourse || '3 курс'}</span>
-        <span>
-          <span className={lang==='en'?'lang-act':''}>EN</span>{' · '}
-          <span className={lang==='ua'?'lang-act':''}>UA</span>
-        </span>
-        <span className="top-time">{new Date().toLocaleTimeString('uk-UA',{hour:'2-digit',minute:'2-digit'})} · {settings.city || 'ЛУЦЬК'}</span>
+
+      {/* CTA */}
+      <div className="wuf-nav-cta">
+        <button className="btn btn-g wuf-nav-btn" onClick={() => nav('panneau')}>
+          ВІДКРИТИ ПАННО →
+        </button>
+        <button
+          className="wuf-nav-more"
+          onClick={() => nav('overview')}
+          title="Усі розділи"
+        >
+          ☰
+        </button>
       </div>
     </header>
   );
 };
 
-const Sidebar = ({ cur, nav }) => {
-  const certCount = (() => {
-    try {
-      return Object.keys(localStorage).filter(k => k.startsWith('donntu_cert_')).length;
-    } catch(e) { return 0; }
-  })();
-  const settings = (() => {
-    try { return JSON.parse(localStorage.getItem('donntu_admin_settings') || '{}'); } catch { return {}; }
-  })();
-  const disabled = settings.disabledPages || [];
-
-  return (
-    <aside className="side">
-      <div className="side-hdr">
-        <span className="lbl">СИСТЕМА</span>
-        <span className="lbl lbl-dim">XXII</span>
-      </div>
-      <nav className="side-nav">
-        {PAGES.filter(p => !disabled.includes(p.id)).map(p => (
-          <button key={p.id} className={`si ${cur===p.id?'act':''}`} onClick={() => nav(p.id)}>
-            <span className="si-num">{p.n}</span>
-            <span className="si-label">
-              {p.ua}
-              {p.id === 'certs' && certCount > 0 ? ` (${certCount})` : ''}
-            </span>
-            <span className="si-mark">{p.core ? '⟡' : ''}</span>
-          </button>
-        ))}
-      </nav>
-      {/* Admin button — at the bottom of sidebar */}
-      <div style={{marginTop:'auto', borderTop:'1px solid var(--b1)', padding:'0.5rem 0'}}>
-        <button className={`si ${cur==='admin'?'act':''}`} onClick={() => nav('admin')} style={{
-          borderLeft: cur==='admin' ? '2px solid var(--lime)' : '2px solid transparent',
-          color: cur==='admin' ? 'var(--lime)' : 'var(--t3)',
-        }}>
-          <span className="si-num" style={{color:'var(--lime)', opacity:0.7}}>⟡</span>
-          <span className="si-label" style={{letterSpacing:'0.06em'}}>АДМІН</span>
-          <span className="si-mark" style={{color:'var(--lime)', fontSize:'0.5rem'}}>●</span>
-        </button>
-      </div>
-    </aside>
-  );
-};
-
-const StatusBar = ({ route }) => {
-  const certCount = (() => {
-    try {
-      return Object.keys(localStorage).filter(k => k.startsWith('donntu_cert_')).length;
-    } catch(e) { return 0; }
-  })();
-
-  return (
-    <footer className="sbar">
-      <div className="sbar-l">
-        <span><span style={{color:'var(--sage)',fontSize:'0.5rem'}}>●</span> DONNTU OS · НАЖИВО</span>
-        <span className="lbl-dim">ROUTE · {route||'OVERVIEW'}</span>
-        <span className="lbl-dim">SEL · B-02 · ІНЖЕНЕРНИЙ КОРПУС</span>
-      </div>
-      <div className="sbar-r">
-        <span>ЦИФРОВА СПАДЩИНА · СЕРТИФІКАТИ</span>
-        {certCount > 0 && <span style={{color:'var(--amber)'}}>CERTS · {certCount}</span>}
-        <span>АРХІВ · 4.8K</span>
-        <span className="lbl-dim">LATENCY 42MS</span>
-      </div>
-    </footer>
-  );
-};
-
+/* Full-width shell — no sidebar, no statusbar */
 const Shell = ({ cur, nav, lang, children }) => (
   <div className="shell">
     <TopBar cur={cur} nav={nav} lang={lang} />
-    <div className="shell-body">
-      <Sidebar cur={cur} nav={nav} />
-      <main className="main">{children}</main>
-    </div>
-    <StatusBar route={cur?.toUpperCase()} />
+    <main className="main">{children}</main>
   </div>
 );
 
@@ -224,7 +170,6 @@ const LazyImg = ({ src, alt, style, className, fallbackText }) => {
 
   return (
     <div style={{ position:'relative', overflow:'hidden', background:'var(--s1)', ...style }} className={className}>
-      {/* Shimmer skeleton */}
       {status === 'loading' && (
         <div style={{
           position:'absolute', inset:0,
@@ -233,7 +178,6 @@ const LazyImg = ({ src, alt, style, className, fallbackText }) => {
           animation:'shimmer 1.4s ease infinite',
         }}/>
       )}
-      {/* Actual image */}
       {status !== 'error' && src && (
         <img src={src} alt={alt||''}
           loading="lazy"
@@ -247,7 +191,6 @@ const LazyImg = ({ src, alt, style, className, fallbackText }) => {
           onError={() => setStatus('error')}
         />
       )}
-      {/* Error state */}
       {status === 'error' && (
         <div style={{
           position:'absolute', inset:0, display:'flex',

@@ -1,6 +1,6 @@
 /* Main App v5 — admin panel + certification routing */
 const App = () => {
-  const [page, setPage] = React.useState('boot');
+  const [page, setPage] = React.useState('overview');
   const [lang, setLang] = React.useState('ua');
   const [certId, setCertId] = React.useState(null);
 
@@ -28,8 +28,6 @@ const App = () => {
     setCertId(id);
     nav('certs');
   };
-
-  if (page === 'boot') return React.createElement(BootPage, { onEnter: () => nav('overview') });
 
   if (page === 'cert') {
     const data = certId
@@ -70,14 +68,9 @@ const App = () => {
   if (page === 'assessment') pageProps.onCertGenerated = handleCertGenerated;
 
   return (
-    <div style={{height:'100%',position:'relative'}}>
-      <div style={{position:'fixed',inset:0,zIndex:0,pointerEvents:'none'}}>
-        <StarField density={80} opacity={0.06} subtle />
-      </div>
-      <Shell cur={page} nav={nav} lang={lang}>
-        <P key={page} {...pageProps} />
-      </Shell>
-    </div>
+    <Shell cur={page} nav={nav} lang={lang}>
+      <P key={page} {...pageProps} />
+    </Shell>
   );
 };
 
