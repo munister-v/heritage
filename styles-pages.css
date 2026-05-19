@@ -218,64 +218,69 @@
 /* ── Page wrapper for non-hero pages ── */
 .page { padding: 3rem 6vw 5rem; max-width: 1280px; margin: 0 auto; display: flex; flex-direction: column; gap: 3rem; }
 
-/* ── WUF13 HERO ── */
+/* ── WUF13 MONDRIAN HERO ── */
 .wuf-hero {
-  position: relative; overflow: hidden;
-  background: #88C8E8;
-  min-height: 88vh;
-  display: flex; align-items: center; justify-content: center;
-  text-align: center; flex-direction: column;
+  display: grid; grid-template-columns: 1.4fr 1fr 1fr;
+  min-height: 88vh; gap: 0;
 }
-.wuf-hero-sky {
-  position: absolute; inset: 0;
-  background: linear-gradient(175deg, #A8D8EE 0%, #6FB8D8 40%, #5AA8CC 100%);
+@media (max-width: 1024px) { .wuf-hero { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 700px) { .wuf-hero { grid-template-columns: 1fr; } }
+.wuf-hero-block { padding: 4rem 3rem; display: flex; flex-direction: column; gap: 1.25rem; }
+.wuf-hero-blue { background: var(--wuf-blue); color: #fff; }
+.wuf-hero-pink { background: var(--wuf-pink); color: var(--t1); }
+.wuf-hero-photo { background: var(--wuf-cream); position: relative; padding: 0; overflow: hidden; min-height: 380px; }
+.wuf-hero-photo img { width: 100%; height: 100%; object-fit: cover; }
+.wuf-hero-blue .wuf-hero-eyebrow { font-family: var(--mono); font-size: 0.625rem; letter-spacing: 0.2em; color: rgba(255,255,255,.7); text-transform: uppercase; }
+.wuf-hero-blue h1 {
+  font-family: var(--display); font-size: clamp(2.5rem, 5vw, 4.25rem);
+  font-weight: 400; line-height: 1.05; letter-spacing: 0.02em; color: #fff;
 }
-/* Decorative buildings silhouette at bottom */
-.wuf-hero-buildings {
-  position: absolute; bottom: 0; left: 0; right: 0;
-  height: 42%; pointer-events: none;
+.wuf-hero-blue p { font-family: var(--sans); font-size: 1rem; line-height: 1.6; color: rgba(255,255,255,.92); }
+.wuf-hero-pink h2 {
+  font-family: var(--display); font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 400; line-height: 1.05; letter-spacing: 0.02em; color: var(--t1);
 }
-.wuf-hero-buildings svg { width: 100%; height: 100%; }
-/* White oval arch */
-.wuf-hero-oval {
-  position: relative; z-index: 2;
-  background: #FFFFFF;
-  border-radius: 50% 50% 0 0 / 60% 60% 0 0;
-  width: min(700px, 88vw);
-  padding: 5rem 4rem 4rem;
-  display: flex; flex-direction: column; align-items: center;
-  box-shadow: 0 -8px 60px rgba(0,0,0,0.08);
-  margin-bottom: -2px;
-}
-.wuf-hero-eyebrow {
-  font-family: var(--mono); font-size: 0.6875rem; letter-spacing: 0.2em;
-  text-transform: uppercase; color: var(--ac); margin-bottom: 1rem;
-}
-.wuf-hero-title {
-  font-family: var(--display); font-size: clamp(5rem, 15vw, 10rem);
-  font-weight: 400; letter-spacing: 0.05em; line-height: 0.9;
-  color: var(--t1); margin-bottom: 0.5rem;
-}
-.wuf-hero-subtitle {
-  font-family: var(--display); font-size: clamp(1.5rem, 4vw, 2.5rem);
-  font-weight: 400; letter-spacing: 0.08em; color: var(--ac);
-  margin-bottom: 1.5rem;
-}
-.wuf-hero-desc {
-  font-family: var(--sans); font-size: 1rem; font-weight: 400;
-  color: var(--t2); line-height: 1.6; max-width: 420px; margin-bottom: 2rem;
-}
-.wuf-hero-btns { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; }
+.wuf-hero-pink p { font-family: var(--sans); font-size: 0.9375rem; line-height: 1.65; color: var(--t1); }
+.wuf-hero-eyebrow-pink { font-family: var(--mono); font-size: 0.625rem; letter-spacing: 0.2em; color: var(--wuf-red); text-transform: uppercase; }
+
+.wuf-hero-btns { display: flex; gap: 0.625rem; flex-wrap: wrap; margin-top: 1rem; }
 .wuf-hero-btn {
-  font-family: var(--sans); font-size: 0.875rem; font-weight: 700;
-  padding: 0.875rem 2rem; border-radius: var(--r-md);
-  cursor: pointer; transition: all .2s; border: 2px solid;
-  letter-spacing: 0.04em; white-space: nowrap;
+  font-family: var(--sans); font-size: 0.8125rem; font-weight: 700;
+  padding: 0.75rem 1.5rem; cursor: pointer; transition: all .2s;
+  border: 2px solid; letter-spacing: 0.04em; white-space: nowrap;
+  border-radius: 0;
 }
 .wuf-hero-btn-primary { background: var(--ac); border-color: var(--ac); color: #fff; }
-.wuf-hero-btn-primary:hover { background: var(--ac2); border-color: var(--ac2); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(224,120,48,.3); }
+.wuf-hero-btn-primary:hover { background: var(--ac2); border-color: var(--ac2); }
+.wuf-hero-btn-white { background: #fff; border-color: #fff; color: var(--wuf-blue); }
+.wuf-hero-btn-white:hover { background: transparent; color: #fff; }
+.wuf-hero-btn-outline-w { background: transparent; border-color: #fff; color: #fff; }
+.wuf-hero-btn-outline-w:hover { background: #fff; color: var(--wuf-blue); }
 .wuf-hero-btn-outline { background: transparent; border-color: var(--t1); color: var(--t1); }
-.wuf-hero-btn-outline:hover { background: var(--t1); color: #fff; transform: translateY(-2px); }
+.wuf-hero-btn-outline:hover { background: var(--t1); color: #fff; }
+
+/* Mondrian sub-band: photo + cityscape + colored quote box */
+.wuf-mondrian {
+  display: grid; grid-template-columns: 1.4fr 1fr 1fr;
+  min-height: 460px;
+}
+@media (max-width: 1024px) { .wuf-mondrian { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 700px) { .wuf-mondrian { grid-template-columns: 1fr; } }
+.wuf-mondrian-img { background: var(--s2); overflow: hidden; min-height: 380px; }
+.wuf-mondrian-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.wuf-mondrian-quote {
+  background: var(--wuf-teal); padding: 2.5rem 2rem; color: var(--t1);
+  display: flex; flex-direction: column; gap: 1rem;
+}
+.wuf-mondrian-quote-name { font-family: var(--sans); font-size: 1.125rem; font-weight: 600; color: var(--t1); }
+.wuf-mondrian-quote-role { font-family: var(--sans); font-size: 0.8125rem; color: var(--t2); line-height: 1.5; }
+.wuf-mondrian-quote-text { font-family: var(--sans); font-size: 0.9375rem; line-height: 1.6; font-style: italic; color: var(--t1); margin-top: 0.5rem; }
+.wuf-mondrian-yellow {
+  background: var(--wuf-yellow); padding: 2.5rem 2rem;
+  display: flex; flex-direction: column; gap: 1rem; color: var(--t1);
+}
+.wuf-mondrian-yellow h3 { font-family: var(--display); font-size: 2rem; line-height: 1.05; color: var(--t1); letter-spacing: 0.02em; }
+.wuf-mondrian-yellow p { font-size: 0.9375rem; line-height: 1.6; }
 
 /* ── WUF13 STATS BAR ── */
 .wuf-stats {

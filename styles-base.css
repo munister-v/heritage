@@ -20,12 +20,21 @@
   --glass-2: rgba(0,0,0,0.03);
 
   /* ── WUF13 accent palette ── */
-  --ac:      #E07830;   /* WUF13 orange */
+  --ac:      #E07830;   /* WUF13 orange (accent only) */
   --ac2:     #C5641A;
   --acg:     rgba(224,120,48,0.08);
-  --lime:    #E07830;   /* action = orange */
-  --sky:     #5DB8D4;   /* WUF13 sky blue */
-  --gr:      #3A8C5C;   /* status green */
+  --lime:    #E07830;
+  --sky:     #5DB8D4;
+  --gr:      #3A8C5C;
+  /* WUF13 Mondrian palette */
+  --wuf-blue:    #1F3A9C;   /* royal blue */
+  --wuf-blue-d:  #15296D;
+  --wuf-pink:    #F5B8B8;   /* salmon pink */
+  --wuf-pink-d:  #E89797;
+  --wuf-teal:    #CCE6E0;   /* pale teal */
+  --wuf-yellow:  #F5D248;   /* mustard yellow */
+  --wuf-red:     #C0392B;
+  --wuf-cream:   #F2EDE0;
 
   /* Legacy aliases */
   --amber:   #E07830;

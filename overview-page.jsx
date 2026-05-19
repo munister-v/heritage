@@ -44,63 +44,89 @@ const QUOTES = [
   { text:'Навіть у вигнанні ми зберігаємо ім\'я, традиції і честь університету. Це і є справжня спадщина.', name:'Викладач кафедри фізики', role:'ДОННУ · ПОКРОВСЬК' },
 ];
 
-/* ── Buildings SVG silhouette ── */
-const BuildingsSVG = () => (
-  <svg viewBox="0 0 1440 280" preserveAspectRatio="xMidYMax meet" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <rect x="0" y="180" width="1440" height="100" fill="#4a8faa" opacity="0.35"/>
-    {/* Left cluster */}
-    <rect x="60" y="120" width="80" height="160" fill="#3a7a94" opacity="0.5"/>
-    <rect x="80" y="90" width="40" height="30" fill="#3a7a94" opacity="0.5"/>
-    <rect x="155" y="80" width="60" height="200" fill="#2d6a84" opacity="0.55"/>
-    <rect x="225" y="140" width="50" height="140" fill="#3a7a94" opacity="0.45"/>
-    {/* Center cluster — main building */}
-    <rect x="540" y="40" width="360" height="240" fill="#2a5f7a" opacity="0.6"/>
-    <rect x="580" y="20" width="80" height="20" fill="#2a5f7a" opacity="0.6"/>
-    <rect x="780" y="20" width="80" height="20" fill="#2a5f7a" opacity="0.6"/>
-    <rect x="560" y="60" width="30" height="220" fill="#2a5f7a" opacity="0.2"/>
-    <rect x="850" y="60" width="30" height="220" fill="#2a5f7a" opacity="0.2"/>
-    {/* Windows rows */}
-    {[80,120,160,200].map(y => [570,630,690,750,810,870].map(x => (
-      <rect key={`${x}-${y}`} x={x} y={y} width="24" height="18" rx="2" fill="rgba(255,255,255,0.12)"/>
-    )))}
-    {/* Right cluster */}
-    <rect x="1120" y="100" width="70" height="180" fill="#3a7a94" opacity="0.5"/>
-    <rect x="1200" y="130" width="55" height="150" fill="#2d6a84" opacity="0.45"/>
-    <rect x="1265" y="160" width="90" height="120" fill="#3a7a94" opacity="0.4"/>
-    {/* Ground */}
-    <rect x="0" y="275" width="1440" height="5" fill="#2a5060" opacity="0.4"/>
-  </svg>
-);
-
 const OverviewPage = ({ onNavigate }) => (
   <div>
-    {/* ══ HERO ══ */}
+    {/* ══ MONDRIAN HERO ══ */}
     <section className="wuf-hero">
-      <div className="wuf-hero-sky" />
-      <div className="wuf-hero-buildings"><BuildingsSVG /></div>
-
-      <div className="wuf-hero-oval">
-        <span className="wuf-hero-eyebrow">ДОНЕЦЬКИЙ НАЦІОНАЛЬНИЙ ТЕХНІЧНИЙ УНІВЕРСИТЕТ</span>
-        <h1 className="wuf-hero-title">DONNTU</h1>
-        <div className="wuf-hero-subtitle">ЦИФРОВА СПАДЩИНА</div>
-        <p className="wuf-hero-desc">
-          Понад сто років інженерної освіти, науки та пам'яті.
-          Університет, що пережив окупацію та продовжує жити.
+      {/* Royal blue block — main welcome */}
+      <div className="wuf-hero-block wuf-hero-blue">
+        <span className="wuf-hero-eyebrow">DONNTU · ЦИФРОВА СПАДЩИНА</span>
+        <h1>Вітаємо у цифровій пам'яті ДонНТУ</h1>
+        <p>
+          Понад сто років інженерної освіти, науки та пам'яті. Університет,
+          що пережив окупацію, евакуацію та війну — і продовжує жити, готуючи
+          інженерів для майбутньої відбудови країни.
+        </p>
+        <p>
+          Тут зберігаються імена, фотографії, історії — все, що визначає
+          справжню спадщину Донецького національного технічного університету.
         </p>
         <div className="wuf-hero-btns">
           <button className="wuf-hero-btn wuf-hero-btn-primary" onClick={() => onNavigate('panneau')}>
-            ВІДКРИТИ ПАННО
+            ВІДКРИТИ ПАННО →
           </button>
-          <button className="wuf-hero-btn wuf-hero-btn-primary" onClick={() => onNavigate('heritage')}>
+          <button className="wuf-hero-btn wuf-hero-btn-outline-w" onClick={() => onNavigate('heritage')}>
             СПАДЩИНА
           </button>
-          <button className="wuf-hero-btn wuf-hero-btn-outline" onClick={() => onNavigate('war')}>
-            ПАМ'ЯТЬ
-          </button>
-          <button className="wuf-hero-btn wuf-hero-btn-outline" onClick={() => onNavigate('archive')}>
-            АРХІВ
-          </button>
         </div>
+      </div>
+
+      {/* Pink block — about Donetsk/Pokrovsk */}
+      <div className="wuf-hero-block wuf-hero-pink">
+        <span className="wuf-hero-eyebrow-pink">ДОНЕЦЬК · ПОКРОВСЬК</span>
+        <h2>Місто, університет, доля</h2>
+        <p>
+          Університет, що народився у серці Донбасу — там, де куються
+          інженери і традиції. Створений у 1921 році, він став інтелектуальним
+          центром регіону.
+        </p>
+        <p>
+          З 2014 року університет працює в евакуації, зберігаючи колектив,
+          архіви та ім'я. Це не просто адреса — це жива пам'ять про місто,
+          яке формувало покоління.
+        </p>
+      </div>
+
+      {/* Photo block — rector / heritage */}
+      <div className="wuf-hero-block wuf-hero-photo">
+        <img
+          src="https://donntu.ru/sites/default/files/images/kartina/images/kartina_istoria.jpg"
+          alt="Панно — Історія ДонНТУ"
+          loading="lazy"
+        />
+      </div>
+    </section>
+
+    {/* ══ MONDRIAN SUB-BAND ══ */}
+    <section className="wuf-mondrian">
+      <div className="wuf-mondrian-img">
+        <img
+          src="https://images.unsplash.com/photo-1562774053-701939374585?w=1000&h=700&fit=crop"
+          alt="Кампус ДонНТУ"
+          loading="lazy"
+        />
+      </div>
+      <div className="wuf-mondrian-quote">
+        <div className="wuf-mondrian-quote-name">Олександр Янчуков</div>
+        <div className="wuf-mondrian-quote-role">
+          Ректор Донецького національного<br/>технічного університету
+        </div>
+        <p className="wuf-mondrian-quote-text">
+          «Університет — це не стіни, а люди. Поки живі викладачі, студенти і
+          пам'ять — живий і університет. Ми зберігаємо ДонНТУ як спадщину
+          цілого регіону.»
+        </p>
+      </div>
+      <div className="wuf-mondrian-yellow">
+        <h3>105 портретів. Одна історія.</h3>
+        <p>
+          Інтерактивне панно — живописне полотно з біографіями видатних
+          постатей університету. Натисніть на будь-який портрет, щоб
+          дізнатись про цю людину.
+        </p>
+        <button className="wuf-hero-btn wuf-hero-btn-outline" onClick={() => onNavigate('panneau')}>
+          ПЕРЕГЛЯНУТИ →
+        </button>
       </div>
     </section>
 
@@ -197,7 +223,7 @@ const OverviewPage = ({ onNavigate }) => (
           </div>
           <div className="wuf-panneau-thumb" onClick={() => onNavigate('panneau')}>
             <img
-              src="https://donntu.ru/sites/default/files/images/kartina/kartina.jpg"
+              src="https://donntu.ru/sites/default/files/images/kartina/images/kartina_istoria.jpg"
               alt="Панно університету"
               loading="lazy"
             />
