@@ -1,5 +1,5 @@
 /* DonNTU Heritage — Design System v8 · WUF13 Style · Jost */
-@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800;900&family=Roboto:ital,wght@0,400;0,500;1,400&family=IBM+Plex+Mono:wght@400;500;700&display=swap');
 
 :root {
   /* ── WUF13 backgrounds ── */
@@ -26,15 +26,16 @@
   --lime:    #E07830;
   --sky:     #5DB8D4;
   --gr:      #3A8C5C;
-  /* WUF13 Mondrian palette */
-  --wuf-blue:    #1F3A9C;   /* royal blue */
-  --wuf-blue-d:  #15296D;
-  --wuf-pink:    #F5B8B8;   /* salmon pink */
-  --wuf-pink-d:  #E89797;
-  --wuf-teal:    #CCE6E0;   /* pale teal */
+  /* WUF13 Mondrian palette — exact scraped values */
+  --wuf-blue:    #005ab8;   /* WUF13 exact blue */
+  --wuf-blue-d:  #004a9a;
+  --wuf-pink:    #f48ba2;   /* WUF13 exact pink */
+  --wuf-pink-d:  #e07090;
+  --wuf-teal:    #c0e5e7;   /* WUF13 exact teal/quote */
   --wuf-yellow:  #F5D248;   /* mustard yellow */
   --wuf-red:     #C0392B;
   --wuf-cream:   #F2EDE0;
+  --roboto:      'Roboto', -apple-system, system-ui, sans-serif;
 
   /* Legacy aliases */
   --amber:   #E07830;
@@ -66,15 +67,18 @@
 }
 
 *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; }
-html { font-size: 15px; }
+/* WUF13 base = 16px (Jost) */
+html { font-size: 16px; }
 html, body { height:100%; }
 body {
   font-family: var(--sans);
-  font-size: 0.9375rem;
-  line-height: 1.6;
+  font-size: 1rem;          /* WUF13: 16px */
+  font-weight: 400;
+  line-height: 1.5;
   color: var(--t1);
   background: var(--bg);
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   overflow: hidden;
 }
 #root { height: 100%; }
