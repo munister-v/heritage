@@ -122,73 +122,98 @@ const DEFAULT_REACH = [
   { n:'40 000+', label:'Випускників за всю історію' },
 ];
 
-/* Видатні випускники ДонНТУ — джерело: donntu.ru/samye-izvestnye-vypuskniki
-   (порядок змішано; Звягільського видалено) */
+/* Видатні випускники ДонНТУ — фото локально в assets/people/ */
 const DEFAULT_SPEAKERS = [
   {
     name: "Анатолій Солов'яненко",
-    role: 'Видатний оперний співак, Народний артист СРСР · випуск 1954 · Герой України (2008)',
-    img:  'https://donntu.ru/sites/default/files/styles/graduate/public/graduate/solovyanenko1.jpg',
+    meta: '1932 – 1999 · КУЛЬТУРА',
+    role: 'Оперний співак (тенор), Народний артист СРСР',
+    bio:  'Соліст Київської опери, виконав понад 30 провідних тенорових партій. Гастролював у Ла Скала. Герой України (2008).',
+    img:  'assets/people/solovyanenko.jpg',
   },
   {
     name: 'Олександр Мінаєв',
-    role: 'Інженер-металург, ректор ДонНТУ · випуск 1964 · Герой України (2012)',
-    img:  'https://donntu.ru/sites/default/files/styles/graduate/public/graduate/minaev.jpg',
+    meta: 'випуск 1964 · ОСВІТА',
+    role: 'Інженер-металург, ректор ДонНТУ',
+    bio:  'Очолював університет у складні роки після 2014. Розвивав науково-технічний потенціал в евакуації. Герой України (2012).',
+    img:  'assets/people/minaev.jpg',
   },
   {
     name: 'Микита Хрущов',
-    role: 'Перший секретар ЦК КПРС · слухач робфаку ДГТ (1922–1925) · тричі Герой Соцпраці',
-    img:  'https://donntu.ru/sites/default/files/styles/graduate/public/graduate/hrushchev.jpg',
+    meta: '1894 – 1971 · ПОЛІТИКА',
+    role: 'Перший секретар ЦК КПРС (1953–1964)',
+    bio:  'Слухач робфаку Донецького гірничого технікуму у 1922–1925 роках. Розпочав десталінізацію та "відлигу". Тричі Герой Соцпраці.',
+    img:  'assets/people/hrushchev.jpg',
   },
   {
     name: 'Юрій Баранов',
-    role: 'Інженер-гірник · випуск 1960 · Герой України (2001) за внесок у вугільну галузь',
-    img:  'https://donntu.ru/sites/default/files/styles/graduate/public/graduate/baranov_1.jpg',
+    meta: 'випуск 1960 · ГІРНИЧА СПРАВА',
+    role: 'Інженер-гірник, керівник вугільних підприємств',
+    bio:  'Понад 40 років у вугільній промисловості Донбасу. Впроваджував механізацію видобутку. Герой України (2001).',
+    img:  'assets/people/baranov.jpg',
   },
   {
     name: 'Борис Грядущий',
-    role: 'Інженер-електромеханік гірничий · випуск 1956 · Герой України (2008), енергетика',
-    img:  'https://donntu.ru/sites/default/files/styles/graduate/public/graduate/grjaduwij_0.jpg',
+    meta: 'випуск 1956 · ЕНЕРГЕТИКА',
+    role: 'Інженер-електромеханік гірничий',
+    bio:  'Очолював наукові установи з електрифікації гірничих робіт. Зміцнював енергетичну незалежність України. Герой України (2008).',
+    img:  'assets/people/gryadushchyi.jpg',
   },
   {
     name: 'Володимир Коновалов',
-    role: 'Командир підводного човна, Герой Радянського Союзу · слухач ДГТ 1922–1925 · загинув 1967',
-    img:  'https://donntu.ru/sites/default/files/styles/graduate/public/graduate/konovalov.jpg',
+    meta: '1911 – 1967 · ВІЙСЬКОВА СПРАВА',
+    role: 'Командир підводного човна, Герой Радянського Союзу',
+    bio:  'Слухач підготовчих курсів ДГТ у 1922–1925 рр. Командував підводним човном Л-3 під час Другої світової війни — одним із найрезультативніших підводних човнів.',
+    img:  'assets/people/konovalov.jpg',
   },
   {
     name: 'Олександр Богданов',
-    role: 'Інженер-механік · випуск 1981 · Герой України (2013) за розвиток вугільної галузі',
-    img:  'https://donntu.ru/sites/default/files/styles/graduate/public/graduate/bogdanovom_0.jpg',
+    meta: 'випуск 1981 · ГІРНИЧА СПРАВА',
+    role: 'Інженер-механік, керівник вугільної галузі',
+    bio:  'Розвивав вугільну промисловість України в умовах ринкових трансформацій. Лідер галузевих об\'єднань. Герой України (2013).',
+    img:  'assets/people/bogdanov.jpg',
   },
   {
     name: 'Юрій Білобров',
-    role: 'Інженер-механік · випуск 1965 · Герой України (2004), машинобудування',
-    img:  'https://donntu.ru/sites/default/files/styles/graduate/public/graduate/bilobrov_0.jpg',
+    meta: 'випуск 1965 · МАШИНОБУДУВАННЯ',
+    role: 'Інженер-механік, керівник машинобудівних підприємств',
+    bio:  'Очолював одне з найбільших машинобудівних об\'єднань Донбасу. Розвивав випуск гірничого обладнання. Герой України (2004).',
+    img:  'assets/people/bilobrov.jpg',
   },
   {
     name: 'Микола Сургай',
-    role: 'Інженер-гірник · випуск 1959 · Герой України (2003), вугільна промисловість',
-    img:  'https://donntu.ru/sites/default/files/styles/graduate/public/graduate/surgay_0.jpg',
+    meta: 'випуск 1959 · ГІРНИЧА СПРАВА',
+    role: 'Інженер-гірник, керівник вугільної галузі',
+    bio:  'Очолював профільні установи з видобутку вугілля. Поєднував практичну роботу з науковою діяльністю. Герой України (2003).',
+    img:  'assets/people/surgay.jpg',
   },
   {
     name: 'Віктор Калашников',
-    role: 'Професор, кандидат технічних наук · лауреат Державної премії · відновлювана енергетика',
-    img:  'https://donntu.ru/sites/default/files/styles/graduate/public/graduate/kalahnikov.jpg',
+    meta: 'НАУКА · ЕНЕРГЕТИКА',
+    role: 'Професор, кандидат технічних наук',
+    bio:  'Лауреат Державної премії України. Розробляв системи відновлюваної енергії та автоматичні теплові установки.',
+    img:  'assets/people/kalashnykov.jpg',
   },
   {
     name: 'Сергій Тулуб',
-    role: 'Інженер-економіст гірничий · випуск 1976 · Герой України (2004), атомна енергетика',
-    img:  'https://donntu.ru/sites/default/files/styles/graduate/public/graduate/tulub_0.jpg',
+    meta: 'випуск 1976 · АТОМНА ЕНЕРГЕТИКА',
+    role: 'Інженер-економіст гірничий',
+    bio:  'Очолював профільні структури атомної енергетики України. Сприяв розвитку галузі у важкі для країни роки. Герой України (2004).',
+    img:  'assets/people/tulub.jpg',
   },
   {
     name: 'Станіслав Поважний',
-    role: 'Інженер-електромеханік · випуск 1961 · Герой України (2013), розвиток освіти',
-    img:  'https://donntu.ru/sites/default/files/styles/graduate/public/graduate/povazhniy-s-f_0.jpg',
+    meta: 'випуск 1961 · ОСВІТА',
+    role: 'Інженер-електромеханік, освітянин',
+    bio:  'Працював у системі вищої освіти Донбасу понад 50 років. Виховав покоління інженерних кадрів. Герой України (2013).',
+    img:  'assets/people/povazhnyi.jpg',
   },
   {
     name: 'Олександр Риженков',
-    role: 'Інженер-металург (чорна металургія) · випуск 1972 · Герой України (2010)',
-    img:  'https://donntu.ru/sites/default/files/styles/graduate/public/graduate/ryzhenkov_0.jpg',
+    meta: 'випуск 1972 · МЕТАЛУРГІЯ',
+    role: 'Інженер-металург (чорна металургія)',
+    bio:  'Очолював металургійні підприємства повного циклу. Модернізував виробничі потужності галузі. Герой України (2010).',
+    img:  'assets/people/ryzhenkov.jpg',
   },
 ];
 
@@ -507,28 +532,39 @@ const OverviewPage = ({ onNavigate }) => {
       </section>
 
       {/* ══ SPEAKERS ══ */}
-      <section className="wuf-speakers">
-        <div className="wuf-speakers-inner">
-          <div className="wuf-speakers-head">
-            <h2 className="wuf-news-title">Видатні постаті</h2>
-            <button className="wuf-news-view-all" onClick={() => onNavigate('people')}>Усі люди</button>
+      <section className="wuf-alumni">
+        <div className="wuf-alumni-head">
+          <div className="wuf-alumni-head-text">
+            <h2 className="wuf-alumni-h">Видатні випускники</h2>
+            <p className="wuf-alumni-lead">
+              Понад 100 років ДонНТУ виховує інженерів, науковців і державних діячів.
+              Серед випускників — Герої України, лауреати державних премій, видатні
+              митці й політичні постаті.
+            </p>
           </div>
-          <div className="wuf-speakers-grid">
-            {speakers.map((s, i) => (
-              <div key={i} className="wuf-speaker" onClick={() => onNavigate('people')}>
-                <div className="wuf-speaker-img">
-                  {s.img
-                    ? <img src={s.img} alt={s.name} style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} loading="lazy"/>
-                    : <div style={{width:'100%',height:'100%',display:'flex',alignItems:'center',justifyContent:'center',background:'#E2E4E8',color:'#7A7E87',fontSize:'3rem',fontFamily:'var(--display)',fontWeight:400}}>{s.name.charAt(0)}</div>
-                  }
-                </div>
-                <div className="wuf-speaker-body">
-                  <div className="wuf-speaker-name">{s.name}</div>
-                  <div className="wuf-speaker-role">{s.role}</div>
-                </div>
+          <button className="wuf-alumni-cta" onClick={() => onNavigate('people')}>
+            Усі люди →
+          </button>
+        </div>
+
+        <div className="wuf-alumni-grid">
+          {speakers.map((s, i) => (
+            <article key={i} className="wuf-person" onClick={() => onNavigate('people')}>
+              <div className="wuf-person-img">
+                {s.img
+                  ? <img src={s.img} alt={s.name} loading="lazy"/>
+                  : <div className="wuf-person-img-fb">{s.name.charAt(0)}</div>
+                }
               </div>
-            ))}
-          </div>
+              <div className="wuf-person-body">
+                {s.meta && <div className="wuf-person-meta">{s.meta}</div>}
+                <h3 className="wuf-person-name">{s.name}</h3>
+                <div className="wuf-person-role">{s.role}</div>
+                {s.bio && <p className="wuf-person-bio">{s.bio}</p>}
+                <div className="wuf-person-more">Детальніше →</div>
+              </div>
+            </article>
+          ))}
         </div>
       </section>
 

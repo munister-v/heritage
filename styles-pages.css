@@ -580,19 +580,162 @@
 }
 
 /* ══ Speakers / featured persons ══ */
-.wuf-speakers { background: #fff; }
-.wuf-speakers-inner { width: 100%; }
-.wuf-speakers-head { padding: 3rem var(--g) 0; display: flex; justify-content: space-between; align-items: baseline; }
-.wuf-speakers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 2rem; border-top: 1px solid var(--b1); }
-.wuf-speaker { display: flex; flex-direction: column; gap: 0; cursor: pointer; border-right: 1px solid var(--b1); border-bottom: 1px solid var(--b1); transition: background .15s; }
-.wuf-speaker:hover { background: #fafbfc; }
-/* Remove right-border on every 3rd card (column edge) */
-.wuf-speakers-grid .wuf-speaker:nth-child(3n) { border-right: none; }
-.wuf-speaker-img { aspect-ratio: 4/3; background: var(--s2); overflow: hidden; }
-.wuf-speaker-img img { width: 100%; height: 100%; object-fit: cover; }
-.wuf-speaker-body { padding: 1.25rem 1.5rem 2rem; }
-.wuf-speaker-name { font-family: var(--display); font-size: 1.25rem; font-weight: 400; color: var(--t1); }
-.wuf-speaker-role { font-family: var(--roboto); font-size: 0.875rem; color: var(--t3); margin-top: 0.25rem; }
+/* ══ ALUMNI — WUF urban-expo style cards ══ */
+.wuf-alumni {
+  background: #fff;
+  padding: 5rem 0 6rem;
+  border-bottom: 1px solid var(--b1);
+}
+
+/* Header block — heading + lead + CTA */
+.wuf-alumni-head {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  align-items: end;
+  gap: 3rem;
+  padding: 0 var(--g) 3rem;
+  border-bottom: 1px solid var(--b1);
+}
+@media (max-width: 900px) {
+  .wuf-alumni-head { grid-template-columns: 1fr; gap: 1.5rem; padding: 0 1.5rem 2rem; }
+}
+.wuf-alumni-head-text { display: flex; flex-direction: column; gap: 1.25rem; }
+.wuf-alumni-h {
+  font-family: var(--display);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--t1);
+  line-height: 1.1;
+  margin: 0;
+}
+.wuf-alumni-lead {
+  font-family: var(--display);
+  font-size: clamp(1rem, 1.3vw, 1.1875rem);
+  color: var(--t2);
+  line-height: 1.6;
+  max-width: 640px;
+  margin: 0;
+}
+.wuf-alumni-cta {
+  justify-self: end;
+  background: transparent;
+  border: 2px solid #2d7d6e;
+  color: #2d7d6e;
+  font-family: var(--sans);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all .18s;
+  white-space: nowrap;
+}
+.wuf-alumni-cta:hover { background: #2d7d6e; color: #fff; }
+@media (max-width: 900px) { .wuf-alumni-cta { justify-self: start; } }
+
+/* Grid of cards */
+.wuf-alumni-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem 1.75rem;
+  padding: 3rem var(--g) 0;
+}
+@media (max-width: 1100px) { .wuf-alumni-grid { grid-template-columns: repeat(2, 1fr); padding: 2.5rem 1.5rem 0; } }
+@media (max-width: 640px)  { .wuf-alumni-grid { grid-template-columns: 1fr; gap: 1.5rem; } }
+
+/* Person card */
+.wuf-person {
+  background: #fff;
+  border: 1px solid var(--b1);
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: transform .25s ease, box-shadow .25s ease, border-color .2s;
+  position: relative;
+  overflow: hidden;
+}
+.wuf-person:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.08);
+  border-color: #2d7d6e;
+}
+.wuf-person:hover .wuf-person-img img { transform: scale(1.04); }
+.wuf-person:hover .wuf-person-more { color: #2d7d6e; }
+
+.wuf-person-img {
+  aspect-ratio: 1 / 1;
+  background: var(--s2);
+  overflow: hidden;
+  position: relative;
+}
+.wuf-person-img img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .35s ease;
+  filter: grayscale(8%) contrast(1.02);
+}
+.wuf-person-img-fb {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  background: linear-gradient(135deg, #f0e8d8, #e2d4b5);
+  color: #6a5a3e;
+  font-family: var(--display);
+  font-size: 5rem;
+  font-weight: 300;
+}
+
+.wuf-person-body {
+  padding: 1.25rem 1.375rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+.wuf-person-meta {
+  font-family: var(--mono, monospace);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: #2d7d6e;
+  text-transform: uppercase;
+}
+.wuf-person-name {
+  font-family: var(--display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--t1);
+  line-height: 1.25;
+  margin: 0;
+}
+.wuf-person-role {
+  font-family: var(--sans);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--t2);
+  line-height: 1.45;
+}
+.wuf-person-bio {
+  font-family: var(--sans);
+  font-size: 0.8125rem;
+  color: var(--t3);
+  line-height: 1.65;
+  margin: 0.25rem 0 0;
+  flex: 1;
+}
+.wuf-person-more {
+  margin-top: 0.75rem;
+  padding-top: 0.875rem;
+  border-top: 1px solid var(--b1);
+  font-family: var(--sans);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--t3);
+  letter-spacing: 0.01em;
+  transition: color .18s;
+}
 
 /* ══ Key Focus cards (teal) — full bleed grid ══ */
 .wuf-focus { background: #fff; }
@@ -716,8 +859,7 @@
 .wuf-tl-desc { font-size: 0.8125rem; color: var(--t3); line-height: 1.55; flex: 1; }
 
 /* ── People grid ── */
-.wuf-people { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
-@media (max-width: 900px) { .wuf-people { grid-template-columns: repeat(2, 1fr); } }
+/* (removed orphaned legacy .wuf-people rule — replaced by .wuf-alumni-grid above) */
 .wuf-person {
   border: 1px solid var(--b1); border-radius: var(--r-md);
   overflow: hidden; background: #fff; cursor: pointer;
@@ -981,9 +1123,6 @@
   .wuf-news-grid { grid-template-columns: 1fr; }
   .wuf-news-main { padding-right: 0; }
   .wuf-news-list { padding-left: 0; border-left: none; border-top: 1px solid var(--b1); padding-top: 1.5rem; margin-top: 1.5rem; }
-  .wuf-speakers-grid { grid-template-columns: 1fr 1fr; }
-  .wuf-speaker { border-right: 1px solid var(--b1); }
-  .wuf-speakers-grid .wuf-speaker:last-child { grid-column: 1 / 3; border-right: none; border-top: 1px solid var(--b1); }
   .wuf-focus-grid { grid-template-columns: 1fr 1fr; }
   .wuf-focus-card:nth-child(even) { border-right: none; }
   .wuf-focus-card:nth-child(3), .wuf-focus-card:nth-child(4) { border-top: 1px solid rgba(0,0,0,0.08); }
@@ -1036,9 +1175,6 @@
   .wuf-news-headline { font-size: 1.25rem; }
 
   /* Grids → 1 col */
-  .wuf-speakers-grid { grid-template-columns: 1fr; }
-  .wuf-speaker { border-right: none; border-bottom: 1px solid var(--b1); }
-  .wuf-speakers-grid .wuf-speaker:last-child { grid-column: 1; }
   .wuf-focus-grid { grid-template-columns: 1fr; }
   .wuf-focus-card { border-right: none; border-bottom: 1px solid rgba(0,0,0,0.08); }
   .wuf-focus-card:last-child { border-bottom: none; }
