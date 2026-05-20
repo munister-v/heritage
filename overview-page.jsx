@@ -122,10 +122,74 @@ const DEFAULT_REACH = [
   { n:'40 000+', label:'Випускників за всю історію' },
 ];
 
+/* Видатні випускники ДонНТУ — джерело: donntu.ru/samye-izvestnye-vypuskniki
+   (порядок змішано; Звягільського видалено) */
 const DEFAULT_SPEAKERS = [
-  { name:'Олександр Янчуков', role:'Ректор Донецького національного технічного університету', img:'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=240&h=240&fit=crop&q=80' },
-  { name:'Олексій Ященко',   role:'Проректор з наукової роботи', img:'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=240&h=240&fit=crop&q=80' },
-  { name:'Валентина Ковальова', role:'Декан факультету інформаційних технологій', img:'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=240&h=240&fit=crop&q=80' },
+  {
+    name: "Анатолій Солов'яненко",
+    role: 'Видатний оперний співак, Народний артист СРСР · випуск 1954 · Герой України (2008)',
+    img:  'https://donntu.ru/sites/default/files/styles/graduate/public/graduate/solovyanenko1.jpg',
+  },
+  {
+    name: 'Олександр Мінаєв',
+    role: 'Інженер-металург, ректор ДонНТУ · випуск 1964 · Герой України (2012)',
+    img:  'https://donntu.ru/sites/default/files/styles/graduate/public/graduate/minaev.jpg',
+  },
+  {
+    name: 'Микита Хрущов',
+    role: 'Перший секретар ЦК КПРС · слухач робфаку ДГТ (1922–1925) · тричі Герой Соцпраці',
+    img:  'https://donntu.ru/sites/default/files/styles/graduate/public/graduate/hrushchev.jpg',
+  },
+  {
+    name: 'Юрій Баранов',
+    role: 'Інженер-гірник · випуск 1960 · Герой України (2001) за внесок у вугільну галузь',
+    img:  'https://donntu.ru/sites/default/files/styles/graduate/public/graduate/baranov_1.jpg',
+  },
+  {
+    name: 'Борис Грядущий',
+    role: 'Інженер-електромеханік гірничий · випуск 1956 · Герой України (2008), енергетика',
+    img:  'https://donntu.ru/sites/default/files/styles/graduate/public/graduate/grjaduwij_0.jpg',
+  },
+  {
+    name: 'Володимир Коновалов',
+    role: 'Командир підводного човна, Герой Радянського Союзу · слухач ДГТ 1922–1925 · загинув 1967',
+    img:  'https://donntu.ru/sites/default/files/styles/graduate/public/graduate/konovalov.jpg',
+  },
+  {
+    name: 'Олександр Богданов',
+    role: 'Інженер-механік · випуск 1981 · Герой України (2013) за розвиток вугільної галузі',
+    img:  'https://donntu.ru/sites/default/files/styles/graduate/public/graduate/bogdanovom_0.jpg',
+  },
+  {
+    name: 'Юрій Білобров',
+    role: 'Інженер-механік · випуск 1965 · Герой України (2004), машинобудування',
+    img:  'https://donntu.ru/sites/default/files/styles/graduate/public/graduate/bilobrov_0.jpg',
+  },
+  {
+    name: 'Микола Сургай',
+    role: 'Інженер-гірник · випуск 1959 · Герой України (2003), вугільна промисловість',
+    img:  'https://donntu.ru/sites/default/files/styles/graduate/public/graduate/surgay_0.jpg',
+  },
+  {
+    name: 'Віктор Калашников',
+    role: 'Професор, кандидат технічних наук · лауреат Державної премії · відновлювана енергетика',
+    img:  'https://donntu.ru/sites/default/files/styles/graduate/public/graduate/kalahnikov.jpg',
+  },
+  {
+    name: 'Сергій Тулуб',
+    role: 'Інженер-економіст гірничий · випуск 1976 · Герой України (2004), атомна енергетика',
+    img:  'https://donntu.ru/sites/default/files/styles/graduate/public/graduate/tulub_0.jpg',
+  },
+  {
+    name: 'Станіслав Поважний',
+    role: 'Інженер-електромеханік · випуск 1961 · Герой України (2013), розвиток освіти',
+    img:  'https://donntu.ru/sites/default/files/styles/graduate/public/graduate/povazhniy-s-f_0.jpg',
+  },
+  {
+    name: 'Олександр Риженков',
+    role: 'Інженер-металург (чорна металургія) · випуск 1972 · Герой України (2010)',
+    img:  'https://donntu.ru/sites/default/files/styles/graduate/public/graduate/ryzhenkov_0.jpg',
+  },
 ];
 
 const DEFAULT_FOCUS = [
