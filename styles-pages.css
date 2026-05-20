@@ -637,12 +637,13 @@
 /* Grid of cards */
 .wuf-alumni-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem 1.75rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem 1.25rem;
   padding: 3rem var(--g) 0;
 }
-@media (max-width: 1100px) { .wuf-alumni-grid { grid-template-columns: repeat(2, 1fr); padding: 2.5rem 1.5rem 0; } }
-@media (max-width: 640px)  { .wuf-alumni-grid { grid-template-columns: 1fr; gap: 1.5rem; } }
+@media (max-width: 1200px) { .wuf-alumni-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 860px)  { .wuf-alumni-grid { grid-template-columns: repeat(2, 1fr); padding: 2.5rem 1.5rem 0; } }
+@media (max-width: 500px)  { .wuf-alumni-grid { grid-template-columns: 1fr; gap: 1.25rem; } }
 
 /* Person card */
 .wuf-person {
@@ -661,10 +662,9 @@
   border-color: #2d7d6e;
 }
 .wuf-person:hover .wuf-person-img img { transform: scale(1.04); }
-.wuf-person:hover .wuf-person-more { color: #2d7d6e; }
 
 .wuf-person-img {
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 3 / 4;
   background: var(--s2);
   overflow: hidden;
   position: relative;
@@ -725,17 +725,7 @@
   margin: 0.25rem 0 0;
   flex: 1;
 }
-.wuf-person-more {
-  margin-top: 0.75rem;
-  padding-top: 0.875rem;
-  border-top: 1px solid var(--b1);
-  font-family: var(--sans);
-  font-size: 0.8125rem;
-  font-weight: 600;
-  color: var(--t3);
-  letter-spacing: 0.01em;
-  transition: color .18s;
-}
+
 
 /* ══ Key Focus cards (teal) — full bleed grid ══ */
 .wuf-focus { background: #fff; }

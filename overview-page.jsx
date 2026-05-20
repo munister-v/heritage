@@ -139,13 +139,6 @@ const DEFAULT_SPEAKERS = [
     img:  'assets/people/minaev.jpg',
   },
   {
-    name: 'Микита Хрущов',
-    meta: '1894 – 1971 · ПОЛІТИКА',
-    role: 'Перший секретар ЦК КПРС (1953–1964)',
-    bio:  'Слухач робфаку Донецького гірничого технікуму у 1922–1925 роках. Розпочав десталінізацію та "відлигу". Тричі Герой Соцпраці.',
-    img:  'assets/people/hrushchev.jpg',
-  },
-  {
     name: 'Юрій Баранов',
     meta: 'випуск 1960 · ГІРНИЧА СПРАВА',
     role: 'Інженер-гірник, керівник вугільних підприємств',
@@ -561,7 +554,6 @@ const OverviewPage = ({ onNavigate }) => {
                 <h3 className="wuf-person-name">{s.name}</h3>
                 <div className="wuf-person-role">{s.role}</div>
                 {s.bio && <p className="wuf-person-bio">{s.bio}</p>}
-                <div className="wuf-person-more">Детальніше →</div>
               </div>
             </article>
           ))}
