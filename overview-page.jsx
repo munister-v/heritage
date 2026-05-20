@@ -134,8 +134,8 @@ const DEFAULT_SPEAKERS = [
   {
     name: 'Олександр Мінаєв',
     meta: 'випуск 1964 · ОСВІТА',
-    role: 'Інженер-металург, ректор ДонНТУ',
-    bio:  'Очолював університет у складні роки після 2014. Розвивав науково-технічний потенціал в евакуації. Герой України (2012).',
+    role: 'Ректор ДонНТУ · 1989–2014',
+    bio:  'Провів університет через незалежність, отримання національного статусу (2001) та пік розвитку: 20 000 студентів, QS-рейтинг. Герой України (2012).',
     img:  'assets/people/minaev.jpg',
   },
   {
@@ -277,9 +277,9 @@ const OverviewPage = ({ onNavigate }) => {
   const hostPinkP1  = cv('hostPinkP1', 'Дрогобич — стародавнє місто Галичини з багатою культурною спадщиною, розташоване у Львівській області, неподалік Карпат. Місто, де народилися Іван Франко та Бруно Шульц, стало новим домом для ДонНТУ.');
   const hostPinkP2  = cv('hostPinkP2', 'Відмінна інфраструктура й наукова традиція роблять Дрогобич ідеальним місцем для відродження університету.');
   const hostPhoto   = cv('hostCityPhoto', 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&h=600&fit=crop&q=80');
-  const hostQName   = cv('hostQuoteName', 'Олександр Янчуков');
-  const hostQRole   = cv('hostQuoteRole', 'Ректор Донецького національного технічного університету');
-  const hostQText   = cv('hostQuoteText', 'Ми запрошуємо вас долучитися до нашої цифрової спадщини — зберегти ім\'я, обличчя і голос університету, який подолав евакуацію, але не зломився. Наша місія триває.');
+  const hostQName   = cv('hostQuoteName', 'Денис Шиленко');
+  const hostQRole   = cv('hostQuoteRole', 'В. о. ректора Донецького національного технічного університету');
+  const hostQText   = cv('hostQuoteText', 'Ми евакуювали університет двічі — і щоразу зберегли головне: людей, знання та ідентичність. Наша місія — готувати інженерів для відбудови України.');
 
   /* footer */
   const footerBrand   = cv('footerBrand',   'DONNTU');
@@ -905,6 +905,9 @@ const OverviewPage = ({ onNavigate }) => {
           </div>
           {/* ⑥ Quote */}
           <div className="wuf-host-quote">
+            <div className="wuf-host-quote-avatar">
+              <img src="assets/shylenko.jpg" alt="Денис Шиленко" loading="lazy"/>
+            </div>
             <div className="wuf-host-quote-name">{hostQName}</div>
             <div className="wuf-host-quote-role">{hostQRole}</div>
             <blockquote className="wuf-host-quote-text">«{hostQText}»</blockquote>

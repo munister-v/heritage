@@ -222,6 +222,48 @@ const HeritagePage = ({ onNavigate }) => {
         </div>
       </div>
 
+      {/* DONETSK CAMPUS PHOTOS */}
+      <div className="her-campus-block">
+        <div className="div-row">
+          <span className="lbl" style={{color:'#c0392b'}}>КАМПУС · ВУЛ. АРТЕМА, 58 · ДОНЕЦЬК · ОКУПОВАНИЙ З КВІТНЯ 2014</span>
+          <div className="div-line"></div>
+        </div>
+        <p className="body" style={{maxWidth:'60ch',marginBottom:'1.5rem',marginTop:'0.5rem'}}>
+          Одинадцять корпусів у центрі Донецька. Головна будівля — пам'ятник архітектури 1930-х.
+          Бібліотека з 1,5 млн томів. Актові зали, лабораторії, студентський містечко.
+          Все залишилось там — нетронуте, недоступне.
+        </p>
+        <div className="her-campus-grid">
+          <div className="her-campus-main">
+            <img src="assets/donetsk-3corp.jpg" alt="3-й корпус ДонНТУ, вул. Артема — Донецький національний технічний університет" loading="lazy"/>
+            <div className="her-campus-cap">3-й корпус · Сталінський класицизм · 1930-ті рр.</div>
+          </div>
+          <div className="her-campus-side">
+            <div className="her-campus-item">
+              <img src="assets/donetsk-main.jpg" alt="Головний корпус ДонНТУ, вул. Артема, Донецьк" loading="lazy"/>
+              <div className="her-campus-cap">Головний корпус · вул. Артема, 58</div>
+            </div>
+            <div className="her-campus-item">
+              <img src="assets/donetsk-artyoma.jpg" alt="Корпус ДонНТУ на вул. Артема, Донецьк" loading="lazy"/>
+              <div className="her-campus-cap">Корпуси по вул. Артема</div>
+            </div>
+          </div>
+          <div className="her-campus-wide">
+            <img src="assets/donetsk-library.jpg" alt="Бібліотека Донецького гірничого університету" loading="lazy"/>
+            <div className="her-campus-cap">Нова бібліотека · скляний фасад · ~ 1 500 000 томів залишились</div>
+          </div>
+          <div className="her-campus-item">
+            <img src="assets/donetsk-facade.jpg" alt="Корпус ДонНТУ, Донецьк" loading="lazy"/>
+            <div className="her-campus-cap">Учбовий корпус · вул. Артема</div>
+          </div>
+        </div>
+        <div className="her-campus-note">
+          <span className="her-campus-note-dot">●</span>
+          Усі будівлі знаходяться під окупацією з квітня 2014 року і є власністю України.
+          Фото: Wikimedia Commons / CC BY-SA · зроблено до 2014 р.
+        </div>
+      </div>
+
       {/* PILLARS */}
       <div>
         <div className="div-row">

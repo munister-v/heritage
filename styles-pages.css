@@ -57,6 +57,65 @@
 
 /* ===== HERITAGE ===== */
 .her { display: flex; flex-direction: column; gap: 3rem; }
+/* ── Donetsk Campus Photos ── */
+.her-campus-block { margin: 0; }
+.her-campus-grid {
+  display: grid;
+  grid-template-columns: 1.6fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.her-campus-main {
+  grid-column: 1; grid-row: 1 / 3;
+  position: relative; overflow: hidden;
+}
+.her-campus-side {
+  grid-column: 2; grid-row: 1;
+  display: flex; flex-direction: column; gap: 0.5rem;
+}
+.her-campus-wide {
+  grid-column: 1 / 3; grid-row: 3;
+  position: relative; overflow: hidden;
+  height: 280px;
+}
+.her-campus-item {
+  position: relative; overflow: hidden; flex: 1;
+}
+.her-campus-main img,
+.her-campus-wide img,
+.her-campus-item img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform .5s ease;
+}
+.her-campus-main { height: 460px; }
+.her-campus-item { height: 220px; }
+.her-campus-main:hover img,
+.her-campus-wide:hover img,
+.her-campus-item:hover img { transform: scale(1.03); }
+.her-campus-cap {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.72));
+  color: rgba(255,255,255,0.92);
+  font-family: var(--mono); font-size: 0.625rem;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  padding: 1.25rem 0.875rem 0.625rem;
+}
+.her-campus-note {
+  display: flex; align-items: flex-start; gap: 0.5rem;
+  font-family: var(--mono); font-size: 0.625rem;
+  letter-spacing: 0.06em; color: var(--t3);
+  margin-top: 0.5rem; padding-top: 0.75rem;
+  border-top: 1px solid var(--b1);
+}
+.her-campus-note-dot { color: #c0392b; flex-shrink: 0; margin-top: 0.05em; }
+@media (max-width: 900px) {
+  .her-campus-grid { grid-template-columns: 1fr; }
+  .her-campus-main { grid-row: 1; height: 320px; }
+  .her-campus-side { grid-column: 1; grid-row: 2; flex-direction: row; }
+  .her-campus-wide { grid-column: 1; grid-row: 3; height: 200px; }
+}
+
 .her-hero { display: grid; grid-template-columns: 1.4fr 1fr; gap: 3rem; align-items: end; min-height: 60vh; padding-top: 1rem; }
 @media (max-width: 900px) { .her-hero { grid-template-columns: 1fr; min-height: auto; } }
 .her-emblem { width: 100%; aspect-ratio: 4/5; background: linear-gradient(135deg, rgba(212,196,181,.04), rgba(91,158,207,.04)); border: 1px solid var(--border); border-radius: var(--r-md); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
@@ -897,9 +956,11 @@
 .wuf-person-img img {
   width: 100%; height: 100%;
   object-fit: cover;
+  object-position: top center;
   display: block;
   transition: transform .35s ease;
-  filter: grayscale(8%) contrast(1.02);
+  filter: grayscale(8%) contrast(1.04);
+  image-rendering: auto;
 }
 .wuf-person-img-fb {
   width: 100%; height: 100%;
@@ -1229,6 +1290,19 @@
 }
 
 /* ⑥ Quote — row2 col3 — WUF13: bg #c0e5e7, padding 40px */
+.wuf-host-quote-avatar {
+  width: 72px; height: 72px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid rgba(0,0,0,0.12);
+  margin-bottom: 0.5rem;
+  flex-shrink: 0;
+}
+.wuf-host-quote-avatar img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
 .wuf-host-quote {
   grid-column: 3; grid-row: 2;
   background: var(--wuf-teal);    /* #c0e5e7 */
