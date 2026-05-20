@@ -746,109 +746,188 @@ const PANNEAU_PERSONS = [
 /* ── Hotspot dot ── */
 const Dot = ({ person, onClick, active }) => {
   const isTraitor = person.traitor;
-  const dotColor = isTraitor
-    ? (active ? '#e53935' : 'rgba(229,57,53,0.6)')
-    : (active ? 'var(--ac)' : 'rgba(255,255,255,0.3)');
-  const border = isTraitor
-    ? (active ? '2px solid #e53935' : '2px solid rgba(229,57,53,0.9)')
-    : (active ? '2px solid var(--ac)' : '2px solid rgba(255,255,255,0.75)');
   return (
     <button
       onClick={() => onClick(person)}
       title={person.name}
       style={{
         position: 'absolute',
-        left: `calc(${person.x}% - 6px)`,
-        top:  `calc(${person.y}% - 6px)`,
-        width: isTraitor ? 16 : 13,
-        height: isTraitor ? 16 : 13,
+        left: `${person.x}%`,
+        top:  `${person.y}%`,
+        /* center the dot ON the coordinate — not offset by half-size */
+        transform: active ? 'translate(-50%,-50%) scale(1.45)' : 'translate(-50%,-50%)',
+        width:  isTraitor ? 17 : 14,
+        height: isTraitor ? 17 : 14,
         borderRadius: '50%',
-        border,
-        background: dotColor,
-        backdropFilter: 'blur(2px)',
+        background: active
+          ? (isTraitor ? '#e53935' : '#3498db')
+          : (isTraitor ? 'rgba(229,57,53,0.75)' : 'rgba(255,255,255,0.88)'),
+        border: active
+          ? `2px solid ${isTraitor ? '#ff9090' : '#fff'}`
+          : `2px solid ${isTraitor ? 'rgba(229,57,53,0.95)' : 'rgba(0,0,0,0.25)'}`,
+        boxShadow: active
+          ? `0 0 0 4px ${isTraitor ? 'rgba(229,57,53,0.3)' : 'rgba(52,152,219,0.35)'}, 0 2px 8px rgba(0,0,0,0.5)`
+          : '0 1px 4px rgba(0,0,0,0.65)',
         cursor: 'pointer',
         padding: 0,
-        transition: 'transform 0.12s, background 0.12s',
-        zIndex: active ? 10 : (isTraitor ? 7 : 5),
-        boxShadow: active
-          ? (isTraitor ? '0 0 10px 3px rgba(229,57,53,0.7)' : '0 0 10px 3px rgba(52,152,219,0.8)')
-          : '0 1px 3px rgba(0,0,0,0.5)',
+        transition: 'transform .14s ease, background .14s, box-shadow .14s',
+        zIndex: active ? 20 : (isTraitor ? 7 : 5),
+        touchAction: 'manipulation',
       }}
-      onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.7)'; }}
-      onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; }}
+      onMouseEnter={e => {
+        if (!active) e.currentTarget.style.transform = 'translate(-50%,-50%) scale(1.6)';
+      }}
+      onMouseLeave={e => {
+        if (!active) e.currentTarget.style.transform = 'translate(-50%,-50%)';
+      }}
     />
   );
 };
 
-/* ── Person card (side panel / bottom sheet on mobile) ── */
+/* ── Person card — side panel (desktop) ── */
 const PersonCard = ({ person, onClose }) => {
   if (!person) return null;
   const isTraitor = person.traitor;
   return (
-    <div className="panneau-card" style={{
+    <div style={{
+      display:'flex', flexDirection:'column', height:'100%',
       borderLeft: isTraitor ? '3px solid rgba(229,57,53,0.5)' : '1px solid var(--b2)',
+      background:'var(--bg)',
     }}>
       {/* Header */}
       <div style={{
         display:'flex', alignItems:'center', justifyContent:'space-between',
-        padding:'12px 16px',
-        borderBottom: isTraitor ? '1px solid rgba(229,57,53,0.3)' : '1px solid var(--b1)',
-        flexShrink:0,
-        background: isTraitor ? 'rgba(229,57,53,0.08)' : 'transparent',
+        padding:'10px 14px',
+        borderBottom:'1px solid var(--b1)', flexShrink:0,
+        background: isTraitor ? 'rgba(229,57,53,0.06)' : 'var(--s1)',
       }}>
-        <span className="lbl" style={{color: isTraitor ? '#e53935' : 'var(--ac)', fontSize:'0.68rem', letterSpacing:'0.1em'}}>
-          {isTraitor ? '⚠ ЗРАДНИК' : 'ПОРТРЕТ'}
+        <span style={{
+          fontFamily:'var(--mono)', fontSize:'0.65rem', letterSpacing:'0.12em',
+          color: isTraitor ? '#e53935' : 'var(--ac)', fontWeight:600,
+        }}>
+          {isTraitor ? '⚠ ЗРАДНИК' : '▸ ПОРТРЕТ'}
         </span>
         <button onClick={onClose} style={{
-          background:'none', border:'none', color:'var(--t3)',
-          cursor:'pointer', fontSize:20, lineHeight:1, padding:'2px 6px',
-        }}>×</button>
+          background:'none', border:'1px solid var(--b2)', color:'var(--t3)',
+          cursor:'pointer', fontSize:14, lineHeight:1, padding:'3px 8px', borderRadius:2,
+        }}>✕</button>
       </div>
 
-      {/* Traitor warning */}
-      {isTraitor && (
-        <div style={{
-          background:'rgba(229,57,53,0.1)',
-          borderBottom:'1px solid rgba(229,57,53,0.3)',
-          padding:'10px 16px', flexShrink:0,
-        }}>
-          <p style={{fontSize:'0.82rem', fontWeight:700, color:'#ff6b6b', lineHeight:1.5, fontStyle:'italic'}}>
-            «В сім'ї не без виродка — зрадник і ганьба України»
-          </p>
-          <p style={{marginTop:4, fontSize:'0.7rem', color:'rgba(229,57,53,0.7)', fontFamily:'var(--mono)', letterSpacing:'0.05em'}}>
-            ЗАСУДЖЕНИЙ ЗАОЧНО · ВТІК ДО РОСІЇ 2014
-          </p>
-        </div>
-      )}
-
-      {/* Photo */}
-      {person.photo && (
-        <div style={{
-          flexShrink:0, background:'var(--s2)',
-          borderBottom:'1px solid var(--b1)',
-          display:'flex', alignItems:'center', justifyContent:'center',
-          padding:16, minHeight:160,
-        }}>
+      {/* Photo + name */}
+      <div style={{
+        flexShrink:0, display:'flex', alignItems:'center', gap:12,
+        padding:'14px 14px 10px',
+        borderBottom:'1px solid var(--b1)',
+        background: isTraitor ? 'rgba(229,57,53,0.04)' : 'var(--s1)',
+      }}>
+        {person.photo ? (
           <img
             src={person.photo} alt={person.name}
             style={{
-              maxWidth:'100%', maxHeight:200, objectFit:'contain',
-              filter: isTraitor ? 'grayscale(70%) sepia(20%)' : 'grayscale(20%) contrast(1.05)',
-              display:'block',
+              width:72, height:72, objectFit:'cover', flexShrink:0,
+              border:'1px solid var(--b2)', borderRadius:2,
+              filter: isTraitor ? 'grayscale(70%) sepia(30%)' : 'none',
             }}
             onError={e => { e.currentTarget.style.display='none'; }}
           />
+        ) : (
+          <div style={{
+            width:72, height:72, flexShrink:0,
+            background:'var(--s2)', border:'1px solid var(--b2)', borderRadius:2,
+            display:'flex', alignItems:'center', justifyContent:'center',
+            fontSize:'1.5rem', opacity:0.3,
+          }}>👤</div>
+        )}
+        <div style={{flex:1, minWidth:0}}>
+          <h3 style={{
+            fontFamily:'var(--display)', fontSize:'0.9rem', fontWeight:700,
+            color: isTraitor ? '#ff6b6b' : 'var(--t1)',
+            lineHeight:1.35, margin:0,
+          }}>{person.name}</h3>
+          {isTraitor && (
+            <p style={{
+              marginTop:6, fontSize:'0.7rem', fontStyle:'italic',
+              color:'#ff6b6b', lineHeight:1.4,
+            }}>Зрадник · Втік до РФ 2014</p>
+          )}
         </div>
-      )}
+      </div>
 
-      {/* Bio */}
-      <div style={{padding:'14px 16px 24px', flex:1, overflowY:'auto'}}>
-        <h3 style={{
-          fontFamily:'var(--display)', fontSize:'0.95rem', fontWeight:600,
-          color: isTraitor ? '#ff6b6b' : 'var(--t1)',
-          marginBottom:10, lineHeight:1.4,
-        }}>{person.name}</h3>
-        <p style={{fontSize:'0.81rem', lineHeight:1.65, color:'var(--t2)', whiteSpace:'pre-wrap'}}>
+      {/* Bio — scrollable */}
+      <div style={{
+        flex:1, overflowY:'auto', padding:'14px 14px 20px',
+        WebkitOverflowScrolling:'touch',
+      }}>
+        <p style={{fontSize:'0.8rem', lineHeight:1.7, color:'var(--t2)'}}>
+          {person.bio}
+        </p>
+      </div>
+    </div>
+  );
+};
+
+/* ── Mobile bottom sheet card ── */
+const MobileCard = ({ person, onClose }) => {
+  if (!person) return null;
+  const isTraitor = person.traitor;
+  return (
+    <div style={{display:'flex', flexDirection:'column', height:'100%'}}>
+      {/* Drag handle */}
+      <div style={{
+        display:'flex', justifyContent:'center', alignItems:'center',
+        padding:'8px 0 4px', flexShrink:0, cursor:'pointer',
+      }} onClick={onClose}>
+        <div style={{width:40, height:4, background:'var(--b2)', borderRadius:2}}/>
+      </div>
+
+      {/* Header row: photo + name + close */}
+      <div style={{
+        display:'flex', alignItems:'center', gap:12,
+        padding:'6px 16px 10px', flexShrink:0,
+        borderBottom:'1px solid var(--b1)',
+      }}>
+        {person.photo ? (
+          <img
+            src={person.photo} alt={person.name}
+            style={{
+              width:56, height:56, objectFit:'cover', flexShrink:0,
+              border:'1px solid var(--b2)', borderRadius:4,
+              filter: isTraitor ? 'grayscale(70%)' : 'none',
+            }}
+            onError={e => { e.currentTarget.style.display='none'; }}
+          />
+        ) : (
+          <div style={{
+            width:56, height:56, flexShrink:0, borderRadius:4,
+            background:'var(--s2)', border:'1px solid var(--b2)',
+            display:'flex', alignItems:'center', justifyContent:'center',
+            fontSize:'1.25rem', opacity:0.3,
+          }}>👤</div>
+        )}
+        <div style={{flex:1, minWidth:0}}>
+          <h3 style={{
+            fontFamily:'var(--display)', fontSize:'0.92rem', fontWeight:700,
+            color: isTraitor ? '#ff6b6b' : 'var(--t1)',
+            lineHeight:1.3, margin:0,
+            whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis',
+          }}>{person.name}</h3>
+          <span style={{
+            fontFamily:'var(--mono)', fontSize:'0.6rem', letterSpacing:'0.1em',
+            color: isTraitor ? '#e53935' : 'var(--ac)',
+          }}>{isTraitor ? '⚠ ЗРАДНИК' : '▸ БІОГРАФІЯ'}</span>
+        </div>
+        <button onClick={onClose} style={{
+          background:'none', border:'1px solid var(--b2)', color:'var(--t3)',
+          cursor:'pointer', fontSize:13, padding:'4px 9px', borderRadius:2, flexShrink:0,
+        }}>✕</button>
+      </div>
+
+      {/* Bio — scrollable */}
+      <div style={{
+        flex:1, overflowY:'auto', padding:'12px 16px 16px',
+        WebkitOverflowScrolling:'touch',
+      }}>
+        <p style={{fontSize:'0.82rem', lineHeight:1.72, color:'var(--t2)'}}>
           {person.bio}
         </p>
       </div>
@@ -860,120 +939,198 @@ const PersonCard = ({ person, onClose }) => {
 const HeritageDonntuPage = ({ onNavigate }) => {
   const [selected, setSelected] = React.useState(null);
   const [search, setSearch]     = React.useState('');
+  const [showSearch, setShowSearch] = React.useState(false);
+  const [isMobile, setIsMobile] = React.useState(window.innerWidth < 768);
+
+  React.useEffect(() => {
+    const onResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener('resize', onResize);
+    return () => window.removeEventListener('resize', onResize);
+  }, []);
 
   const q = search.toLowerCase().trim();
   const filtered = q
-    ? PANNEAU_PERSONS.filter(p => p.name.toLowerCase().includes(q) || p.bio.toLowerCase().includes(q))
+    ? PANNEAU_PERSONS.filter(p =>
+        p.name.toLowerCase().includes(q) || p.bio.toLowerCase().includes(q))
     : PANNEAU_PERSONS;
 
-  const handleSelect = (p) => setSelected(sel => sel?.id === p.id ? null : p);
+  const handleSelect = p => setSelected(sel => sel?.id === p.id ? null : p);
+  const handleClose  = () => setSelected(null);
+
+  /* side panel width (desktop only) */
+  const PANEL_W = 300;
 
   return (
     <div style={{display:'flex', flexDirection:'column', height:'100%', overflow:'hidden'}}>
 
-      {/* Top bar */}
+      {/* ── Top bar ── */}
       <div style={{
-        flexShrink:0, padding:'10px 16px',
+        flexShrink:0, padding:'8px 14px',
         borderBottom:'1px solid var(--b1)',
-        display:'flex', alignItems:'center', flexWrap:'wrap', gap:10,
+        display:'flex', alignItems:'center', gap:10,
         background:'var(--s1)',
       }}>
-        <div style={{flex:'1 1 200px', minWidth:0}}>
-          <span className="lbl" style={{color:'var(--ac)', fontSize:'0.65rem', letterSpacing:'0.1em'}}>ІНТЕРАКТИВНЕ ПАННО</span>
-          <h2 style={{fontFamily:'var(--display)', fontSize:'1rem', fontWeight:500, color:'var(--t1)', marginTop:2, whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis'}}>
-            Інтерактивна картина «Історія ДонНТУ»
+        <div style={{flex:1, minWidth:0}}>
+          <span style={{fontFamily:'var(--mono)', fontSize:'0.62rem', letterSpacing:'0.12em', color:'var(--ac)'}}>ІНТЕРАКТИВНЕ ПАННО</span>
+          <h2 style={{fontFamily:'var(--display)', fontSize:'0.95rem', fontWeight:600, color:'var(--t1)', marginTop:1, whiteSpace:'nowrap', overflow:'hidden', textOverflow:'ellipsis'}}>
+            Інтерактивна картина «Видатні постаті ДонНТУ»
           </h2>
         </div>
-        <div style={{display:'flex', alignItems:'center', gap:10, flexShrink:0}}>
-          <div style={{position:'relative'}}>
-            <input
-              type="search"
-              placeholder="Пошук особи…"
-              value={search}
-              onChange={e => { setSearch(e.target.value); setSelected(null); }}
-              style={{
-                background:'var(--s2)', border:'1px solid var(--b2)',
-                color:'var(--t1)', padding:'5px 10px',
-                fontSize:'0.82rem', fontFamily:'var(--mono)',
-                outline:'none', width: 180, borderRadius:2,
-              }}
-            />
-          </div>
-          <span className="lbl" style={{color:'var(--t3)', fontSize:'0.68rem'}}>
+        <div style={{display:'flex', alignItems:'center', gap:8, flexShrink:0}}>
+          {/* Search toggle */}
+          <button
+            onClick={() => { setShowSearch(s => !s); setSearch(''); setSelected(null); }}
+            style={{
+              background: showSearch ? 'var(--ac)' : 'var(--s2)',
+              border:'1px solid var(--b2)', color: showSearch ? '#fff' : 'var(--t2)',
+              padding:'5px 10px', cursor:'pointer', fontSize:'0.8rem',
+              fontFamily:'var(--mono)', borderRadius:2, letterSpacing:'0.05em',
+            }}
+          >🔍 {!isMobile && 'Пошук'}</button>
+          <span style={{fontFamily:'var(--mono)', fontSize:'0.65rem', color:'var(--t3)', whiteSpace:'nowrap'}}>
             {PANNEAU_PERSONS.length} осіб
           </span>
         </div>
       </div>
 
-      {/* Main area */}
-      <div style={{flex:1, overflow:'hidden', position:'relative', background:'#12151f'}}>
+      {/* ── Search bar (collapsible) ── */}
+      {showSearch && (
+        <div style={{
+          flexShrink:0, padding:'8px 14px',
+          borderBottom:'1px solid var(--b1)',
+          background:'var(--s2)',
+          display:'flex', gap:8, alignItems:'center',
+        }}>
+          <input
+            autoFocus
+            type="search"
+            placeholder="Прізвище або ключове слово…"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            style={{
+              flex:1, background:'var(--bg)', border:'1px solid var(--b2)',
+              color:'var(--t1)', padding:'6px 12px',
+              fontSize:'0.85rem', fontFamily:'var(--mono)',
+              outline:'none', borderRadius:2, minWidth:0,
+            }}
+          />
+          {search && (
+            <span style={{fontFamily:'var(--mono)', fontSize:'0.7rem', color:'var(--t3)', whiteSpace:'nowrap'}}>
+              {filtered.length} результатів
+            </span>
+          )}
+        </div>
+      )}
 
-        {/* Painting + dots */}
+      {/* ── Search results list ── */}
+      {showSearch && search && (
+        <div style={{
+          flexShrink:0, maxHeight:isMobile ? 160 : 220,
+          overflowY:'auto', borderBottom:'1px solid var(--b1)',
+          background:'var(--bg)', WebkitOverflowScrolling:'touch',
+        }}>
+          {filtered.length === 0 && (
+            <div style={{padding:'10px 14px', color:'var(--t3)', fontSize:'0.8rem', fontFamily:'var(--mono)'}}>Не знайдено</div>
+          )}
+          {filtered.map(p => (
+            <button key={p.id}
+              onClick={() => { handleSelect(p); setShowSearch(false); setSearch(''); }}
+              style={{
+                display:'flex', alignItems:'center', gap:10,
+                width:'100%', textAlign:'left',
+                background: selected?.id === p.id ? 'rgba(52,152,219,0.12)' : 'none',
+                border:'none', borderBottom:'1px solid var(--b1)',
+                padding:'8px 14px', cursor:'pointer',
+              }}
+            >
+              <span style={{fontSize:'0.83rem', color:'var(--t1)', fontFamily:'var(--sans)'}}>
+                {p.name}
+              </span>
+              {p.traitor && <span style={{fontSize:'0.65rem', color:'#e53935', fontFamily:'var(--mono)', flexShrink:0}}>⚠</span>}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* ── Canvas: painting + panels ── */}
+      <div style={{flex:1, overflow:'hidden', position:'relative', background:'#0e1117'}}>
+
+        {/* Scrollable image area — full width always, panel overlays on top */}
         <div style={{
           position:'absolute', inset:0,
-          right: selected ? 'var(--card-width, 320px)' : 0,
-          overflow:'auto', display:'flex',
-          alignItems:'center', justifyContent:'center',
-          transition:'right 0.2s',
+          overflow:'auto',
+          WebkitOverflowScrolling:'touch',
+          scrollBehavior:'smooth',
         }}>
-          <div style={{position:'relative', lineHeight:0, maxWidth:'100%'}}>
+          {/* Relative wrapper sized exactly by the image */}
+          <div style={{position:'relative', lineHeight:0, minWidth:'100%', display:'inline-block'}}>
             <img
               src={PANNEAU_IMG}
-              alt="Інтерактивна картина «Історія ДонНТУ»"
-              style={{display:'block', maxWidth:'100%', height:'auto', userSelect:'none'}}
+              alt="Інтерактивна картина «Видатні постаті ДонНТУ»"
+              style={{
+                display:'block',
+                width:'100%',
+                height:'auto',
+                userSelect:'none',
+                /* minimum useful size — enables horizontal scroll on small screens */
+                minWidth: isMobile ? 600 : 900,
+              }}
               draggable={false}
             />
-            <div style={{position:'absolute', inset:0}}>
-              {filtered.map(p => (
-                <Dot key={p.id} person={p} onClick={handleSelect} active={selected?.id === p.id} />
-              ))}
-            </div>
+            {/* Dots — position:absolute inside the relative wrapper → % coords match image */}
+            {(q ? filtered : PANNEAU_PERSONS).map(p => (
+              <Dot key={p.id} person={p} onClick={handleSelect} active={selected?.id === p.id} />
+            ))}
           </div>
         </div>
 
-        {/* Side panel */}
-        {selected && (
-          <PersonCard person={selected} onClose={() => setSelected(null)} />
-        )}
-
-        {/* Search dropdown */}
-        {q && (
+        {/* Desktop side panel — overlays on right, image still fully scrollable underneath */}
+        {!isMobile && selected && (
           <div style={{
-            position:'absolute', top:8, left:8,
-            background:'rgba(13,13,13,0.97)', border:'1px solid var(--b2)',
-            maxHeight:280, overflowY:'auto', width:260, zIndex:40, borderRadius:2,
+            position:'absolute', top:0, right:0, bottom:0,
+            width: PANEL_W,
+            zIndex:30,
+            boxShadow:'-4px 0 24px rgba(0,0,0,0.45)',
+            display:'flex', flexDirection:'column',
           }}>
-            {filtered.length === 0 && (
-              <div style={{padding:'10px 14px', color:'var(--t3)', fontSize:'0.8rem', fontFamily:'var(--mono)'}}>
-                Не знайдено
-              </div>
-            )}
-            {filtered.map(p => (
-              <button key={p.id}
-                onClick={() => { handleSelect(p); setSearch(''); }}
-                style={{
-                  display:'block', width:'100%', textAlign:'left',
-                  background: selected?.id === p.id ? 'rgba(52,152,219,0.15)' : 'none',
-                  border:'none', borderBottom:'1px solid var(--b1)',
-                  padding:'8px 14px', cursor:'pointer', color:'var(--t2)', fontSize:'0.8rem',
-                }}
-              >{p.name}</button>
-            ))}
+            <PersonCard person={selected} onClose={handleClose}/>
           </div>
         )}
 
-        {/* Hint */}
-        {!selected && !q && (
+        {/* Mobile bottom sheet */}
+        {isMobile && selected && (
           <div style={{
-            position:'absolute', bottom:12, left:'50%', transform:'translateX(-50%)',
-            background:'rgba(13,13,13,0.82)', border:'1px solid var(--b1)',
-            padding:'5px 14px', fontSize:'0.73rem', fontFamily:'var(--mono)',
-            color:'var(--t3)', pointerEvents:'none', whiteSpace:'nowrap', borderRadius:2,
+            position:'absolute', left:0, right:0, bottom:0,
+            maxHeight:'62vh', minHeight:180,
+            background:'var(--bg)',
+            borderTop:'2px solid var(--b2)',
+            borderRadius:'14px 14px 0 0',
+            boxShadow:'0 -6px 32px rgba(0,0,0,0.55)',
+            zIndex:30,
+            display:'flex', flexDirection:'column',
+            /* slide up animation */
+            animation:'slideUp .22s ease',
           }}>
-            Натисніть на точку для перегляду біографії · ДонНТУ © 2018
+            <MobileCard person={selected} onClose={handleClose}/>
+          </div>
+        )}
+
+        {/* Hint — shown when nothing selected */}
+        {!selected && !showSearch && (
+          <div style={{
+            position:'absolute', bottom:14, left:'50%', transform:'translateX(-50%)',
+            background:'rgba(10,10,14,0.84)', border:'1px solid var(--b1)',
+            padding:'5px 14px', fontSize:'0.7rem', fontFamily:'var(--mono)',
+            color:'var(--t3)', pointerEvents:'none', whiteSpace:'nowrap',
+            borderRadius:3, backdropFilter:'blur(4px)',
+          }}>
+            {isMobile ? 'Торкніться точки для перегляду біографії' : 'Клікніть на точку · Scroll/прокрутіть для огляду · ДонНТУ © 2018'}
           </div>
         )}
       </div>
+
+      {/* Slide-up keyframe — injected once */}
+      <style>{`@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }`}</style>
     </div>
   );
 };
