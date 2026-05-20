@@ -62,6 +62,49 @@ const CityscapeSVG = () => (
   </svg>
 );
 
+/* ── WUF-style hero decorations ──────────────────────────────── */
+const HeroLeaf = ({ size = 50 }) => (
+  <svg width={size} height={size} viewBox="0 0 50 50" style={{display:'block',flexShrink:0}}>
+    <circle cx="25" cy="25" r="24" fill="#1a2e1c"/>
+    {[0,51.4,102.8,154.2,205.7,257.1,308.6].map((deg, i) => (
+      <ellipse key={i} cx="25" cy="8" rx="5" ry="11"
+        fill={i % 2 === 0 ? '#3daa6e' : '#2c8a55'}
+        transform={`rotate(${deg} 25 25)`}
+      />
+    ))}
+    <circle cx="25" cy="25" r="4.5" fill="#1a2e1c"/>
+  </svg>
+);
+
+const HeroPill = ({ w = 22, h = 70 }) => (
+  <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} style={{display:'block',flexShrink:0}}>
+    <rect x="1" y="1" width={w-2} height={h-2} rx={(w-2)/2}
+      fill="rgba(181,237,231,0.7)" stroke="#0a0a0a" strokeWidth="1.75"/>
+    <line x1={w/2} y1="2" x2={w/2} y2={h-2} stroke="#0a0a0a" strokeWidth="1.25"/>
+  </svg>
+);
+
+const HeroTree = () => (
+  <svg width="34" height="56" viewBox="0 0 34 56" style={{display:'block',flexShrink:0}}>
+    <rect x="14" y="42" width="6" height="14" rx="2" fill="#1a2e1c"/>
+    <polygon points="17,2 32,44 2,44" fill="#2d7d4a"/>
+    <polygon points="17,16 30,48 4,48" fill="#1f5e36"/>
+  </svg>
+);
+
+const HeroDecoCol = ({ items }) => (
+  <div className="wuf-hero-decos">
+    {items.map((item, i) => {
+      if (item === 'leaf')      return <HeroLeaf key={i} size={50}/>;
+      if (item === 'leaf-sm')  return <HeroLeaf key={i} size={38}/>;
+      if (item === 'pill')     return <HeroPill key={i} w={22} h={60}/>;
+      if (item === 'pill-lg')  return <HeroPill key={i} w={22} h={84}/>;
+      if (item === 'tree')     return <HeroTree key={i}/>;
+      return null;
+    })}
+  </div>
+);
+
 /* ── Content store helpers ────────────────────────────────────── */
 const CONTENT_KEY = 'donntu_content';
 
@@ -132,7 +175,7 @@ const OverviewPage = ({ onNavigate }) => {
   /* hero */
   const heroDate    = cv('heroDate',    '1921 — наш час');
   const heroPlace   = cv('heroPlace',   'Дрогобич · Львівська обл. · Україна');
-  const heroTitle   = cv('heroTitle',   'DONNTU');
+  const heroTitle   = cv('heroTitle',   'DONNTU\nЦИФРОВА\nСПАДЩИНА');
   const heroTheme   = cv('heroTheme',   'Цифрова спадщина:\nсторічна історія, пам\'ять і відновлення');
 
   /* theme section */
@@ -166,22 +209,31 @@ const OverviewPage = ({ onNavigate }) => {
     <div>
       {/* ══ HERO ══ */}
       <section className="wuf-hero">
-        <div className="wuf-hero-city"><CityscapeSVG /></div>
-        <div className="wuf-hero-dome">
-          <div className="wuf-hero-date">{heroDate}</div>
-          <div className="wuf-hero-place">{heroPlace}</div>
-          <h1 className="wuf-hero-title">{heroTitle}</h1>
-          <h2 className="wuf-hero-theme">
-            {heroTheme.split('\n').map((line,i,arr) => (
-              <React.Fragment key={i}>{line}{i < arr.length-1 && <br/>}</React.Fragment>
+        {/* Left: stacked title + meta + CTAs */}
+        <div className="wuf-hero-left">
+          <h1 className="wuf-hero-title">
+            {(heroTitle || 'DONNTU').split('\n').map((line, i) => (
+              <span key={i} className="wuf-hero-title-line">{line}</span>
             ))}
-          </h2>
-          <div className="wuf-hero-btns">
-            <button className="wuf-hero-btn wuf-hero-btn-primary" onClick={() => onNavigate('panneau')}>Відкрити панно</button>
-            <button className="wuf-hero-btn wuf-hero-btn-primary" onClick={() => onNavigate('heritage')}>Спадщина</button>
-            <button className="wuf-hero-btn wuf-hero-btn-primary" onClick={() => onNavigate('war')}>Пам'ять</button>
-            <button className="wuf-hero-btn wuf-hero-btn-primary" onClick={() => onNavigate('archive')}>Архів</button>
+          </h1>
+          <div className="wuf-hero-meta">
+            {heroDate}
+            {' · '}
+            {heroPlace}
           </div>
+          <div className="wuf-hero-btns">
+            <button className="wuf-hero-btn wuf-hero-btn-primary" onClick={() => onNavigate('panneau')}>Відкрити панно →</button>
+            <button className="wuf-hero-btn wuf-hero-btn-outline" onClick={() => onNavigate('heritage')}>Переглянути спадщину</button>
+          </div>
+        </div>
+
+        {/* Right: botanical decorations + framed cityscape */}
+        <div className="wuf-hero-right">
+          <HeroDecoCol items={['leaf','pill-lg','leaf-sm','pill']}/>
+          <div className="wuf-hero-frame">
+            <CityscapeSVG/>
+          </div>
+          <HeroDecoCol items={['pill','leaf','tree','leaf-sm']}/>
         </div>
       </section>
 
