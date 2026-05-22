@@ -28,12 +28,12 @@ const PAGES = [
 /* WUF13-style top navbar — logo · nav links · CTA */
 const TopBar = ({ cur, nav, copyLink, copied }) => {
   const NAV_LINKS = [
-    { id:’heritage’,  ua:’Спадщина’ },
-    { id:’gallery’,   ua:’Галерея’ },
-    { id:’people’,    ua:’Люди’ },
-    { id:’war’,       ua:"Пам’ять" },
-    { id:’voices’,    ua:’Голоси’ },
-    { id:’panneau’,   ua:’Панно’ },
+    { id:'heritage',  ua:'Спадщина' },
+    { id:'gallery',   ua:'Галерея' },
+    { id:'people',    ua:'Люди' },
+    { id:'war',       ua:"Пам'ять" },
+    { id:'voices',    ua:'Голоси' },
+    { id:'panneau',   ua:'Панно' },
   ];
 
   const [logoClicks, setLogoClicks] = React.useState(0);
