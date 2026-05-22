@@ -248,22 +248,22 @@ const HeritagePage = ({ onNavigate }) => {
         </p>
         <div className="her-campus-grid">
           <div className="her-campus-main">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Donetsk-National-Technical-University_Ukraine.jpg/900px-Donetsk-National-Technical-University_Ukraine.jpg"
-              alt="Головний корпус ДонНТУ, вул. Артема 58, Донецьк" loading="lazy"
-              onError={e => { e.target.src='https://upload.wikimedia.org/wikipedia/commons/6/6e/Donetsk-National-Technical-University_Ukraine.jpg'; }}
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Donetsk_DonNTU_01.jpg/1280px-Donetsk_DonNTU_01.jpg"
+              alt="Головний корпус ДонНТУ, вул. Артема 58, Донецьк, 2008" loading="lazy"
+              onError={e => { e.target.src='https://upload.wikimedia.org/wikipedia/commons/5/51/Donetsk_DonNTU_01.jpg'; }}
             />
-            <div className="her-campus-cap">Головний корпус · вул. Артема, 58 · 2005 р. · Steschke / CC BY-SA 2.0 DE</div>
+            <div className="her-campus-cap">1-й корпус · вул. Артема, 58 · 21.02.2008 · Andrew Butko / CC BY-SA 3.0</div>
           </div>
           <div className="her-campus-side">
             <div className="her-campus-item">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Donetsk_DonNTU_01.jpg/700px-Donetsk_DonNTU_01.jpg"
-                alt="1-й корпус ДонНТУ, 2008" loading="lazy"
-                onError={e => { e.target.src='https://upload.wikimedia.org/wikipedia/commons/5/51/Donetsk_DonNTU_01.jpg'; }}
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Donetsk_DonNTU_02.jpg/1280px-Donetsk_DonNTU_02.jpg"
+                alt="1-й корпус ДонНТУ — боковий фасад" loading="lazy"
+                onError={e => { e.target.src='https://upload.wikimedia.org/wikipedia/commons/2/25/Donetsk_DonNTU_02.jpg'; }}
               />
-              <div className="her-campus-cap">1-й корпус · 2008 · Andrew Butko / CC BY-SA 3.0</div>
+              <div className="her-campus-cap">1-й корпус · боковий фасад · 2008 · Andrew Butko / CC BY-SA 3.0</div>
             </div>
             <div className="her-campus-item">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Donetsk_DonNTU_03.jpg/700px-Donetsk_DonNTU_03.jpg"
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Donetsk_DonNTU_03.jpg/1280px-Donetsk_DonNTU_03.jpg"
                 alt="2-й корпус ДонНТУ, 2008" loading="lazy"
                 onError={e => { e.target.src='https://upload.wikimedia.org/wikipedia/commons/5/52/Donetsk_DonNTU_03.jpg'; }}
               />
@@ -271,25 +271,26 @@ const HeritagePage = ({ onNavigate }) => {
             </div>
           </div>
           <div className="her-campus-wide">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/%D0%91%D0%B8%D0%B1%D0%BB%D0%B8%D0%BE%D1%82%D0%B5%D0%BA%D0%B0_%D0%94%D0%BE%D0%BD%D0%9D%D0%A2%D0%A3_-_panoramio.jpg/900px-%D0%91%D0%B8%D0%B1%D0%BB%D0%B8%D0%BE%D1%82%D0%B5%D0%BA%D0%B0_%D0%94%D0%BE%D0%BD%D0%9D%D0%A2%D0%A3_-_panoramio.jpg"
-              alt="Бібліотека ДонНТУ, 2011" loading="lazy"
-              onError={e => { e.target.src='https://upload.wikimedia.org/wikipedia/commons/2/29/%D0%91%D0%B8%D0%B1%D0%BB%D0%B8%D0%BE%D1%82%D0%B5%D0%BA%D0%B0_%D0%94%D0%BE%D0%BD%D0%9D%D0%A2%D0%A3_-_panoramio.jpg'; }}
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Lenin_square_in_Donetsk_049.jpg/1280px-Lenin_square_in_Donetsk_049.jpg"
+              alt="Площа Леніна, Донецьк, 2009 — 500 м від ДонНТУ" loading="lazy"
+              onError={e => { e.target.src='https://upload.wikimedia.org/wikipedia/commons/3/32/Lenin_square_in_Donetsk_049.jpg'; }}
             />
-            <div className="her-campus-cap">Науково-технічна бібліотека · 2011 · Olya Usova / CC BY 3.0 · ~1 500 000 томів залишились в окупації</div>
+            <div className="her-campus-cap">Центральна площа Донецька · 500 м від ДонНТУ · 2009 · Andrew Butko / CC BY-SA 3.0</div>
           </div>
           <div className="her-campus-item">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/%D0%A1%D0%BA%D0%B2%D0%B5%D1%80_%D1%83_3-%D0%B3%D0%BE_%D0%BA%D0%BE%D1%80%D0%BF%D1%83%D1%81%D0%B0_-_panoramio.jpg/700px-%D0%A1%D0%BA%D0%B2%D0%B5%D1%80_%D1%83_3-%D0%B3%D0%BE_%D0%BA%D0%BE%D1%80%D0%BF%D1%83%D1%81%D0%B0_-_panoramio.jpg"
-              alt="Сквер у 3-го корпусу ДонНТУ, 2013" loading="lazy"
-              onError={e => { e.target.src='https://upload.wikimedia.org/wikipedia/commons/8/8c/%D0%A1%D0%BA%D0%B2%D0%B5%D1%80_%D1%83_3-%D0%B3%D0%BE_%D0%BA%D0%BE%D1%80%D0%BF%D1%83%D1%81%D0%B0_-_panoramio.jpg'; }}
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Donetsk_titova_prospekt.jpg/1280px-Donetsk_titova_prospekt.jpg"
+              alt="Проспект Тітова, Донецьк" loading="lazy"
+              onError={e => { e.target.src='https://upload.wikimedia.org/wikipedia/commons/5/59/Donetsk_titova_prospekt.jpg'; }}
             />
-            <div className="her-campus-cap">Студентський сквер · 2013 · Валерій Дед / CC BY 3.0</div>
+            <div className="her-campus-cap">Проспект Тітова · бульвари міста · ~2010 · CC BY-SA</div>
           </div>
           <div className="her-campus-item">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/%D0%91%D1%96%D0%B1%D0%BB%D1%96%D0%BE%D1%82%D0%B5%D0%BA%D0%B0_%D0%94%D0%BE%D0%BD%D0%9D%D0%A2%D0%A3.jpg/700px-%D0%91%D1%96%D0%B1%D0%BB%D1%96%D0%BE%D1%82%D0%B5%D0%BA%D0%B0_%D0%94%D0%BE%D0%BD%D0%9D%D0%A2%D0%A3.jpg"
-              alt="НТБ ДонНТУ нова будівля, 2013" loading="lazy"
-              onError={e => { e.target.src='https://upload.wikimedia.org/wikipedia/commons/a/a4/%D0%91%D1%96%D0%B1%D0%BB%D1%96%D0%BE%D1%82%D0%B5%D0%BA%D0%B0_%D0%94%D0%BE%D0%BD%D0%9D%D0%A2%D0%A3.jpg'; }}
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Donetsk-National-Technical-University_Ukraine.jpg/1280px-Donetsk-National-Technical-University_Ukraine.jpg"
+              alt="Герб ДонНТУ — 1921" loading="lazy"
+              style={{ objectFit:'contain', background:'var(--s1)' }}
+              onError={e => { e.target.src='https://upload.wikimedia.org/wikipedia/commons/6/6e/Donetsk-National-Technical-University_Ukraine.jpg'; }}
             />
-            <div className="her-campus-cap">НТБ · нова будівля · 2013 · NatTkachen / CC BY-SA 3.0</div>
+            <div className="her-campus-cap">Офіційний герб ДонНТУ · з 1921 р. · CC BY-SA 2.0 DE</div>
           </div>
         </div>
         <div className="her-campus-note">

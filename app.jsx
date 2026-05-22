@@ -1,13 +1,18 @@
-/* Main App v6 — hash-based anchor routing */
+/* Main App v7 — clean query-param routing (?p=heritage), backwards-compatible with old #heritage */
 const VALID_PAGES = new Set([
   'overview','heritage','campus','building','labs','simulation','achievements',
   'archive','certs','war','people','future','library','applicant','studentlife',
   'map','timecapsule','eras','voices','science','international','departments','admin','panneau','gallery'
 ]);
 
-const getHashPage = () => {
+const getRoutedPage = () => {
+  const params = new URLSearchParams(window.location.search);
+  const q = (params.get('p') || '').toLowerCase().trim();
+  if (VALID_PAGES.has(q)) return q;
+  // Backwards-compatible: old links with #heritage still work, but rewrite URL on first load
   const h = window.location.hash.replace('#','').toLowerCase().trim();
-  return VALID_PAGES.has(h) ? h : null;
+  if (VALID_PAGES.has(h)) return h;
+  return null;
 };
 
 const App = () => {
@@ -24,24 +29,38 @@ const App = () => {
       setPage('cert');
       return;
     }
-    // Hash routing on first load
-    const hashPage = getHashPage();
-    if (hashPage) setPage(hashPage);
+    // Query/hash routing on first load
+    const routed = getRoutedPage();
+    if (routed) {
+      setPage(routed);
+      // If we got here via legacy #hash, rewrite to clean ?p= URL
+      if (window.location.hash && !params.get('p')) {
+        const cleanUrl = window.location.pathname + '?p=' + routed;
+        history.replaceState(null, '', cleanUrl);
+      }
+    }
   }, []);
 
   // React to browser back/forward
   React.useEffect(() => {
-    const onHash = () => {
-      const h = getHashPage();
-      if (h) setPage(h);
+    const onChange = () => {
+      const r = getRoutedPage();
+      if (r) setPage(r);
     };
-    window.addEventListener('hashchange', onHash);
-    return () => window.removeEventListener('hashchange', onHash);
+    window.addEventListener('popstate', onChange);
+    window.addEventListener('hashchange', onChange);
+    return () => {
+      window.removeEventListener('popstate', onChange);
+      window.removeEventListener('hashchange', onChange);
+    };
   }, []);
 
   const nav = (p) => {
     setPage(p);
-    if (p !== 'cert') history.pushState(null, '', '#' + p);
+    if (p !== 'cert') {
+      const url = window.location.pathname + (p === 'overview' ? '' : '?p=' + p);
+      history.pushState(null, '', url);
+    }
     const main = document.querySelector('.main');
     if (main) main.scrollTop = 0;
     try {
@@ -53,7 +72,7 @@ const App = () => {
 
   const copyLink = (targetPage) => {
     const p = targetPage || page;
-    const url = window.location.origin + window.location.pathname + '#' + p;
+    const url = window.location.origin + window.location.pathname + (p === 'overview' ? '' : '?p=' + p);
     try {
       navigator.clipboard.writeText(url);
     } catch (_) {
