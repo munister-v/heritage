@@ -646,56 +646,56 @@ const OverviewPage = ({ onNavigate }) => {
 
       {/* ══ LIBRARY / UNREALIZED DREAM ══ */}
       <section className="wuf-library">
+        {/* Full-bleed background photo */}
+        <div className="wuf-library-bg">
+          <img src="assets/donetsk-library.jpg" alt="НТБ ДонНТУ — будівля бібліотеки у Донецьку" loading="lazy"/>
+          <div className="wuf-library-bg-overlay"/>
+        </div>
         <div className="wuf-library-inner">
           <div className="wuf-library-left">
-            <span className="wuf-library-label">БІБЛІОТЕКА · НЕРЕАЛІЗОВАНА МРІ​Я</span>
+            <span className="wuf-library-label">БІБЛІОТЕКА · ЗАСНОВАНО 1921</span>
             <h2 className="wuf-library-h">НТБ ДонНТУ</h2>
             <p className="wuf-library-lead">
-              Понад 1 000 000 томів. Сто років зібраних знань.
+              Понад 1 300 000 томів. Сто років зібраних знань.
               Залишилась у Донецьку.
             </p>
 
             <div className="wuf-library-stats">
               <div className="wuf-library-stat">
-                <span className="wuf-library-stat-n">1 000 000+</span>
-                <span className="wuf-library-stat-l">томів у фонді</span>
+                <span className="wuf-library-stat-n">1,3 млн</span>
+                <span className="wuf-library-stat-l">томів до 2014 року</span>
               </div>
               <div className="wuf-library-stat">
-                <span className="wuf-library-stat-n">1921</span>
-                <span className="wuf-library-stat-l">рік заснування</span>
+                <span className="wuf-library-stat-n">250 000</span>
+                <span className="wuf-library-stat-l">записів в електронному каталозі</span>
+              </div>
+              <div className="wuf-library-stat">
+                <span className="wuf-library-stat-n">32 000+</span>
+                <span className="wuf-library-stat-l">документів у репозиторії ELARDONTU</span>
               </div>
               <div className="wuf-library-stat">
                 <span className="wuf-library-stat-n">0</span>
-                <span className="wuf-library-stat-l">томів евакуйовано</span>
+                <span className="wuf-library-stat-l">томів евакуйовано у 2014</span>
               </div>
             </div>
 
             <p className="wuf-library-body">
               Науково-технічна бібліотека ДонНТУ — одна з найбільших технічних
-              бібліотек України — залишилась у захопленому Донецьку. Унікальне
-              зібрання гірничих, металургійних та інженерних видань, стародруки,
-              архіви дисертацій, рідкісні фонди — все це недоступне й досі
-              перебуває в окупації.
+              бібліотек України — залишилась у захопленому Донецьку. Заснована у 1921 році
+              з 200 рукописних методичних посібників, до 1940-го вона налічувала понад
+              650 тисяч видань. Унікальне зібрання гірничих, металургійних та інженерних
+              видань, архіви дисертацій, рідкісні фонди — все це досі перебуває в окупації.
             </p>
 
             <div className="wuf-library-dream">
-              <div className="wuf-library-dream-tag">Нереалізована мрія</div>
+              <div className="wuf-library-dream-tag">Цифрова спадщина</div>
               <p className="wuf-library-dream-text">
-                У 2013 році університет затвердив проєкт нового бібліотечного
-                корпусу — сучасного хабу з відкритими стелажами, цифровим архівом
-                і читальними залами. Будівництво мало розпочатись у 2015-му.
-                Не розпочалось ніколи.
+                Попри втрату фізичного фонду, бібліотека продовжує роботу: електронний
+                каталог налічує ~250 000 записів, репозиторій ELARDONTU — понад 32 000
+                документів. Бібліотека має доступ до Web of Science, Scopus та EBSCO.
+                У 2012 році посіла 2-ге місце на Всеукраїнському інтернет-конкурсі
+                «Найкращий сайт бібліотеки».
               </p>
-            </div>
-          </div>
-
-          <div className="wuf-library-right">
-            <div className="wuf-library-blueprint">
-              <img src="assets/donetsk-library.jpg" alt="НТБ ДонНТУ — будівля бібліотеки у Донецьку" style={{width:'100%',height:'100%',objectFit:'cover',display:'block',borderRadius:'4px'}} loading="lazy"/>
-              <div className="wuf-library-plan-caption">
-                Науково-технічна бібліотека ДонНТУ у Донецьку.
-                Залишається в окупації з 2014 року.
-              </div>
             </div>
           </div>
         </div>
@@ -706,23 +706,9 @@ const OverviewPage = ({ onNavigate }) => {
         <div className="wuf-arrow-section-inner">
           <button className="wuf-arrow-link" onClick={() => onNavigate('heritage')}>
             <div className="wuf-arrow-link-top">
-              <span className="wuf-arrow-link-label">Базова стаття</span>
+              <span className="wuf-arrow-link-label">Сторічна історія ДонНТУ: від технікуму до національного університету</span>
               <span className="wuf-arrow-link-arrow">→</span>
             </div>
-            <span className="wuf-arrow-link-sub">Сторічна історія ДонНТУ: від технікуму до національного університету</span>
-          </button>
-        </div>
-      </section>
-
-      {/* ══ Arrow: Усі сесії ══ */}
-      <section className="wuf-arrow-section">
-        <div className="wuf-arrow-section-inner">
-          <button className="wuf-arrow-link" onClick={() => onNavigate('panneau')}>
-            <div className="wuf-arrow-link-top">
-              <span className="wuf-arrow-link-label">Усі сесії та події</span>
-              <span className="wuf-arrow-link-arrow">→</span>
-            </div>
-            <span className="wuf-arrow-link-sub">Конференції, лекції, виставки</span>
           </button>
         </div>
       </section>
@@ -748,7 +734,7 @@ const OverviewPage = ({ onNavigate }) => {
           {/* ③ Photo — Вілла Яроша */}
           <div className="wuf-host-photo-box">
             <div className="wuf-host-photo-inner">
-              <img src="assets/drohobych-villa-yarosh.jpg" alt="Вілла Яроша — пам'ятка архітектури Дрогобича" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} loading="lazy"/>
+              <img src="https://upload.wikimedia.org/wikipedia/commons/1/1a/Casco_hist%C3%B3rico_de_Drogobych.jpg" alt="Історичний центр Дрогобича" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} loading="lazy"/>
             </div>
           </div>
           {/* ④ City photo — Вілла Б'янки */}
