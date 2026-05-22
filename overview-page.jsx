@@ -462,35 +462,6 @@ const OverviewPage = ({ onNavigate }) => {
         <button className="wuf-section-tab" onClick={() => onNavigate('voices')}>Голоси</button>
       </div>
 
-      {/* ══ NEWS ══ */}
-      <section className="wuf-news">
-        <div className="wuf-news-inner">
-          <div className="wuf-news-head">
-            <h2 className="wuf-news-title">Новини</h2>
-            <button className="wuf-news-view-all" onClick={() => onNavigate('archive')}>Усі новини</button>
-          </div>
-          <div className="wuf-news-grid">
-            <div className="wuf-news-main" onClick={() => onNavigate('archive')}>
-              <div className="wuf-news-main-img">
-                {news[0] && <img src={news[0].img} alt={news[0] && news[0].title} loading="lazy"/>}
-              </div>
-              <div className="wuf-news-date">{news[0] && news[0].date}</div>
-              <h3 className="wuf-news-headline">{news[0] && news[0].title}</h3>
-            </div>
-            <div className="wuf-news-list">
-              <div className="wuf-news-list-inner">
-                {news.slice(1).map((n, i) => (
-                  <div key={i} className="wuf-news-item" onClick={() => onNavigate('archive')}>
-                    <div className="wuf-news-date">{n.date}</div>
-                    <div className="wuf-news-item-h">{n.title}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ══ THEME ══ */}
       <section className="wuf-theme">
         <div className="wuf-theme-inner">
@@ -542,9 +513,6 @@ const OverviewPage = ({ onNavigate }) => {
               митці й політичні постаті.
             </p>
           </div>
-          <button className="wuf-alumni-cta" onClick={() => onNavigate('people')}>
-            Усі люди →
-          </button>
         </div>
 
         <div className="wuf-alumni-grid">
@@ -571,9 +539,9 @@ const OverviewPage = ({ onNavigate }) => {
       <section className="wuf-war">
         <div className="wuf-war-head">
           <span className="wuf-war-label">10 · ВІЙНА ТА УНІВЕРСИТЕТ</span>
-          <h2 className="wuf-war-h">Три адреси одного університету</h2>
+          <h2 className="wuf-war-h">Чотири адреси одного університету</h2>
           <p className="wuf-war-lead">
-            Від Донецька через Покровськ до Дрогобича — ДонНТУ тричі рятував своє ім'я,
+            Від Донецька через Покровськ, Луцьк до Дрогобича — ДонНТУ чотири рази рятував своє ім'я,
             свою місію та своїх людей.
           </p>
         </div>
@@ -583,23 +551,8 @@ const OverviewPage = ({ onNavigate }) => {
           {/* 1 — Donetsk */}
           <div className="wuf-war-card wuf-war-card--occupied">
             <div className="wuf-war-card-img">
-              <svg viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg" className="wuf-war-card-svg">
-                <rect width="480" height="300" fill="#1a0e0e"/>
-                <rect x="60" y="60" width="360" height="200" fill="#2a1515" rx="2"/>
-                <rect x="80" y="80" width="120" height="140" fill="#3a1a1a"/>
-                <rect x="220" y="80" width="180" height="140" fill="#331818"/>
-                {[90,110,130,140,160].map((x,i)=>[100,130,160,190].map((y,j)=>(
-                  <rect key={i*4+j} x={x} y={y} width={12} height={14} fill="#1a0a0a" rx="1"/>
-                )))}
-                {[230,255,280,305,330,355].map((x,i)=>[100,130,160,190].map((y,j)=>(
-                  <rect key={i*4+j} x={x} y={y} width={15} height={16} fill="#1a0a0a" rx="1"/>
-                )))}
-                <rect x="195" y="190" width="30" height="50" fill="#2a1515"/>
-                <line x1="0" y1="0" x2="480" y2="300" stroke="rgba(180,40,40,0.18)" strokeWidth="60"/>
-                <line x1="480" y1="0" x2="0" y2="300" stroke="rgba(180,40,40,0.18)" strokeWidth="60"/>
-                <text x="240" y="162" textAnchor="middle" fill="rgba(220,80,80,0.85)" fontSize="28" fontFamily="monospace" fontWeight="bold" letterSpacing="6">ОКУПОВАНИЙ</text>
-                <text x="240" y="186" textAnchor="middle" fill="rgba(180,60,60,0.6)" fontSize="11" fontFamily="monospace">з квітня 2014 року</text>
-              </svg>
+              <img src="assets/donetsk-main.jpg" alt="Головний корпус ДонНТУ у Донецьку" loading="lazy"/>
+              <div className="wuf-war-card-badge wuf-war-card-badge--red">окупований з 2014</div>
             </div>
             <div className="wuf-war-card-body">
               <div className="wuf-war-card-period">1921 — 2014</div>
@@ -648,37 +601,36 @@ const OverviewPage = ({ onNavigate }) => {
             </div>
           </div>
 
-          {/* 4 — Drohobych */}
-          <div className="wuf-war-card wuf-war-card--alive">
-            <div className="wuf-war-card-img wuf-war-card-img--teal">
-              <svg viewBox="0 0 480 300" xmlns="http://www.w3.org/2000/svg" className="wuf-war-card-svg">
-                <rect width="480" height="300" fill="#0d2a22"/>
-                {[0,40,80,120,160,200,240,280,320,360,400,440,480].map((x,i)=>(<line key={'v'+i} x1={x} y1="0" x2={x} y2="300" stroke="rgba(45,125,110,0.18)" strokeWidth="1"/>))}
-                {[0,40,80,120,160,200,240,280].map((y,i)=>(<line key={'h'+i} x1="0" y1={y} x2="480" y2={y} stroke="rgba(45,125,110,0.18)" strokeWidth="1"/>))}
-                <rect x="140" y="80" width="200" height="150" fill="none" stroke="#2d7d6e" strokeWidth="2"/>
-                <rect x="140" y="80" width="90" height="70" fill="none" stroke="#2d7d6e" strokeWidth="1"/>
-                <rect x="230" y="80" width="110" height="70" fill="none" stroke="#2d7d6e" strokeWidth="1"/>
-                <rect x="140" y="150" width="200" height="80" fill="none" stroke="#2d7d6e" strokeWidth="1"/>
-                <rect x="195" y="220" width="90" height="20" fill="rgba(45,125,110,0.25)"/>
-                <line x1="195" y1="230" x2="285" y2="230" stroke="#2d7d6e" strokeWidth="2"/>
-                <text x="185" y="118" textAnchor="middle" fill="#5ac4b0" fontSize="8" fontFamily="monospace">ЧИТАЛЬНИЙ</text>
-                <text x="280" y="118" textAnchor="middle" fill="#5ac4b0" fontSize="8" fontFamily="monospace">АУДИТОРІЇ</text>
-                <text x="240" y="195" textAnchor="middle" fill="#5ac4b0" fontSize="8" fontFamily="monospace">ЛАБОРАТОРІЇ</text>
-                <text x="240" y="50" textAnchor="middle" fill="#2d7d6e" fontSize="11" fontFamily="monospace" fontWeight="bold">ДонНТУ · ДРОГОБИЧ</text>
-                <text x="240" y="64" textAnchor="middle" fill="#1e5a4e" fontSize="9" fontFamily="monospace">вул. Самбірська, 76</text>
-                <circle cx="240" cy="150" r="4" fill="#5ac4b0"/>
-                <circle cx="240" cy="150" r="8" fill="none" stroke="#5ac4b0" strokeWidth="1" opacity="0.5"/>
-                <circle cx="240" cy="150" r="14" fill="none" stroke="#5ac4b0" strokeWidth="0.5" opacity="0.3"/>
-              </svg>
-              <div className="wuf-war-card-badge wuf-war-card-badge--green">2022 → зараз</div>
+          {/* 4 — Lutsk */}
+          <div className="wuf-war-card">
+            <div className="wuf-war-card-img">
+              <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=600&h=400&fit=crop" alt="ДонНТУ у Луцьку, 2022" loading="lazy"/>
+              <div className="wuf-war-card-badge wuf-war-card-badge--teal">квітень 2022 – 2024</div>
             </div>
             <div className="wuf-war-card-body">
-              <div className="wuf-war-card-period">2022 → сьогодні</div>
-              <h3 className="wuf-war-card-city">Дрогобич</h3>
-              <p className="wuf-war-card-addr">вул. Самбірська, 76 · Львівська обл.</p>
+              <div className="wuf-war-card-period">2022 — 2024</div>
+              <h3 className="wuf-war-card-city">Луцьк</h3>
+              <p className="wuf-war-card-addr">Волинська обл. · на базі ЛНТУ</p>
               <p className="wuf-war-card-text">
-                Після повномасштабного вторгнення університет знайшов новий дім
-                у Дрогобичі. Місія триває. Кожна сесія — акт спротиву.
+                У квітні 2022 університет евакуювався до Луцька. Два роки навчання
+                на базі Луцького НТУ — до офіційного переміщення до Дрогобича.
+              </p>
+            </div>
+          </div>
+
+          {/* 5 — Drohobych */}
+          <div className="wuf-war-card wuf-war-card--alive">
+            <div className="wuf-war-card-img">
+              <img src="assets/drohobych-campus.jpg" alt="Кампус ДонНТУ у Дрогобичі, вул. Шевченка 18" loading="lazy"/>
+              <div className="wuf-war-card-badge wuf-war-card-badge--green">серпень 2024 → зараз</div>
+            </div>
+            <div className="wuf-war-card-body">
+              <div className="wuf-war-card-period">2024 → сьогодні</div>
+              <h3 className="wuf-war-card-city">Дрогобич</h3>
+              <p className="wuf-war-card-addr">вул. Шевченка, 18 · Львівська обл.</p>
+              <p className="wuf-war-card-text">
+                Офіційне переміщення до Дрогобича за наказом МОН від 28 серпня 2024.
+                «Дім з фресками» — пам'ятка архітектури XIX ст. — новий дім університету.
               </p>
             </div>
           </div>
@@ -699,13 +651,13 @@ const OverviewPage = ({ onNavigate }) => {
             <span className="wuf-library-label">БІБЛІОТЕКА · НЕРЕАЛІЗОВАНА МРІ​Я</span>
             <h2 className="wuf-library-h">НТБ ДонНТУ</h2>
             <p className="wuf-library-lead">
-              Понад 500 000 томів. Сто років зібраних знань.
+              Понад 1 000 000 томів. Сто років зібраних знань.
               Залишилась у Донецьку.
             </p>
 
             <div className="wuf-library-stats">
               <div className="wuf-library-stat">
-                <span className="wuf-library-stat-n">500 000+</span>
+                <span className="wuf-library-stat-n">1 000 000+</span>
                 <span className="wuf-library-stat-l">томів у фонді</span>
               </div>
               <div className="wuf-library-stat">
@@ -739,55 +691,10 @@ const OverviewPage = ({ onNavigate }) => {
 
           <div className="wuf-library-right">
             <div className="wuf-library-blueprint">
-              <svg viewBox="0 0 360 460" xmlns="http://www.w3.org/2000/svg" className="wuf-library-plan">
-                <rect width="360" height="460" fill="#091a2e"/>
-                {[36,72,108,144,180,216,252,288,324].map((x,i)=>(<line key={'v'+i} x1={x} y1="0" x2={x} y2="460" stroke="rgba(90,174,232,0.1)" strokeWidth="0.5"/>))}
-                {[40,80,120,160,200,240,280,320,360,400,440].map((y,i)=>(<line key={'h'+i} x1="0" y1={y} x2="360" y2={y} stroke="rgba(90,174,232,0.1)" strokeWidth="0.5"/>))}
-                {/* outer walls */}
-                <rect x="36" y="80" width="288" height="340" fill="none" stroke="#5aaee8" strokeWidth="2.5"/>
-                {/* rooms */}
-                <rect x="36" y="80" width="144" height="110" fill="none" stroke="#5aaee8" strokeWidth="1.2"/>
-                <rect x="180" y="80" width="144" height="110" fill="none" stroke="#5aaee8" strokeWidth="1.2"/>
-                <rect x="36" y="190" width="288" height="70" fill="rgba(90,174,232,0.05)" stroke="#5aaee8" strokeWidth="1.2"/>
-                <rect x="36" y="260" width="90" height="160" fill="none" stroke="#5aaee8" strokeWidth="1.2"/>
-                <rect x="126" y="260" width="108" height="160" fill="none" stroke="#5aaee8" strokeWidth="1.2"/>
-                <rect x="234" y="260" width="90" height="160" fill="none" stroke="#5aaee8" strokeWidth="1.2"/>
-                {/* entrance */}
-                <rect x="150" y="410" width="60" height="20" fill="rgba(90,174,232,0.15)"/>
-                <line x1="150" y1="420" x2="210" y2="420" stroke="#5aaee8" strokeWidth="2"/>
-                <line x1="150" y1="410" x2="150" y2="430" stroke="#5aaee8" strokeWidth="1.5"/>
-                <line x1="210" y1="410" x2="210" y2="430" stroke="#5aaee8" strokeWidth="1.5"/>
-                {/* staircase symbol */}
-                {[0,6,12,18,24].map((d,i)=>(<rect key={i} x={172+d} y={188} width={6} height={4} fill="none" stroke="#5aaee8" strokeWidth="0.8"/>))}
-                {/* labels */}
-                <text x="108" y="140" textAnchor="middle" fill="#7bc4f0" fontSize="8.5" fontFamily="monospace">ЧИТАЛЬНИЙ ЗАЛ</text>
-                <text x="252" y="140" textAnchor="middle" fill="#7bc4f0" fontSize="8.5" fontFamily="monospace">АРХІВ · ФОНДИ</text>
-                <text x="180" y="230" textAnchor="middle" fill="#7bc4f0" fontSize="8.5" fontFamily="monospace">ВІДКРИТІ СТЕЛАЖІ · КАТАЛОГ</text>
-                <text x="81" y="343" textAnchor="middle" fill="#7bc4f0" fontSize="8" fontFamily="monospace">ЦИФРОВИЙ</text>
-                <text x="81" y="354" textAnchor="middle" fill="#7bc4f0" fontSize="8" fontFamily="monospace">ЦЕНТР</text>
-                <text x="180" y="343" textAnchor="middle" fill="#7bc4f0" fontSize="8" fontFamily="monospace">КОНФ.</text>
-                <text x="180" y="354" textAnchor="middle" fill="#7bc4f0" fontSize="8" fontFamily="monospace">ЗАЛА</text>
-                <text x="279" y="343" textAnchor="middle" fill="#7bc4f0" fontSize="8" fontFamily="monospace">РІДКІСНІ</text>
-                <text x="279" y="354" textAnchor="middle" fill="#7bc4f0" fontSize="8" fontFamily="monospace">ВИДАННЯ</text>
-                {/* dimension annotations */}
-                <line x1="24" y1="80" x2="24" y2="420" stroke="#3d6f9e" strokeWidth="0.75" strokeDasharray="4,3"/>
-                <line x1="20" y1="80" x2="28" y2="80" stroke="#3d6f9e" strokeWidth="0.75"/>
-                <line x1="20" y1="420" x2="28" y2="420" stroke="#3d6f9e" strokeWidth="0.75"/>
-                <text x="14" y="255" textAnchor="middle" fill="#3d6f9e" fontSize="7.5" fontFamily="monospace" transform="rotate(-90 14 255)">42 м</text>
-                <line x1="36" y1="446" x2="324" y2="446" stroke="#3d6f9e" strokeWidth="0.75" strokeDasharray="4,3"/>
-                <line x1="36" y1="442" x2="36" y2="450" stroke="#3d6f9e" strokeWidth="0.75"/>
-                <line x1="324" y1="442" x2="324" y2="450" stroke="#3d6f9e" strokeWidth="0.75"/>
-                <text x="180" y="457" textAnchor="middle" fill="#3d6f9e" fontSize="7.5" fontFamily="monospace">28 м</text>
-                {/* title block */}
-                <rect x="36" y="20" width="288" height="48" fill="none" stroke="#3d6f9e" strokeWidth="1"/>
-                <line x1="36" y1="36" x2="324" y2="36" stroke="#3d6f9e" strokeWidth="0.75"/>
-                <text x="180" y="32" textAnchor="middle" fill="#5aaee8" fontSize="11" fontFamily="monospace" fontWeight="bold" letterSpacing="1">НОВА НТБ ДонНТУ</text>
-                <text x="180" y="57" textAnchor="middle" fill="#3d6f9e" fontSize="8.5" fontFamily="monospace">ПЛАН ПЕРШОГО ПОВЕРХУ · М 1:200</text>
-                <text x="180" y="68" textAnchor="middle" fill="#c0392b" fontSize="8" fontFamily="monospace" fontWeight="bold">ПРОЄКТ 2013 · НЕ РЕАЛІЗОВАНО</text>
-              </svg>
+              <img src="assets/donetsk-library.jpg" alt="НТБ ДонНТУ — будівля бібліотеки у Донецьку" style={{width:'100%',height:'100%',objectFit:'cover',display:'block',borderRadius:'4px'}} loading="lazy"/>
               <div className="wuf-library-plan-caption">
-                Проєктна документація нового корпусу НТБ ДонНТУ, 2013 рік.
-                Будівництво так і не розпочалось.
+                Науково-технічна бібліотека ДонНТУ у Донецьку.
+                Залишається в окупації з 2014 року.
               </div>
             </div>
           </div>
@@ -807,23 +714,6 @@ const OverviewPage = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* ══ FOCUS AREAS ══ */}
-      <section className="wuf-focus">
-        <div className="wuf-focus-head">
-          <h2 className="wuf-news-title">Ключові розділи</h2>
-        </div>
-        <div className="wuf-focus-inner">
-          <div className="wuf-focus-grid">
-            {focusAreas.map((f, i) => (
-              <div key={i} className="wuf-focus-card" onClick={() => onNavigate(f.page)}>
-                <div className="wuf-focus-card-num">{f.n}</div>
-                <div className="wuf-focus-card-title">{f.title}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* ══ Arrow: Усі сесії ══ */}
       <section className="wuf-arrow-section">
         <div className="wuf-arrow-section-inner">
@@ -834,30 +724,6 @@ const OverviewPage = ({ onNavigate }) => {
             </div>
             <span className="wuf-arrow-link-sub">Конференції, лекції, виставки</span>
           </button>
-        </div>
-      </section>
-
-      {/* ══ VIDEOS ══ */}
-      <section className="wuf-videos">
-        <div className="wuf-videos-inner">
-          <div className="wuf-videos-head">
-            <h2 className="wuf-videos-title">Відеоматеріали</h2>
-            <button className="wuf-news-view-all" onClick={() => onNavigate('archive')}>Усі відео</button>
-          </div>
-          <div className="wuf-videos-grid">
-            {videos.map((v, i) => (
-              <div key={i} className="wuf-video-card" onClick={() => onNavigate('archive')}>
-                <div className="wuf-video-thumb">
-                  <img src={v.img} alt={v.title} loading="lazy"/>
-                  <div className="wuf-video-play">▶</div>
-                </div>
-                <div className="wuf-video-card-body">
-                  <div className="wuf-video-meta">{v.date}</div>
-                  <div className="wuf-video-title">{v.title}</div>
-                </div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
