@@ -184,6 +184,16 @@ const HERITAGE_VOICES = [
 const HeritagePage = ({ onNavigate }) => {
   const [active, setActive] = React.useState(2);
 
+  const HER_SECTIONS = [
+    { id: 'her-campus',   label: '📍 Кампус' },
+    { id: 'her-pillars',  label: '⟡ Принципи' },
+    { id: 'her-timeline', label: '↻ Хронологія' },
+    { id: 'her-faculty',  label: '◉ Факультети' },
+    { id: 'her-rectors',  label: '◈ Ректори' },
+    { id: 'her-science',  label: '⊞ Наука' },
+    { id: 'her-alumni',   label: '★ Випускники' },
+  ];
+
   return (
     <div className="page her">
       {/* HERO */}
@@ -222,8 +232,11 @@ const HeritagePage = ({ onNavigate }) => {
         </div>
       </div>
 
+      {/* Section anchor nav */}
+      <SectionNav sections={HER_SECTIONS} />
+
       {/* DONETSK CAMPUS PHOTOS */}
-      <div className="her-campus-block">
+      <div id="her-campus" className="her-campus-block" style={{scrollMarginTop:'3.5rem'}}>
         <div className="div-row">
           <span className="lbl" style={{color:'#c0392b'}}>КАМПУС · ВУЛ. АРТЕМА, 58 · ДОНЕЦЬК · ОКУПОВАНИЙ З КВІТНЯ 2014</span>
           <div className="div-line"></div>
@@ -235,26 +248,48 @@ const HeritagePage = ({ onNavigate }) => {
         </p>
         <div className="her-campus-grid">
           <div className="her-campus-main">
-            <img src="assets/donetsk-3corp.jpg" alt="3-й корпус ДонНТУ, вул. Артема — Донецький національний технічний університет" loading="lazy"/>
-            <div className="her-campus-cap">3-й корпус · Сталінський класицизм · 1930-ті рр.</div>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6e/Donetsk-National-Technical-University_Ukraine.jpg/900px-Donetsk-National-Technical-University_Ukraine.jpg"
+              alt="Головний корпус ДонНТУ, вул. Артема 58, Донецьк" loading="lazy"
+              onError={e => { e.target.src='https://upload.wikimedia.org/wikipedia/commons/6/6e/Donetsk-National-Technical-University_Ukraine.jpg'; }}
+            />
+            <div className="her-campus-cap">Головний корпус · вул. Артема, 58 · 2005 р. · Steschke / CC BY-SA 2.0 DE</div>
           </div>
           <div className="her-campus-side">
             <div className="her-campus-item">
-              <img src="assets/donetsk-main.jpg" alt="Головний корпус ДонНТУ, вул. Артема, Донецьк" loading="lazy"/>
-              <div className="her-campus-cap">Головний корпус · вул. Артема, 58</div>
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Donetsk_DonNTU_01.jpg/700px-Donetsk_DonNTU_01.jpg"
+                alt="1-й корпус ДонНТУ, 2008" loading="lazy"
+                onError={e => { e.target.src='https://upload.wikimedia.org/wikipedia/commons/5/51/Donetsk_DonNTU_01.jpg'; }}
+              />
+              <div className="her-campus-cap">1-й корпус · 2008 · Andrew Butko / CC BY-SA 3.0</div>
             </div>
             <div className="her-campus-item">
-              <img src="assets/donetsk-artyoma.jpg" alt="Корпус ДонНТУ на вул. Артема, Донецьк" loading="lazy"/>
-              <div className="her-campus-cap">Корпуси по вул. Артема</div>
+              <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Donetsk_DonNTU_03.jpg/700px-Donetsk_DonNTU_03.jpg"
+                alt="2-й корпус ДонНТУ, 2008" loading="lazy"
+                onError={e => { e.target.src='https://upload.wikimedia.org/wikipedia/commons/5/52/Donetsk_DonNTU_03.jpg'; }}
+              />
+              <div className="her-campus-cap">2-й корпус · 2008 · Andrew Butko / CC BY-SA 3.0</div>
             </div>
           </div>
           <div className="her-campus-wide">
-            <img src="assets/donetsk-library.jpg" alt="Бібліотека Донецького гірничого університету" loading="lazy"/>
-            <div className="her-campus-cap">Нова бібліотека · скляний фасад · ~ 1 500 000 томів залишились</div>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/%D0%91%D0%B8%D0%B1%D0%BB%D0%B8%D0%BE%D1%82%D0%B5%D0%BA%D0%B0_%D0%94%D0%BE%D0%BD%D0%9D%D0%A2%D0%A3_-_panoramio.jpg/900px-%D0%91%D0%B8%D0%B1%D0%BB%D0%B8%D0%BE%D1%82%D0%B5%D0%BA%D0%B0_%D0%94%D0%BE%D0%BD%D0%9D%D0%A2%D0%A3_-_panoramio.jpg"
+              alt="Бібліотека ДонНТУ, 2011" loading="lazy"
+              onError={e => { e.target.src='https://upload.wikimedia.org/wikipedia/commons/2/29/%D0%91%D0%B8%D0%B1%D0%BB%D0%B8%D0%BE%D1%82%D0%B5%D0%BA%D0%B0_%D0%94%D0%BE%D0%BD%D0%9D%D0%A2%D0%A3_-_panoramio.jpg'; }}
+            />
+            <div className="her-campus-cap">Науково-технічна бібліотека · 2011 · Olya Usova / CC BY 3.0 · ~1 500 000 томів залишились в окупації</div>
           </div>
           <div className="her-campus-item">
-            <img src="assets/donetsk-facade.jpg" alt="Корпус ДонНТУ, Донецьк" loading="lazy"/>
-            <div className="her-campus-cap">Учбовий корпус · вул. Артема</div>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/%D0%A1%D0%BA%D0%B2%D0%B5%D1%80_%D1%83_3-%D0%B3%D0%BE_%D0%BA%D0%BE%D1%80%D0%BF%D1%83%D1%81%D0%B0_-_panoramio.jpg/700px-%D0%A1%D0%BA%D0%B2%D0%B5%D1%80_%D1%83_3-%D0%B3%D0%BE_%D0%BA%D0%BE%D1%80%D0%BF%D1%83%D1%81%D0%B0_-_panoramio.jpg"
+              alt="Сквер у 3-го корпусу ДонНТУ, 2013" loading="lazy"
+              onError={e => { e.target.src='https://upload.wikimedia.org/wikipedia/commons/8/8c/%D0%A1%D0%BA%D0%B2%D0%B5%D1%80_%D1%83_3-%D0%B3%D0%BE_%D0%BA%D0%BE%D1%80%D0%BF%D1%83%D1%81%D0%B0_-_panoramio.jpg'; }}
+            />
+            <div className="her-campus-cap">Студентський сквер · 2013 · Валерій Дед / CC BY 3.0</div>
+          </div>
+          <div className="her-campus-item">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/%D0%91%D1%96%D0%B1%D0%BB%D1%96%D0%BE%D1%82%D0%B5%D0%BA%D0%B0_%D0%94%D0%BE%D0%BD%D0%9D%D0%A2%D0%A3.jpg/700px-%D0%91%D1%96%D0%B1%D0%BB%D1%96%D0%BE%D1%82%D0%B5%D0%BA%D0%B0_%D0%94%D0%BE%D0%BD%D0%9D%D0%A2%D0%A3.jpg"
+              alt="НТБ ДонНТУ нова будівля, 2013" loading="lazy"
+              onError={e => { e.target.src='https://upload.wikimedia.org/wikipedia/commons/a/a4/%D0%91%D1%96%D0%B1%D0%BB%D1%96%D0%BE%D1%82%D0%B5%D0%BA%D0%B0_%D0%94%D0%BE%D0%BD%D0%9D%D0%A2%D0%A3.jpg'; }}
+            />
+            <div className="her-campus-cap">НТБ · нова будівля · 2013 · NatTkachen / CC BY-SA 3.0</div>
           </div>
         </div>
         <div className="her-campus-note">
@@ -265,7 +300,7 @@ const HeritagePage = ({ onNavigate }) => {
       </div>
 
       {/* PILLARS */}
-      <div>
+      <div id="her-pillars" style={{scrollMarginTop:'3.5rem'}}>
         <div className="div-row">
           <span className="lbl">ЧОТИРИ СТОВПИ ІНСТИТУЦІЇ · 4 ПРИНЦИПИ</span>
           <div className="div-line"></div>
@@ -295,7 +330,7 @@ const HeritagePage = ({ onNavigate }) => {
       </div>
 
       {/* TIMELINE */}
-      <div>
+      <div id="her-timeline" style={{scrollMarginTop:'3.5rem'}}>
         <div className="div-row">
           <span className="lbl">ХРОНОЛОГІЯ · 1921 → 2026</span>
           <div className="div-line"></div>
@@ -321,7 +356,7 @@ const HeritagePage = ({ onNavigate }) => {
       </div>
 
       {/* FACULTIES */}
-      <div>
+      <div id="her-faculty" style={{scrollMarginTop:'3.5rem'}}>
         <div className="div-row">
           <span className="lbl">ФАКУЛЬТЕТИ · СТРУКТУРА УНІВЕРСИТЕТУ</span>
           <div className="div-line"></div>
@@ -345,7 +380,7 @@ const HeritagePage = ({ onNavigate }) => {
       </div>
 
       {/* RECTORS */}
-      <div>
+      <div id="her-rectors" style={{scrollMarginTop:'3.5rem'}}>
         <div className="div-row">
           <span className="lbl">РЕКТОРИ · ВЕРИФІКОВАНІ ДАНІ</span>
           <div className="div-line"></div>
@@ -370,7 +405,7 @@ const HeritagePage = ({ onNavigate }) => {
       </div>
 
       {/* SCIENTIFIC SCHOOLS */}
-      <div>
+      <div id="her-science" style={{scrollMarginTop:'3.5rem'}}>
         <div className="div-row">
           <span className="lbl">НАУКОВІ ШКОЛИ · ІНТЕЛЕКТУАЛЬНЕ ЯДРО</span>
           <div className="div-line"></div>
@@ -424,7 +459,7 @@ const HeritagePage = ({ onNavigate }) => {
       </div>
 
       {/* FAMOUS ALUMNI */}
-      <div>
+      <div id="her-alumni" style={{scrollMarginTop:'3.5rem'}}>
         <div className="div-row">
           <span className="lbl">ЗНАМЕНИТІ ВИПУСКНИКИ · ВЕРИФІКОВАНІ ОСОБИ</span>
           <div className="div-line"></div>

@@ -2,7 +2,7 @@
 const VALID_PAGES = new Set([
   'overview','heritage','campus','building','labs','simulation','achievements',
   'archive','certs','war','people','future','library','applicant','studentlife',
-  'map','timecapsule','eras','voices','science','international','departments','admin','panneau'
+  'map','timecapsule','eras','voices','science','international','departments','admin','panneau','gallery'
 ]);
 
 const getHashPage = () => {
@@ -103,6 +103,7 @@ const App = () => {
     departments:  DepartmentsPage,
     admin:        AdminPage,
     panneau:      HeritageDonntuPage,
+    gallery:      GalleryPage,
   };
   const P = PM[page] || OverviewPage;
   const pageProps = { onNavigate: nav };

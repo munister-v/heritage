@@ -21,6 +21,7 @@ const PAGES = [
   { id:'science',      n:'20', ua:'Наука' },
   { id:'international',n:'21', ua:'Міжнародне' },
   { id:'departments',  n:'22', ua:'Кафедри',       core:true },
+  { id:'gallery',      n:'24', ua:'Галерея',        core:true },
   { id:'panneau',      n:'23', ua:'Панно',         core:true },
 ];
 
@@ -28,10 +29,10 @@ const PAGES = [
 const TopBar = ({ cur, nav, copyLink, copied }) => {
   const NAV_LINKS = [
     { id:’heritage’,  ua:’Спадщина’ },
+    { id:’gallery’,   ua:’Галерея’ },
     { id:’people’,    ua:’Люди’ },
     { id:’war’,       ua:"Пам’ять" },
     { id:’voices’,    ua:’Голоси’ },
-    { id:’archive’,   ua:’Архів’ },
     { id:’panneau’,   ua:’Панно’ },
   ];
 
@@ -234,4 +235,58 @@ const LazyImg = ({ src, alt, style, className, fallbackText }) => {
   );
 };
 
-Object.assign(window, { PAGES, Shell, Inst, Badge, Bar, PDots, Stat, Modal, LazyImg });
+/* ── SectionNav — sticky in-page anchor links ── */
+/* Usage: <SectionNav sections={[{id:'overview', label:'Огляд'}, ...]} /> */
+const SectionNav = ({ sections, style }) => {
+  const [active, setActive] = React.useState(sections[0]?.id);
+
+  React.useEffect(() => {
+    if (!sections.length) return;
+    const obs = new IntersectionObserver(
+      entries => entries.forEach(e => { if (e.isIntersecting) setActive(e.target.id); }),
+      { rootMargin: '-20% 0px -70% 0px', threshold: 0 }
+    );
+    sections.forEach(s => {
+      const el = document.getElementById(s.id);
+      if (el) obs.observe(el);
+    });
+    return () => obs.disconnect();
+  }, [sections.map(s => s.id).join(',')]);
+
+  const scroll = (id) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  return (
+    <div style={{
+      display: 'flex', flexWrap: 'wrap', gap: '0.35rem',
+      marginBottom: '1.5rem',
+      padding: '0.6rem 0',
+      borderBottom: '1px solid var(--b1)',
+      position: 'sticky', top: 0, zIndex: 10,
+      background: 'var(--bg)',
+      backdropFilter: 'blur(8px)',
+      ...style,
+    }}>
+      {sections.map(s => (
+        <button
+          key={s.id}
+          onClick={() => scroll(s.id)}
+          style={{
+            fontFamily: 'var(--mono)', fontSize: '0.5rem', letterSpacing: '0.07em',
+            background: active === s.id ? 'rgba(196,132,58,0.1)' : 'none',
+            border: '1px solid ' + (active === s.id ? 'var(--amber)' : 'var(--b2)'),
+            color: active === s.id ? 'var(--amber)' : 'var(--t3)',
+            padding: '0.25rem 0.6rem', borderRadius: '2px', cursor: 'pointer',
+            transition: 'all 0.15s',
+          }}
+        >
+          {s.label}
+        </button>
+      ))}
+    </div>
+  );
+};
+
+Object.assign(window, { PAGES, Shell, Inst, Badge, Bar, PDots, Stat, Modal, LazyImg, SectionNav });
