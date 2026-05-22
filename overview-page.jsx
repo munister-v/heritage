@@ -213,11 +213,11 @@ const DEFAULT_SPEAKERS = [
 
 const DEFAULT_FOCUS = [
   { n:'Розділ 1', title:'Сторічна історія: від технікуму до університету', page:'heritage' },
-  { n:'Розділ 2', title:'Люди, що визначили обличчя ДонНТУ',               page:'people' },
-  { n:'Розділ 3', title:'Цифровий архів: документи та фотографії',         page:'archive' },
-  { n:'Розділ 4', title:"Війна, евакуація та незламна пам'ять",            page:'war' },
-  { n:'Розділ 5', title:'Голоси випускників і викладачів',                  page:'voices' },
-  { n:'Розділ 6', title:'Інтерактивне панно «Історія ДонНТУ»',             page:'panneau' },
+  { n:'Розділ 2', title:'Цифровий архів: документи та фотографії',         page:'archive' },
+  { n:'Розділ 3', title:'Інтерактивне панно «Історія ДонНТУ»',             page:'panneau' },
+  { n:'Розділ 4', title:'Кампус і будівлі університету',                   page:'campus' },
+  { n:'Розділ 5', title:'Наукові досягнення та видатні випускники',         page:'achievements' },
+  { n:'Розділ 6', title:'Майбутнє університету',                           page:'future' },
 ];
 
 const DEFAULT_VIDEOS = [
@@ -456,10 +456,10 @@ const OverviewPage = ({ onNavigate }) => {
 
       {/* ══ Section tabs ══ */}
       <div className="wuf-section-tabs">
-        <button className="wuf-section-tab" onClick={() => onNavigate('people')}>Люди</button>
         <button className="wuf-section-tab" onClick={() => onNavigate('heritage')}>Хронологія</button>
         <button className="wuf-section-tab" onClick={() => onNavigate('panneau')}>Панно</button>
-        <button className="wuf-section-tab" onClick={() => onNavigate('voices')}>Голоси</button>
+        <button className="wuf-section-tab" onClick={() => onNavigate('archive')}>Архів</button>
+        <button className="wuf-section-tab" onClick={() => onNavigate('achievements')}>Досягнення</button>
       </div>
 
       {/* ══ THEME ══ */}
@@ -785,16 +785,16 @@ const OverviewPage = ({ onNavigate }) => {
             </div>
             {[
               { heading:'РОЗДІЛИ', links:[
-                { l:'Спадщина', p:'heritage'   }, { l:'Люди',     p:'people'   },
-                { l:'Архів',    p:'archive'    }, { l:'Панно',    p:'panneau'  }, { l:'Голоси',  p:'voices' },
+                { l:'Спадщина', p:'heritage' }, { l:'Архів',  p:'archive'  },
+                { l:'Панно',    p:'panneau'  }, { l:'Кампус', p:'campus'   },
               ]},
               { heading:'НАВЧАННЯ', links:[
-                { l:'Абітурієнту', p:'applicant' }, { l:'Кафедри',  p:'departments' },
-                { l:'Наука',       p:'science'    }, { l:'Бібліотека', p:'library' },
+                { l:'Абітурієнту', p:'applicant' }, { l:'Кафедри',    p:'departments' },
+                { l:'Наука',       p:'science'    }, { l:'Бібліотека', p:'library'     },
               ]},
-              { heading:"ПАМ'ЯТЬ", links:[
-                { l:'Війна', p:'war' }, { l:'Карта', p:'map' },
-                { l:'Часова капсула', p:'timecapsule' }, { l:'Майбутнє', p:'future' },
+              { heading:'УНІВЕРСИТЕТ', links:[
+                { l:'Карта', p:'map' }, { l:'Часова капсула', p:'timecapsule' },
+                { l:'Досягнення', p:'achievements' }, { l:'Майбутнє', p:'future' },
               ]},
             ].map((col, i) => (
               <div key={i}>

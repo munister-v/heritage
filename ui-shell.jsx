@@ -8,8 +8,6 @@ const PAGES = [
   { id:'achievements', n:'07', ua:'Досягнення',   core:true },
   { id:'archive',      n:'08', ua:'Архів' },
   { id:'certs',        n:'09', ua:'Сертифікати',  core:true },
-  { id:'war',          n:'10', ua:'Війна',        core:true },
-  { id:'people',       n:'11', ua:'Люди' },
   { id:'future',       n:'12', ua:'Майбутнє',     core:true },
   { id:'library',      n:'13', ua:'Бібліотека' },
   { id:'applicant',    n:'14', ua:'Абітурієнту',  core:true },
@@ -17,11 +15,9 @@ const PAGES = [
   { id:'map',          n:'16', ua:'Мапа',         core:true },
   { id:'timecapsule',  n:'17', ua:'Часова капсула' },
   { id:'eras',         n:'18', ua:'Порівняння епох' },
-  { id:'voices',       n:'19', ua:'Голоси',        core:true },
   { id:'science',      n:'20', ua:'Наука' },
   { id:'international',n:'21', ua:'Міжнародне' },
   { id:'departments',  n:'22', ua:'Кафедри',       core:true },
-  { id:'gallery',      n:'24', ua:'Галерея',        core:true },
   { id:'panneau',      n:'23', ua:'Панно',         core:true },
 ];
 
@@ -29,18 +25,38 @@ const PAGES = [
 const TopBar = ({ cur, nav, copyLink, copied }) => {
   const NAV_LINKS = [
     { id:'heritage',  ua:'Спадщина' },
-    { id:'gallery',   ua:'Галерея' },
-    { id:'people',    ua:'Люди' },
-    { id:'war',       ua:"Пам'ять" },
-    { id:'voices',    ua:'Голоси' },
     { id:'panneau',   ua:'Панно' },
+  ];
+
+  const MOBILE_MENU_LINKS = [
+    { id:'overview',     ua:'Огляд' },
+    { id:'heritage',     ua:'Спадщина' },
+    { id:'campus',       ua:'Кампус' },
+    { id:'building',     ua:'Корпус' },
+    { id:'labs',         ua:'Лабораторії' },
+    { id:'achievements', ua:'Досягнення' },
+    { id:'archive',      ua:'Архів' },
+    { id:'certs',        ua:'Сертифікати' },
+    { id:'future',       ua:'Майбутнє' },
+    { id:'library',      ua:'Бібліотека' },
+    { id:'applicant',    ua:'Абітурієнту' },
+    { id:'studentlife',  ua:'Студентське життя' },
+    { id:'map',          ua:'Мапа' },
+    { id:'timecapsule',  ua:'Часова капсула' },
+    { id:'eras',         ua:'Порівняння епох' },
+    { id:'science',      ua:'Наука' },
+    { id:'international',ua:'Міжнародне' },
+    { id:'departments',  ua:'Кафедри' },
+    { id:'panneau',      ua:'Панно' },
   ];
 
   const [logoClicks, setLogoClicks] = React.useState(0);
   const logoClickRef = React.useRef(null);
+  const [menuOpen, setMenuOpen] = React.useState(false);
 
   const handleLogoClick = () => {
     nav('overview');
+    setMenuOpen(false);
     setLogoClicks(n => {
       const next = n + 1;
       clearTimeout(logoClickRef.current);
@@ -48,6 +64,11 @@ const TopBar = ({ cur, nav, copyLink, copied }) => {
       logoClickRef.current = setTimeout(() => setLogoClicks(0), 3000);
       return next;
     });
+  };
+
+  const handleNav = (id) => {
+    nav(id);
+    setMenuOpen(false);
   };
 
   return (
@@ -61,13 +82,13 @@ const TopBar = ({ cur, nav, copyLink, copied }) => {
         </div>
       </div>
 
-      {/* Nav links */}
+      {/* Nav links (desktop) */}
       <nav className="wuf-nav-links">
         {NAV_LINKS.map(l => (
           <button
             key={l.id}
             className={`wuf-nav-link ${cur === l.id ? 'act' : ''}`}
-            onClick={() => nav(l.id)}
+            onClick={() => handleNav(l.id)}
           >
             {l.ua}
           </button>
@@ -79,36 +100,42 @@ const TopBar = ({ cur, nav, copyLink, copied }) => {
         {/* Anchor copy button */}
         {cur && cur !== 'cert' && copyLink && (
           <button
+            className="wuf-nav-copy"
             onClick={() => copyLink(cur)}
             title={'Скопіювати посилання: #' + cur}
-            style={{
-              fontFamily:'var(--mono)', fontSize:'0.5rem', letterSpacing:'0.07em',
-              background:'none',
-              border:'1px solid ' + (copied ? 'var(--sage)' : 'var(--b2)'),
-              cursor:'pointer',
-              padding:'0.25rem 0.6rem', borderRadius:'2px',
-              color: copied ? 'var(--sage)' : 'var(--t3)',
-              display:'flex', alignItems:'center', gap:'0.3rem',
-              transition:'color 0.2s, border-color 0.2s',
-              whiteSpace:'nowrap',
-            }}
           >
-            <span style={{fontSize:'0.7rem'}}>{copied ? '✓' : '⎘'}</span>
+            <span>{copied ? '✓' : '⎘'}</span>
             <span style={{color: copied ? 'var(--sage)' : 'var(--amber)', opacity: copied ? 1 : 0.8}}>#</span>
             <span>{cur}</span>
           </button>
         )}
-        <button className="btn btn-g wuf-nav-btn" onClick={() => nav('panneau')}>
+        <button className="btn btn-g wuf-nav-btn" onClick={() => handleNav('panneau')}>
           ВІДКРИТИ ПАННО →
         </button>
+        {/* Burger button (mobile only) */}
         <button
-          className="wuf-nav-more"
-          onClick={() => nav('overview')}
-          title="Усі розділи"
+          className={`wuf-nav-burger ${menuOpen ? 'open' : ''}`}
+          onClick={() => setMenuOpen(o => !o)}
+          aria-label="Меню"
         >
-          ☰
+          <span/><span/><span/>
         </button>
       </div>
+
+      {/* Mobile dropdown menu */}
+      {menuOpen && (
+        <div className="wuf-mobile-menu" onClick={() => setMenuOpen(false)}>
+          {MOBILE_MENU_LINKS.map(l => (
+            <button
+              key={l.id}
+              className={`wuf-mobile-link ${cur === l.id ? 'act' : ''}`}
+              onClick={(e) => { e.stopPropagation(); handleNav(l.id); }}
+            >
+              {l.ua}
+            </button>
+          ))}
+        </div>
+      )}
     </header>
   );
 };

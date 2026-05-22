@@ -1,8 +1,8 @@
 /* Main App v7 — clean query-param routing (?p=heritage), backwards-compatible with old #heritage */
 const VALID_PAGES = new Set([
   'overview','heritage','campus','building','labs','simulation','achievements',
-  'archive','certs','war','people','future','library','applicant','studentlife',
-  'map','timecapsule','eras','voices','science','international','departments','admin','panneau','gallery'
+  'archive','certs','future','library','applicant','studentlife',
+  'map','timecapsule','eras','science','international','departments','admin','panneau'
 ]);
 
 const getRoutedPage = () => {
@@ -107,8 +107,6 @@ const App = () => {
     assessment:   AssessmentPage,
     archive:      ArchivePage,
     certs:        CertsListPage,
-    war:          WarPage,
-    people:       PeoplePage,
     future:       FuturePage,
     library:      LibraryPage,
     applicant:    ApplicantPage,
@@ -116,13 +114,11 @@ const App = () => {
     map:          MapPage,
     timecapsule:  TimeCapsulePage,
     eras:         ErasPage,
-    voices:       VoicesPage,
     science:      SciencePage,
     international:InternationalPage,
     departments:  DepartmentsPage,
     admin:        AdminPage,
     panneau:      HeritageDonntuPage,
-    gallery:      GalleryPage,
   };
   const P = PM[page] || OverviewPage;
   const pageProps = { onNavigate: nav };
