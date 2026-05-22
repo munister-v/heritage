@@ -25,14 +25,14 @@ const PAGES = [
 ];
 
 /* WUF13-style top navbar — logo · nav links · CTA */
-const TopBar = ({ cur, nav }) => {
+const TopBar = ({ cur, nav, copyLink, copied }) => {
   const NAV_LINKS = [
-    { id:'heritage',  ua:'Спадщина' },
-    { id:'people',    ua:'Люди' },
-    { id:'war',       ua:"Пам’ять" },
-    { id:'voices',    ua:'Голоси' },
-    { id:'archive',   ua:'Архів' },
-    { id:'panneau',   ua:'Панно' },
+    { id:’heritage’,  ua:’Спадщина’ },
+    { id:’people’,    ua:’Люди’ },
+    { id:’war’,       ua:"Пам’ять" },
+    { id:’voices’,    ua:’Голоси’ },
+    { id:’archive’,   ua:’Архів’ },
+    { id:’panneau’,   ua:’Панно’ },
   ];
 
   const [logoClicks, setLogoClicks] = React.useState(0);
@@ -75,6 +75,28 @@ const TopBar = ({ cur, nav }) => {
 
       {/* CTA */}
       <div className="wuf-nav-cta">
+        {/* Anchor copy button */}
+        {cur && cur !== 'cert' && copyLink && (
+          <button
+            onClick={() => copyLink(cur)}
+            title={'Скопіювати посилання: #' + cur}
+            style={{
+              fontFamily:'var(--mono)', fontSize:'0.5rem', letterSpacing:'0.07em',
+              background:'none',
+              border:'1px solid ' + (copied ? 'var(--sage)' : 'var(--b2)'),
+              cursor:'pointer',
+              padding:'0.25rem 0.6rem', borderRadius:'2px',
+              color: copied ? 'var(--sage)' : 'var(--t3)',
+              display:'flex', alignItems:'center', gap:'0.3rem',
+              transition:'color 0.2s, border-color 0.2s',
+              whiteSpace:'nowrap',
+            }}
+          >
+            <span style={{fontSize:'0.7rem'}}>{copied ? '✓' : '⎘'}</span>
+            <span style={{color: copied ? 'var(--sage)' : 'var(--amber)', opacity: copied ? 1 : 0.8}}>#</span>
+            <span>{cur}</span>
+          </button>
+        )}
         <button className="btn btn-g wuf-nav-btn" onClick={() => nav('panneau')}>
           ВІДКРИТИ ПАННО →
         </button>
@@ -91,9 +113,9 @@ const TopBar = ({ cur, nav }) => {
 };
 
 /* Full-width shell — no sidebar, no statusbar */
-const Shell = ({ cur, nav, lang, children }) => (
+const Shell = ({ cur, nav, lang, children, copyLink, copied }) => (
   <div className="shell">
-    <TopBar cur={cur} nav={nav} lang={lang} />
+    <TopBar cur={cur} nav={nav} lang={lang} copyLink={copyLink} copied={copied} />
     <main className="main">{children}</main>
   </div>
 );
