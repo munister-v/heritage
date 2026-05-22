@@ -745,36 +745,19 @@ const OverviewPage = ({ onNavigate }) => {
             <p className="wuf-host-pink-p">{hostPinkP1}</p>
             <p className="wuf-host-pink-p">{hostPinkP2}</p>
           </div>
-          {/* ③ Photo placeholder */}
+          {/* ③ Photo — Вілла Яроша */}
           <div className="wuf-host-photo-box">
             <div className="wuf-host-photo-inner">
-              <div style={{width:'100%',height:'100%',background:'#E8EAF0',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'5rem',color:'#9199AA',fontFamily:'var(--display)',fontWeight:400}}>О</div>
+              <img src="assets/drohobych-villa-yarosh.jpg" alt="Вілла Яроша — пам'ятка архітектури Дрогобича" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} loading="lazy"/>
             </div>
           </div>
-          {/* ④ City photo */}
+          {/* ④ City photo — Вілла Б'янки */}
           <div className="wuf-host-city-photo">
-            <img src={hostPhoto} alt="Карпати поблизу Дрогобича" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} loading="lazy"/>
+            <img src="assets/drohobych-168.jpg" alt="Вілла Б'янки (Палац мистецтв) — вул. Шевченка, 38" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} loading="lazy"/>
           </div>
-          {/* ⑤ Illustration */}
+          {/* ⑤ City panorama — Ратуша */}
           <div className="wuf-host-illustration">
-            <svg viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg" style={{width:'100%',height:'100%'}}>
-              <rect width="300" height="300" fill="#6BC8E5"/>
-              <circle cx="240" cy="60" r="38" fill="#F5D248" stroke="#000" strokeWidth="2"/>
-              <rect x="0" y="200" width="300" height="100" fill="#5FB85F"/>
-              <rect x="90" y="100" width="120" height="110" fill="#F08D3F" stroke="#000" strokeWidth="2.5"/>
-              <polygon points="90,100 150,55 210,100" fill="#C0392B" stroke="#000" strokeWidth="2.5"/>
-              {[115,155,195].map((x,i)=>[120,150,178].map((y,j)=>(
-                <rect key={i*3+j} x={x} y={y} width="16" height="18" fill="#6BC8E5" stroke="#000" strokeWidth="1.5"/>
-              )))}
-              <rect x="10" y="160" width="60" height="50" fill="#E84A6A" stroke="#000" strokeWidth="2"/>
-              <polygon points="10,160 40,130 70,160" fill="#9B59B6" stroke="#000" strokeWidth="2"/>
-              <rect x="235" y="130" width="45" height="80" fill="#005ab8" stroke="#000" strokeWidth="2"/>
-              <polygon points="235,130 257,95 280,130" fill="#2ECC71" stroke="#000" strokeWidth="2"/>
-              <rect x="78" y="210" width="8" height="30" fill="#7A4A2F"/>
-              <ellipse cx="82" cy="200" rx="18" ry="22" fill="#27AE60" stroke="#000" strokeWidth="1.5"/>
-              <rect x="215" y="215" width="8" height="25" fill="#7A4A2F"/>
-              <ellipse cx="219" cy="206" rx="16" ry="20" fill="#27AE60" stroke="#000" strokeWidth="1.5"/>
-            </svg>
+            <img src="assets/drohobych-panorama.jpg" alt="Дрогобицька Ратуша — символ міста" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} loading="lazy"/>
           </div>
           {/* ⑥ Quote */}
           <div className="wuf-host-quote">
