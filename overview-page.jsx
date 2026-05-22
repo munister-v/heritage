@@ -107,7 +107,7 @@ const HeroDecoCol = ({ items }) => (
 
 /* ── Content store helpers ────────────────────────────────────── */
 const CONTENT_KEY = 'donntu_content';
-const PEOPLE_IMAGE_VERSION = '20260522-hires';
+const PEOPLE_IMAGE_VERSION = '20260522-restored';
 
 const DEFAULT_NEWS = [
   { date:'19 травня 2026', title:'Представники ДонНТУ взяли участь у роботі журі фестивалю робототехніки «Inno Tech»', img:'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=900&h=560&fit=crop' },
@@ -552,7 +552,7 @@ const OverviewPage = ({ onNavigate }) => {
             <article key={i} className="wuf-person">
               <div className="wuf-person-img">
                 {s.img
-                  ? <img src={personImg(s.img)} alt={s.name} loading="lazy" decoding="async"/>
+                  ? <img src={personImg(s.img)} alt={s.name} loading={i < 8 ? 'eager' : 'lazy'} decoding="async"/>
                   : <div className="wuf-person-img-fb">{s.name.charAt(0)}</div>
                 }
               </div>
