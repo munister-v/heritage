@@ -1,14 +1,17 @@
-/* Gallery Page v3 — fixed thumbnails (Wikimedia standard sizes), fully responsive */
-/* Три ери: Донецьк 2005-2014 · Покровськ 2014-2022 · Переміщення 2022+ */
+/* Gallery Page — локальний фотоархів без зовнішніх thumbnail-залежностей */
 
-const WM  = 'https://upload.wikimedia.org/wikipedia/commons';
-/* Wikimedia дозволяє лише стандартні розміри thumb (320/640/800/1024/1280/1600).
-   Не всі генеруються наперед — 1280 працює для всіх. */
-const WMthumb = (path, size = 1280) => {
-  const fname = path.split('/').pop();
-  return `${WM}/thumb/${path}/${size}px-${fname}`;
-};
-const DNU = 'https://donntu.edu.ua/wp-content/uploads';
+const GALLERY_IMAGE_VERSION = '20260522-gallery2026';
+const localPhoto = path => `${path}?v=${GALLERY_IMAGE_VERSION}`;
+const galleryPhoto = (path, data) => ({
+  src: localPhoto(path),
+  thumb: localPhoto(path),
+  ...data,
+});
+const portraitPhoto = (path, data) => galleryPhoto(path, {
+  portrait: true,
+  objectPosition: 'center top',
+  ...data,
+});
 
 /* ─── ЕРИ ─── */
 const ERAS = [
@@ -17,148 +20,263 @@ const ERAS = [
   { id:'modern',   label:'ЛУЦЬК / ДРОГОБИЧ', period:'2022–',     color:'var(--sage)',  width:13, desc:'гібридний кампус' },
 ];
 
-/* helper для Wikimedia фото */
-const wmPhoto = (path, meta) => ({
-  src:   `${WM}/${path}`,
-  thumb: WMthumb(path, 1280),
-  ...meta,
-});
-
-/* helper для donntu.edu.ua */
-const dnuPhoto = (year, file, meta) => ({
-  src:   `${DNU}/${year}/${file}.jpg`,
-  thumb: `${DNU}/${year}/${file}-250x200.jpg`,
-  year:  String(year).slice(0,4),
-  author:'donntu.edu.ua', license:'© DonNTU',
-  ...meta,
-});
-
 /* ─── СЕКЦІЇ З ФОТО ─── */
 const GALLERY_SECTIONS = [
   /* ════════════ ДОНЕЦЬК ════════════ */
   {
-    id:'campus-main', era:'donetsk',
-    title:'Головний корпус · вул. Артема 58',
-    sub:'Сталінський класицизм 1936–1958 · П-подібна будівля з вежею · ~42 000 м²',
-    photos:[
-      wmPhoto('6/6e/Donetsk-National-Technical-University_Ukraine.jpg', {
-        title:'Головний корпус — вигляд з вул. Артема',
-        year:'2005', author:'Steschke', license:'CC BY-SA 2.0 DE',
-        desc:'Парадний фасад ДонНТУ з вул. Артема. Монументальна колонада, центральна вежа. Архітектурний стиль — соціалістичний класицизм.',
-        wide:true,
+    id: 'donetsk-campus',
+    era: 'donetsk',
+    title: 'Донецький кампус · корпуси і бібліотека',
+    sub: 'Локально збережені фото корпусів ДонНТУ у Донецьку',
+    photos: [
+      galleryPhoto('assets/donetsk-main.jpg', {
+        title: 'Головний корпус ДонНТУ',
+        year: 'архів',
+        author: 'DonNTU Heritage',
+        license: 'локальний архів',
+        desc: 'Один із ключових корпусів університету у донецький період. Фото збережене локально, тому галерея відкривається без зовнішніх серверів.',
+        wide: true,
       }),
-      wmPhoto('5/51/Donetsk_DonNTU_01.jpg', {
-        title:'1-й корпус · зима 2008',
-        year:'2008', author:'Andrew Butko', license:'CC BY-SA 3.0',
-        desc:'Перший корпус — пам\'ятка архітектури України № 14-101-0012. Зйомка 21 лютого 2008 р.',
+      galleryPhoto('assets/donetsk-facade.jpg', {
+        title: 'Фасад навчального корпусу',
+        year: 'архів',
+        author: 'DonNTU Heritage',
+        license: 'локальний архів',
+        desc: 'Вуличний фасад корпусу з історичного кампусу ДонНТУ.',
       }),
-      wmPhoto('2/25/Donetsk_DonNTU_02.jpg', {
-        title:'1-й корпус · боковий фасад',
-        year:'2008', author:'Andrew Butko', license:'CC BY-SA 3.0',
-        desc:'Бічне крило П-подібної будівлі головного корпусу.',
+      galleryPhoto('assets/donetsk-3corp.jpg', {
+        title: 'Третій корпус ДонНТУ',
+        year: 'архів',
+        author: 'DonNTU Heritage',
+        license: 'локальний архів',
+        desc: 'Корпусна архітектура університетського кварталу у Донецьку.',
       }),
-      wmPhoto('5/52/Donetsk_DonNTU_03.jpg', {
-        title:'2-й корпус ДонНТУ',
-        year:'2008', author:'Andrew Butko', license:'CC BY-SA 3.0',
-        desc:'Другий навчальний корпус. Факультети автоматизації та електроенергетики.',
+      galleryPhoto('assets/donetsk-library.jpg', {
+        title: 'Науково-технічна бібліотека',
+        year: 'архів',
+        author: 'DonNTU Heritage',
+        license: 'локальний архів',
+        desc: 'Будівля бібліотеки і пішохідний простір кампусу.',
+        wide: true,
       }),
-    ],
-  },
-  {
-    id:'city-donetsk', era:'donetsk',
-    title:'Донецьк · місто до 2014',
-    sub:'Центр · проспекти · архітектура · понад мільйон мешканців',
-    photos:[
-      wmPhoto('3/32/Lenin_square_in_Donetsk_049.jpg', {
-        title:'Площа Леніна · 2009',
-        year:'2009', author:'Andrew Butko', license:'CC BY-SA 3.0',
-        desc:'Центральна площа Донецька на вул. Артема — тій самій, де ДонНТУ (будинок 58). 500 м від університету.',
-        wide:true,
-      }),
-      wmPhoto('5/59/Donetsk_titova_prospekt.jpg', {
-        title:'Проспект Тітова',
-        year:'~2010', author:'Wikimedia Commons', license:'CC BY-SA',
-        desc:'Один із головних проспектів Донецька. Широкі бульвари, радянська і пострадянська архітектура.',
-      }),
-    ],
-  },
-
-  /* ════════════ ПОКРОВСЬК ════════════ */
-  {
-    id:'pokrovsk-campus', era:'pokrovsk',
-    title:'ДонНТУ у Покровську · корпуси',
-    sub:'Індустріальний інститут · пл. Шибанкова 2 · 2014–2022',
-    photos:[
-      wmPhoto('7/71/DonNTU_%28Pokrovsk%29_2021.jpg', {
-        title:'Головний корпус у Покровську · 2021',
-        year:'2021', author:'Leon II', license:'CC BY-SA 4.0',
-        desc:'Головна будівля ДонНТУ у Покровську — фасад. 31 серпня 2021. Будівля 1959 р. на центральній площі міста.',
-        wide:true,
-      }),
-      wmPhoto('0/0f/II_DonNTU.jpg', {
-        title:'1-й корпус · перші тижні 2014',
-        year:'2014', author:'Sigors', license:'Public domain',
-        desc:'12 листопада 2014. Університет відновив роботу через 2 місяці після евакуації з Донецька. Красноармійський індустріальний інститут.',
-      }),
-      wmPhoto('6/66/Students_of_DonNTU_on_21-03-2017.jpg', {
-        title:'Студенти ДонНТУ з гуртом Антитіла · 2017',
-        year:'21.03.2017', author:'Frikolor', license:'CC BY-SA 4.0',
-        desc:'Зустріч студентів ДонНТУ у Покровську з гуртом Антитіла Тараса Тополі. 21 березня 2017 р.',
-        wide:true,
+      galleryPhoto('assets/donetsk-artyoma.jpg', {
+        title: 'Вулиця Артема біля кампусу',
+        year: 'архів',
+        author: 'DonNTU Heritage',
+        license: 'локальний архів',
+        desc: 'Міський контекст головного корпусу ДонНТУ у центрі Донецька.',
       }),
     ],
   },
   {
-    id:'pokrovsk-students', era:'pokrovsk',
-    title:'Студентське життя · Дебют першокурсника 2019',
-    sub:'Покровськ · 23 листопада 2019 · © donntu.edu.ua',
-    photos:[
-      dnuPhoto(2019, '11/IMG_0398', { title:'Дебют першокурсника 2019',
-        desc:'Щорічний фестиваль талантів «Дебют першокурсника» у Покровську. Традиція, що народилась у Донецьку і продовжилась у вигнанні.' }),
-      dnuPhoto(2019, '11/IMG_0419', { title:'Виступ на сцені',
-        desc:'Студентський концерт у великому залі. Перший рік на новому місці — вже з повноцінною культурною програмою.' }),
-      dnuPhoto(2019, '11/IMG_0464', { title:'Перший курс · таланти й ентузіазм',
-        desc:'Першокурсники демонструють хореографічні та вокальні номери.' }),
-      dnuPhoto(2019, '11/IMG_0477', { title:'Хореографічний номер',
-        desc:'Хореографічний виступ студентів ДонНТУ. Традиція «Дебюту» з 1990-х.' }),
-      dnuPhoto(2019, '11/IMG_0484', { title:'Сцена актового залу',
-        desc:'Актовий зал ДонНТУ у Покровську. Студенти виступають перед товаришами, викладачами, батьками.' }),
-      dnuPhoto(2019, '11/IMG_0501', { title:'Вокальні виступи',
-        desc:'Вокальні номери. ДонНТУ — університет інженерний, зі справжнім мистецьким духом.' }),
-      dnuPhoto(2019, '11/IMG_0525', { title:'Фінальна сцена',
-        desc:'Фінальна частина Дебюту. Університет залишається живим і яскравим.' }),
-      dnuPhoto(2019, '11/IMG_0537', { title:'Публіка та атмосфера',
-        desc:'Повний зал. 2019 рік — університет пустив коріння у Покровську.' }),
-      dnuPhoto(2019, '11/IMG_0544', { title:'Костюмований номер',
-        desc:'Костюмовані виступи першокурсників — кожен факультет показує своє.' }),
-      dnuPhoto(2019, '11/IMG_0569', { title:'Нагородження',
-        desc:'Нагородження переможців. Журі оцінювало хореографію, вокал, акторську майстерність.' }),
-      dnuPhoto(2019, '11/IMG_0570', { title:'Переможці Дебют 2019',
-        desc:'Переможці Дебюту 2019. Університет виховує не лише інженерів, а й людей.', wide:true }),
-      dnuPhoto(2019, '11/IMG_0582', { title:'Спільне фото · учасники і журі',
-        desc:'Групове фото учасників та організаторів. Ці люди — обличчя ДонНТУ поза Донецьком.' }),
+    id: 'pokrovsk',
+    era: 'pokrovsk',
+    title: 'Покровськ · переміщення і руйнування',
+    sub: 'Перший кампус після евакуації та документування втрат',
+    photos: [
+      galleryPhoto('assets/pokrovsk-main.jpg', {
+        title: 'ДонНТУ у Покровську',
+        year: '2014–2022',
+        author: 'DonNTU Heritage',
+        license: 'локальний архів',
+        desc: 'Навчальний корпус університету у період першого переміщення.',
+        wide: true,
+      }),
+      galleryPhoto('assets/pokrovsk-war-2023.jpg', {
+        title: 'Пошкодження корпусу · 2023',
+        year: '2023',
+        author: 'Національна поліція України / архів',
+        license: 'архів',
+        desc: 'Фіксація пошкоджень університетської інфраструктури під час війни.',
+      }),
+      galleryPhoto('assets/pokrovsk-war-2024.jpg', {
+        title: 'Наслідки ракетного удару · 2024',
+        year: '2024',
+        author: 'Національна поліція України / архів',
+        license: 'архів',
+        desc: 'Фото руйнувань після удару по корпусах ДонНТУ у Покровську.',
+      }),
+      galleryPhoto('assets/pokrovsk-war-3corp.jpg', {
+        title: 'Третій корпус після обстрілів',
+        year: '2024',
+        author: 'DonNTU Heritage',
+        license: 'локальний архів',
+        desc: 'Документування стану університетських будівель після атак.',
+        wide: true,
+      }),
     ],
   },
   {
-    id:'pokrovsk-city', era:'pokrovsk',
-    title:'Покровськ · місто до війни',
-    sub:'Раніше Красноармійськ · Донецька обл. · ~60 000 мешканців',
-    photos:[
-      wmPhoto('0/06/Chervonoarmijsk_city_center_%283%29.JPG', {
-        title:'Центр Красноармійська (Покровська) · 2012',
-        year:'2012', author:'Wikimedia Commons', license:'CC BY-SA',
-        desc:'Центр міста влітку 2012. Сюди переїде ДонНТУ через 2 роки. Промисловий центр Донеччини.',
-        wide:true,
+    id: 'digital-2026',
+    era: 'modern',
+    title: '2026 · цифровий портал і нова візуальна система',
+    sub: 'Свіжі матеріали з травня 2026: інтерфейси, панелі, архівні екрани',
+    photos: [
+      galleryPhoto('uploads/photo_2026-05-17_10-02-27.jpg', {
+        title: 'DonNTU OS · стартовий екран',
+        year: '2026',
+        author: 'DonNTU Heritage',
+        license: 'локальний архів',
+        desc: 'Початковий екран цифрової спадщини ДонНТУ.',
+        wide: true,
       }),
-      wmPhoto('2/2e/Krasnoarmeysk5.jpg', {
-        title:'В\'їзд до Красноармійська · 2009',
-        year:'2009', author:'Aleksandr Sidorchenko', license:'CC BY 3.0',
-        desc:'В\'їзд до міста, 2009 рік. Невеличке промислове місто, де відкриється новий кампус ДонНТУ в 2014.',
+      galleryPhoto('uploads/photo_2026-05-17_10-02-28%20(2).jpg', {
+        title: 'Мапа памʼяті та вузли архіву',
+        year: '2026',
+        author: 'DonNTU Heritage',
+        license: 'локальний архів',
+        desc: 'Темна карта звʼязків між подіями, корпусами й людьми університету.',
       }),
-      wmPhoto('b/b2/Triple-arch_ww2-manument_pokrvosk_ukraine2.jpg', {
-        title:'Меморіал Другої світової · 2020',
-        year:'2020', author:'Wikimedia Commons', license:'CC BY-SA 4.0',
-        desc:'Тріумфальна арка — меморіал Другої світової на південній окраїні Покровська. 14 жовтня 2020. Через 2 роки місто знову стане прифронтовим.',
+      galleryPhoto('uploads/photo_2026-05-17_10-02-28.jpg', {
+        title: 'Персональний кабінет студента',
+        year: '2026',
+        author: 'DonNTU Heritage',
+        license: 'локальний архів',
+        desc: 'Огляд навчального прогресу, подій і кампусного життя у цифровому середовищі.',
+        wide: true,
+      }),
+      galleryPhoto('uploads/photo_2026-05-17_10-02-29.jpg', {
+        title: 'Архівні картки і корпуси',
+        year: '2026',
+        author: 'DonNTU Heritage',
+        license: 'локальний архів',
+        desc: 'Сторінка памʼяті з матеріалами про корпуси, документи й переміщення.',
+      }),
+      galleryPhoto('uploads/photo_2026-05-17_10-02-30.jpg', {
+        title: 'Аналітична панель лабораторій',
+        year: '2026',
+        author: 'DonNTU Heritage',
+        license: 'локальний архів',
+        desc: 'Симуляційний екран з показниками й траєкторіями навчального сценарію.',
+        wide: true,
+      }),
+      galleryPhoto('uploads/photo_2026-05-17_10-02-31.jpg', {
+        title: 'Сертифікаційний екран',
+        year: '2026',
+        author: 'DonNTU Heritage',
+        license: 'локальний архів',
+        desc: 'Модуль оцінювання та сертифікатів у цифровому кампусі.',
+      }),
+      galleryPhoto('uploads/photo_2026-05-17_10-02-32.jpg', {
+        title: 'Donbas Recovery Lab',
+        year: '2026',
+        author: 'DonNTU Heritage',
+        license: 'локальний архів',
+        desc: 'Сторінка лабораторії відновлення Донбасу з освітніми напрямами.',
+      }),
+      galleryPhoto('uploads/photo_2026-05-17_10-02-33.jpg', {
+        title: 'План аудиторій і кімнат',
+        year: '2026',
+        author: 'DonNTU Heritage',
+        license: 'локальний архів',
+        desc: 'Інтерфейс навігації по аудиторіях цифрового простору.',
+      }),
+      galleryPhoto('uploads/chatgpt-render.png', {
+        title: 'Візуальна метафора цифрової памʼяті',
+        year: '2026',
+        author: 'DonNTU Heritage',
+        license: 'локальний архів',
+        desc: 'Атмосферне зображення для розділів про памʼять, майбутнє і нічний режим порталу.',
+        wide: true,
+      }),
+    ],
+  },
+  {
+    id: 'people',
+    era: 'modern',
+    title: 'Видатні випускники · портретний архів',
+    sub: 'Портрети людей, які формували інженерну, освітню і культурну історію ДонНТУ',
+    photos: [
+      portraitPhoto('assets/shylenko.jpg', {
+        title: 'Денис Шиленко · ректор ДонНТУ',
+        year: '2024–2026',
+        author: 'DonNTU Heritage',
+        license: 'локальний архів',
+        desc: 'Ректор періоду другого переміщення та відновлення університету у Дрогобичі.',
+      }),
+      portraitPhoto('assets/people/solovyanenko.jpg', {
+        title: 'Анатолій Соловʼяненко',
+        year: '1932–1999',
+        author: 'архів',
+        license: 'локальний архів',
+        desc: 'Оперний співак, Народний артист СРСР, випускник ДонНТУ.',
+      }),
+      portraitPhoto('assets/people/minaev.jpg', {
+        title: 'Олександр Мінаєв',
+        year: 'випуск 1964',
+        author: 'архів',
+        license: 'локальний архів',
+        desc: 'Ректор ДонНТУ у 1989–2014 роках, Герой України.',
+      }),
+      portraitPhoto('assets/people/baranov.jpg', {
+        title: 'Юрій Баранов',
+        year: 'випуск 1960',
+        author: 'архів',
+        license: 'локальний архів',
+        desc: 'Інженер-гірник і керівник вугільних підприємств Донбасу.',
+      }),
+      portraitPhoto('assets/people/gryadushchyi.jpg', {
+        title: 'Борис Грядущий',
+        year: 'випуск 1956',
+        author: 'архів',
+        license: 'локальний архів',
+        desc: 'Інженер-електромеханік, фахівець з електрифікації гірничих робіт.',
+      }),
+      portraitPhoto('assets/people/konovalov.jpg', {
+        title: 'Володимир Коновалов',
+        year: '1911–1967',
+        author: 'архів',
+        license: 'локальний архів',
+        desc: 'Командир підводного човна, Герой Радянського Союзу, слухач підготовчих курсів ДГТ.',
+      }),
+      portraitPhoto('assets/people/bogdanov.jpg', {
+        title: 'Олександр Богданов',
+        year: 'випуск 1981',
+        author: 'архів',
+        license: 'локальний архів',
+        desc: 'Інженер-механік, керівник вугільної галузі, Герой України.',
+      }),
+      portraitPhoto('assets/people/bilobrov.jpg', {
+        title: 'Юрій Білобров',
+        year: 'випуск 1965',
+        author: 'архів',
+        license: 'локальний архів',
+        desc: 'Інженер-механік, керівник машинобудівних підприємств.',
+      }),
+      portraitPhoto('assets/people/surgay.jpg', {
+        title: 'Микола Сургай',
+        year: 'випуск 1959',
+        author: 'архів',
+        license: 'локальний архів',
+        desc: 'Інженер-гірник, керівник вугільної галузі, Герой України.',
+      }),
+      portraitPhoto('assets/people/kalashnykov.jpg', {
+        title: 'Віктор Калашников',
+        year: 'наука · енергетика',
+        author: 'архів',
+        license: 'локальний архів',
+        desc: 'Професор, кандидат технічних наук, лауреат Державної премії України.',
+      }),
+      portraitPhoto('assets/people/tulub.jpg', {
+        title: 'Сергій Тулуб',
+        year: 'випуск 1976',
+        author: 'архів',
+        license: 'локальний архів',
+        desc: 'Інженер-економіст гірничий, керівник профільних структур атомної енергетики.',
+      }),
+      portraitPhoto('assets/people/povazhnyi.jpg', {
+        title: 'Станіслав Поважний',
+        year: 'випуск 1961',
+        author: 'архів',
+        license: 'локальний архів',
+        desc: 'Інженер-електромеханік, освітянин, Герой України.',
+      }),
+      portraitPhoto('assets/people/ryzhenkov.jpg', {
+        title: 'Олександр Риженков',
+        year: 'випуск 1972',
+        author: 'архів',
+        license: 'локальний архів',
+        desc: 'Інженер-металург, керівник металургійних підприємств, Герой України.',
       }),
     ],
   },
@@ -396,7 +514,7 @@ const GalleryCard = ({ photo, onClick, span }) => {
         background:'var(--s1)', borderRadius:'2px',
         border:'1px solid var(--b1)',
         gridColumn: span > 1 ? `span ${span}` : 'auto',
-        aspectRatio: span > 1 ? '21/9' : '4/3',
+        aspectRatio: span > 1 ? '21/9' : (photo.portrait ? '3/4' : '4/3'),
         transition:'border-color 0.2s, transform 0.2s',
       }}
       onMouseEnter={e => { e.currentTarget.style.borderColor = 'var(--amber)'; }}
@@ -426,7 +544,9 @@ const GalleryCard = ({ photo, onClick, span }) => {
         }}
         style={{
           width:'100%', height:'100%',
-          objectFit:'cover', display:'block',
+          objectFit: photo.fit || 'cover',
+          objectPosition: photo.objectPosition || 'center center',
+          display:'block',
           opacity: loaded && !error ? 1 : 0,
           transition:'opacity 0.5s ease',
         }}
@@ -559,7 +679,7 @@ const GalleryPage = ({ onNavigate }) => {
     <div className="page" style={{ paddingLeft: isMobile ? '0.75rem' : undefined, paddingRight: isMobile ? '0.75rem' : undefined }}>
       {/* Header */}
       <div style={{ marginBottom:'1.5rem' }}>
-        <span className="lbl">ФОТОАРХІВ · 2005–2021</span>
+        <span className="lbl">ФОТОГАЛЕРЕЯ · ЛОКАЛЬНИЙ АРХІВ · 2026</span>
         <h2 className="serif" style={{
           fontSize: isMobile ? '1.4rem' : '1.75rem',
           fontWeight:400, marginTop:'0.5rem', lineHeight:1.2,
@@ -573,8 +693,13 @@ const GalleryPage = ({ onNavigate }) => {
           <Stat v={String(totalPhotos)} label="фото" />
           <Stat v={String(GALLERY_SECTIONS.length)} label="розділів" />
           <Stat v="3" label="ери" />
-          {!isMobile && <Stat v="2005–2021" label="часовий діапазон" />}
+          {!isMobile && <Stat v="2026" label="свіжий розділ" />}
         </div>
+        <p className="body" style={{ marginTop: '0.75rem', maxWidth: '52ch', color: 'var(--t2)' }}>
+          Корпуси ДонНТУ, Покровськ, цифровий портал 2026 року та портретний архів
+          випускників тепер відкриваються з локальних файлів сайту. Клікніть на фото
+          для перегляду у повному розмірі та опису.
+        </p>
       </div>
 
       {/* Timeline filter */}
@@ -645,18 +770,12 @@ const GalleryPage = ({ onNavigate }) => {
         border:'1px solid var(--b1)', borderRadius:'2px',
         background:'var(--s1)',
       }}>
-        <span className="lbl" style={{ color:'var(--t3)' }}>АТРИБУЦІЯ · ДЖЕРЕЛА</span>
-        <p style={{
-          fontFamily:'var(--ui)', fontSize:'0.68rem',
-          color:'var(--t3)', margin:'0.5rem 0 0', lineHeight:1.6,
-        }}>
-          Wikimedia Commons (CC BY/CC BY-SA/Public domain):
-          Andrew Butko, Steschke, Sigors, Leon II, Frikolor, Aleksandr Sidorchenko.
-          Студентські фото: <a
-            href="https://donntu.edu.ua/main/debyut-pershokursnika-2019-studenti-donntu-vkotre-vrazili-svo%D1%97mi-chislennimi-talantami.html"
-            target="_blank" rel="noopener noreferrer"
-            style={{ color:'var(--amber)' }}
-          >donntu.edu.ua</a> &copy; ДонНТУ, 2019.
+        <span className="lbl" style={{ color: 'var(--t3)' }}>АТРИБУЦІЯ · ЛОКАЛЬНИЙ ФОТОАРХІВ</span>
+        <p style={{ fontFamily: 'var(--ui)', fontSize: '0.6875rem', color: 'var(--t3)', margin: '0.5rem 0 0', lineHeight: 1.6 }}>
+          Матеріали збережені у локальних папках <code>assets</code> та <code>uploads</code>,
+          тому галерея не залежить від Wikimedia thumbnail-сервера і не показує порожні
+          картки при мережевих збоях. Частина портретів і корпусних фото походить з відкритих
+          архівних джерел, частина — з матеріалів порталу ДонНТУ 2026 року.
         </p>
       </div>
 
