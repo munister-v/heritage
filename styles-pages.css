@@ -590,10 +590,47 @@
 }
 
 /* ══ WAR & UNIVERSITY ══════════════════════════════════════════ */
+/* ── Section strip — full-width opener for WAR / LIBRARY ── */
+.wuf-sec-strip {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem var(--g);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+.wuf-sec-strip--red   { background: #c0392b; }
+.wuf-sec-strip--teal  { background: #1a3a35; border-bottom-color: rgba(78,205,196,0.25); }
+.wuf-sec-strip-num {
+  font-family: var(--mono);
+  font-size: 0.5625rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.5);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.wuf-sec-strip-rule {
+  flex: 1;
+  height: 1px;
+  background: rgba(255,255,255,0.15);
+  min-width: 2rem;
+}
+.wuf-sec-strip-label {
+  font-family: var(--mono);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.85);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+@media (max-width: 640px) {
+  .wuf-sec-strip-label { font-size: 0.5625rem; letter-spacing: 0.08em; }
+}
+
 .wuf-war {
   background: #0a110e;
   padding: 5rem 0 4rem;
-  border-top: 3px solid #c0392b;
 }
 .wuf-war-head {
   padding: 0 var(--g) 3.5rem;

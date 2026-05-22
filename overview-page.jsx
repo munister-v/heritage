@@ -296,180 +296,47 @@ const OverviewPage = ({ onNavigate }) => {
 
   return (
     <div>
-      {/* ══ HERO ══ */}
-      <section className="wuf-hero">
-        {/* Left: stacked title + meta + CTAs */}
-        <div className="wuf-hero-left">
-          <h1 className="wuf-hero-title">
-            {(heroTitle || 'DONNTU').split('\n').map((line, i) => (
-              <span key={i} className="wuf-hero-title-line">{line}</span>
-            ))}
-          </h1>
-          <div className="wuf-hero-meta">
-            {heroDate}
-            {' · '}
-            {heroPlace}
+
+      {/* ══ HOST CITY — Mondrian block ══ */}
+      <section className="wuf-host">
+        <div className="wuf-host-grid">
+          {/* ① Blue */}
+          <div className="wuf-host-blue">
+            <h2 className="wuf-host-blue-h">
+              {hostBlueH.split('\n').map((l,i,a)=>(
+                <React.Fragment key={i}>{l}{i<a.length-1&&<br/>}</React.Fragment>
+              ))}
+            </h2>
+            <p className="wuf-host-blue-p">{hostBlueP1}</p>
+            <p className="wuf-host-blue-p">{hostBlueP2}</p>
           </div>
-          <div className="wuf-hero-btns">
-            <button className="wuf-hero-btn wuf-hero-btn-primary" onClick={() => onNavigate('panneau')}>Відкрити панно →</button>
-            <button className="wuf-hero-btn wuf-hero-btn-outline" onClick={() => onNavigate('heritage')}>Переглянути спадщину</button>
+          {/* ② Pink */}
+          <div className="wuf-host-pink">
+            <p className="wuf-host-pink-p">{hostPinkP1}</p>
+            <p className="wuf-host-pink-p">{hostPinkP2}</p>
           </div>
-        </div>
-
-        {/* Right: botanical decorations + framed cityscape */}
-        <div className="wuf-hero-right">
-          <HeroDecoCol items={['leaf','pill-lg','leaf-sm','pill']}/>
-          <div className="wuf-hero-frame">
-            <CityscapeSVG/>
+          {/* ③ Photo — Вілла Яроша */}
+          <div className="wuf-host-photo-box">
+            <div className="wuf-host-photo-inner">
+              <img src="https://upload.wikimedia.org/wikipedia/commons/1/1a/Casco_hist%C3%B3rico_de_Drogobych.jpg" alt="Історичний центр Дрогобича" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} loading="lazy"/>
+            </div>
           </div>
-          <HeroDecoCol items={['pill','leaf','tree','leaf-sm']}/>
-        </div>
-      </section>
-
-      {/* ══ ABOUT SECTION — WUF-style: text left · logo right ══ */}
-      <section className="wuf-about">
-        {/* Left: heading + lead + body */}
-        <div className="wuf-about-left">
-          <h2 className="wuf-about-h">Донецький національний технічний університет</h2>
-          <p className="wuf-about-lead">
-            ДонНТУ — один із провідних технічних університетів України, що веде свою
-            понад 100-річну місію попри окупацію та переселення.
-          </p>
-          <p className="wuf-about-body">
-            Заснований 30 травня 1921 року як Донецький гірничий технікум — перший технічний заклад
-            Донбасу. За роки існування підготував понад 40 000 інженерів і вчених. З початком
-            повномасштабного вторгнення університет евакуювався до Дрогобича Львівської
-            області і продовжує роботу.
-          </p>
-          <p className="wuf-about-body">
-            Представники університету, викладачі, студенти та випускники з усього світу
-            знайдуть тут цифровий архів, живі спогади та інтерактивні ресурси — де
-            спадщина і сучасність існують поруч, а люди залишаються в центрі кожної
-            сторінки.
-          </p>
-        </div>
-
-        {/* Right: logo + CTA */}
-        <div className="wuf-about-right">
-          {/* Stained-glass DONNTU HERITAGE logo */}
-          <svg className="wuf-about-logo" viewBox="0 0 320 300" xmlns="http://www.w3.org/2000/svg">
-            {/* Speech-bubble hexagonal frame */}
-            <defs>
-              <clipPath id="logoClip">
-                <path d="M40,20 Q40,8 52,8 L268,8 Q280,8 280,20 L280,200 Q280,212 268,212 L190,212 L160,240 L130,212 L52,212 Q40,212 40,200 Z"/>
-              </clipPath>
-            </defs>
-            {/* Background sections (stained glass colors) */}
-            <g clipPath="url(#logoClip)">
-              {/* Sky blue top left */}
-              <polygon points="40,8 160,8 100,80 40,60" fill="#7ecef4"/>
-              {/* Light blue top center */}
-              <polygon points="160,8 280,8 240,70 160,50" fill="#b8dff5"/>
-              {/* Teal left */}
-              <polygon points="40,60 100,80 80,160 40,140" fill="#3dbdaa"/>
-              {/* Red/coral top right */}
-              <polygon points="240,70 280,8 280,100 250,120" fill="#e85555"/>
-              {/* Orange right */}
-              <polygon points="250,120 280,100 280,200 260,180" fill="#f0a030"/>
-              {/* Green bottom left */}
-              <polygon points="40,140 80,160 60,212 40,212" fill="#4caf7d"/>
-              {/* Teal bottom center */}
-              <polygon points="80,160 200,180 180,212 60,212" fill="#2a9d8f"/>
-              {/* Yellow bottom right */}
-              <polygon points="200,180 260,180 280,200 280,212 180,212" fill="#e9c46a"/>
-              {/* Ground / arch area */}
-              <rect x="70" y="150" width="180" height="65" fill="#b8dcc8"/>
-            </g>
-
-            {/* University buildings (stained-glass style) */}
-            <g clipPath="url(#logoClip)">
-              {/* Main clock tower */}
-              <rect x="130" y="55" width="42" height="110" fill="#d4a843" stroke="#111" strokeWidth="2.5"/>
-              {/* Tower top */}
-              <polygon points="130,55 151,30 172,55" fill="#c49030" stroke="#111" strokeWidth="2.5"/>
-              {/* Clock circle */}
-              <circle cx="151" cy="72" r="11" fill="#f5e8c0" stroke="#111" strokeWidth="2"/>
-              <circle cx="151" cy="72" r="2" fill="#111"/>
-              <line x1="151" y1="72" x2="151" y2="64" stroke="#111" strokeWidth="1.5"/>
-              <line x1="151" y1="72" x2="157" y2="72" stroke="#111" strokeWidth="1.5"/>
-              {/* Tower windows */}
-              <rect x="140" y="90" width="8" height="12" fill="#7ecef4" stroke="#111" strokeWidth="1.5"/>
-              <rect x="153" y="90" width="8" height="12" fill="#7ecef4" stroke="#111" strokeWidth="1.5"/>
-              <rect x="140" y="112" width="8" height="12" fill="#7ecef4" stroke="#111" strokeWidth="1.5"/>
-              <rect x="153" y="112" width="8" height="12" fill="#7ecef4" stroke="#111" strokeWidth="1.5"/>
-
-              {/* Left wing building */}
-              <rect x="72" y="95" width="58" height="75" fill="#d4a843" stroke="#111" strokeWidth="2"/>
-              {/* Left building columns arch entrance */}
-              <path d="M88,170 L88,140 Q96,128 104,140 L104,170" fill="#2a6496" stroke="#111" strokeWidth="1.5"/>
-              {/* Left windows */}
-              <rect x="78" y="105" width="12" height="16" fill="#7ecef4" stroke="#111" strokeWidth="1.5"/>
-              <rect x="96" y="105" width="12" height="16" fill="#7ecef4" stroke="#111" strokeWidth="1.5"/>
-              <rect x="114" y="105" width="12" height="16" fill="#7ecef4" stroke="#111" strokeWidth="1.5"/>
-
-              {/* Right wing building */}
-              <rect x="172" y="100" width="60" height="70" fill="#c8a84b" stroke="#111" strokeWidth="2"/>
-              <rect x="178" y="112" width="14" height="18" fill="#7ecef4" stroke="#111" strokeWidth="1.5"/>
-              <rect x="198" y="112" width="14" height="18" fill="#7ecef4" stroke="#111" strokeWidth="1.5"/>
-              <rect x="218" y="112" width="10" height="18" fill="#7ecef4" stroke="#111" strokeWidth="1.5"/>
-
-              {/* Gear element (tech symbol) — bottom left */}
-              <circle cx="92" cy="168" r="22" fill="none" stroke="#2a4a7a" strokeWidth="3"/>
-              <circle cx="92" cy="168" r="14" fill="#1e3a5f" stroke="#2a4a7a" strokeWidth="2"/>
-              {[0,45,90,135,180,225,270,315].map((deg,i) => {
-                const r = deg * Math.PI / 180;
-                const x1 = 92 + 16 * Math.cos(r), y1 = 168 + 16 * Math.sin(r);
-                const x2 = 92 + 22 * Math.cos(r), y2 = 168 + 22 * Math.sin(r);
-                return <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#2a4a7a" strokeWidth="4"/>;
-              })}
-              <circle cx="92" cy="168" r="6" fill="#4a8abf"/>
-
-              {/* Crest/emblem on tower */}
-              <circle cx="151" cy="48" r="7" fill="#8b6914" stroke="#111" strokeWidth="1.5"/>
-            </g>
-
-            {/* Frame border */}
-            <path d="M40,20 Q40,8 52,8 L268,8 Q280,8 280,20 L280,200 Q280,212 268,212 L190,212 L160,240 L130,212 L52,212 Q40,212 40,200 Z"
-              fill="none" stroke="#111" strokeWidth="3.5"/>
-
-            {/* Inner light grid lines (stained glass leads) */}
-            <g stroke="#111" strokeWidth="1.2" opacity="0.5" clipPath="url(#logoClip)">
-              <line x1="40" y1="80" x2="280" y2="80"/>
-              <line x1="40" y1="150" x2="280" y2="150"/>
-              <line x1="130" y1="8" x2="100" y2="212"/>
-              <line x1="190" y1="8" x2="200" y2="212"/>
-            </g>
-          </svg>
-
-          {/* CTA link */}
-          <button className="wuf-about-cta" onClick={() => onNavigate('heritage')}>
-            <span className="wuf-about-cta-text">Explore DONNTU105</span>
-            <span className="wuf-about-cta-line">
-              <svg width="120" height="14" viewBox="0 0 120 14">
-                <line x1="0" y1="7" x2="108" y2="7" stroke="#2d7d6e" strokeWidth="2"/>
-                <polygon points="108,3 120,7 108,11" fill="#2d7d6e"/>
-              </svg>
-            </span>
-          </button>
-        </div>
-      </section>
-
-      {/* ══ Section tabs ══ */}
-      <div className="wuf-section-tabs">
-        <button className="wuf-section-tab" onClick={() => onNavigate('heritage')}>Хронологія</button>
-        <button className="wuf-section-tab" onClick={() => onNavigate('panneau')}>Панно</button>
-        <button className="wuf-section-tab" onClick={() => onNavigate('archive')}>Архів</button>
-        <button className="wuf-section-tab" onClick={() => onNavigate('achievements')}>Досягнення</button>
-      </div>
-
-      {/* ══ THEME ══ */}
-      <section className="wuf-theme">
-        <div className="wuf-theme-inner">
-          <div className="wuf-theme-left">
-            <h2 className="wuf-theme-h">{themeH}</h2>
+          {/* ④ City photo — Вілла Б'янки */}
+          <div className="wuf-host-city-photo">
+            <img src="assets/drohobych-168.jpg" alt="Вілла Б'янки (Палац мистецтв) — вул. Шевченка, 38" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} loading="lazy"/>
           </div>
-          <div className="wuf-theme-right">
-            <div className="wuf-theme-body">{themeBody}</div>
+          {/* ⑤ City panorama — Ратуша */}
+          <div className="wuf-host-illustration">
+            <img src="assets/drohobych-panorama.jpg" alt="Дрогобицька Ратуша — символ міста" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} loading="lazy"/>
+          </div>
+          {/* ⑥ Quote */}
+          <div className="wuf-host-quote">
+            <div className="wuf-host-quote-avatar">
+              <img src="assets/shylenko.jpg" alt="Денис Шиленко" loading="lazy"/>
+            </div>
+            <div className="wuf-host-quote-name">{hostQName}</div>
+            <div className="wuf-host-quote-role">{hostQRole}</div>
+            <blockquote className="wuf-host-quote-text">«{hostQText}»</blockquote>
           </div>
         </div>
       </section>
@@ -537,8 +404,12 @@ const OverviewPage = ({ onNavigate }) => {
 
       {/* ══ WAR & UNIVERSITY ══ */}
       <section className="wuf-war">
+        <div className="wuf-sec-strip wuf-sec-strip--red">
+          <span className="wuf-sec-strip-num">СЕКЦІЯ 03</span>
+          <span className="wuf-sec-strip-rule"/>
+          <span className="wuf-sec-strip-label">ЧОТИРИ АДРЕСИ ОДНОГО УНІВЕРСИТЕТУ</span>
+        </div>
         <div className="wuf-war-head">
-          <span className="wuf-war-label">10 · ВІЙНА ТА УНІВЕРСИТЕТ</span>
           <h2 className="wuf-war-h">Чотири адреси одного університету</h2>
           <p className="wuf-war-lead">
             Від Донецька через Покровськ, Луцьк до Дрогобича — ДонНТУ чотири рази рятував своє ім'я,
@@ -646,6 +517,12 @@ const OverviewPage = ({ onNavigate }) => {
 
       {/* ══ LIBRARY / UNREALIZED DREAM ══ */}
       <section className="wuf-library">
+        {/* Section strip */}
+        <div className="wuf-sec-strip wuf-sec-strip--teal" style={{position:'relative',zIndex:2}}>
+          <span className="wuf-sec-strip-num">СЕКЦІЯ 04</span>
+          <span className="wuf-sec-strip-rule"/>
+          <span className="wuf-sec-strip-label">НТБ ДОННТУ · НАУКОВО-ТЕХНІЧНА БІБЛІОТЕКА</span>
+        </div>
         {/* Full-bleed background photo */}
         <div className="wuf-library-bg">
           <img src="assets/donetsk-library.jpg" alt="НТБ ДонНТУ — будівля бібліотеки у Донецьку" loading="lazy"/>
@@ -710,50 +587,6 @@ const OverviewPage = ({ onNavigate }) => {
               <span className="wuf-arrow-link-arrow">→</span>
             </div>
           </button>
-        </div>
-      </section>
-
-      {/* ══ HOST CITY — Mondrian block ══ */}
-      <section className="wuf-host">
-        <div className="wuf-host-grid">
-          {/* ① Blue */}
-          <div className="wuf-host-blue">
-            <h2 className="wuf-host-blue-h">
-              {hostBlueH.split('\n').map((l,i,a)=>(
-                <React.Fragment key={i}>{l}{i<a.length-1&&<br/>}</React.Fragment>
-              ))}
-            </h2>
-            <p className="wuf-host-blue-p">{hostBlueP1}</p>
-            <p className="wuf-host-blue-p">{hostBlueP2}</p>
-          </div>
-          {/* ② Pink */}
-          <div className="wuf-host-pink">
-            <p className="wuf-host-pink-p">{hostPinkP1}</p>
-            <p className="wuf-host-pink-p">{hostPinkP2}</p>
-          </div>
-          {/* ③ Photo — Вілла Яроша */}
-          <div className="wuf-host-photo-box">
-            <div className="wuf-host-photo-inner">
-              <img src="https://upload.wikimedia.org/wikipedia/commons/1/1a/Casco_hist%C3%B3rico_de_Drogobych.jpg" alt="Історичний центр Дрогобича" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} loading="lazy"/>
-            </div>
-          </div>
-          {/* ④ City photo — Вілла Б'янки */}
-          <div className="wuf-host-city-photo">
-            <img src="assets/drohobych-168.jpg" alt="Вілла Б'янки (Палац мистецтв) — вул. Шевченка, 38" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} loading="lazy"/>
-          </div>
-          {/* ⑤ City panorama — Ратуша */}
-          <div className="wuf-host-illustration">
-            <img src="assets/drohobych-panorama.jpg" alt="Дрогобицька Ратуша — символ міста" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} loading="lazy"/>
-          </div>
-          {/* ⑥ Quote */}
-          <div className="wuf-host-quote">
-            <div className="wuf-host-quote-avatar">
-              <img src="assets/shylenko.jpg" alt="Денис Шиленко" loading="lazy"/>
-            </div>
-            <div className="wuf-host-quote-name">{hostQName}</div>
-            <div className="wuf-host-quote-role">{hostQRole}</div>
-            <blockquote className="wuf-host-quote-text">«{hostQText}»</blockquote>
-          </div>
         </div>
       </section>
 
