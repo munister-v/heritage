@@ -1,451 +1,409 @@
-/* Heritage Page v9 — matches overview Mondrian visual language exactly */
+/* Heritage Page v10 — unified type scale matching wuf-host section 1 exactly */
 
-const HERITAGE_TIMELINE = [
-  { yr: 1921, title: 'Заснування', desc: '30 травня 1921 — відкриття Донецького гірничого технікуму. Перший технічний заклад вищої освіти Донбасу. Місто тоді ще називалося Юзівка.', tag: 'ЗАСНУВАННЯ' },
-  { yr: 1941, title: 'Евакуація I', desc: 'Евакуація до Прокоп\'євська під час нацистської окупації. Інститут не припиняв навчання — готував інженерів для оборонної промисловості.', tag: 'ВІЙНА' },
-  { yr: 1944, title: 'Державна нагорода', desc: 'Орден Трудового Червоного Прапора — перший технічний університет України з цією нагородою.', tag: 'НАГОРОДА' },
-  { yr: 2001, title: 'Національний статус', desc: 'ДонНТУ: 12 факультетів, понад 20 000 студентів, QS-рейтинг 251–300 (Emerging Europe & Central Asia).', tag: 'РОЗКВІТ' },
-  { yr: 2014, title: 'Переміщення I', desc: 'Кампус під окупацією. Університет переміщується до Покровська. Без корпусів — але з людьми і ліцензіями.', tag: 'ПЕРЕМІЩЕННЯ' },
-  { yr: 2022, title: 'Переміщення II', desc: '12 квітня 2022 — переїзд до Луцька. 28 серпня 2024 — відкриття кампусу в Дрогобичі.', tag: 'ПЕРЕМІЩЕННЯ' },
-  { yr: 2026, title: 'Heritage OS', desc: 'DonNTU Heritage OS — цифровий двійник університету. Симуляції, архів, сертифікаційна платформа. Університет існує незалежно від адреси.', tag: 'СЬОГОДНІ' },
+const HERITAGE_TIMELINE_DATA = [
+  { yr: 1921, label: 'ЗАСНУВАННЯ',    title: 'Гірничий технікум у Юзівці',                  body: 'Перший технічний заклад вищої освіти Донбасу. Відкритий 30 травня 1921 року.' },
+  { yr: 1941, label: 'ВІЙНА',         title: "Евакуація до Прокоп'євська",                  body: 'Інститут не припиняв навчання — готував інженерів для оборонної промисловості.' },
+  { yr: 1944, label: 'НАГОРОДА',      title: 'Орден Трудового Червоного Прапора',            body: 'Перший технічний університет України, удостоєний цієї державної нагороди.' },
+  { yr: 2001, label: 'РОЗКВІТ',       title: 'Національний статус',                          body: '12 факультетів, понад 20 000 студентів, QS-рейтинг 251–300 EECA.' },
+  { yr: 2014, label: 'ОКУПАЦІЯ',      title: 'Переміщення до Покровська',                    body: 'Кампус під окупацією. Університет зберіг людей, акредитацію, ліцензії.' },
+  { yr: 2022, label: 'ЕВАКУАЦІЯ II',  title: 'Луцьк → Дрогобич',                            body: '12 квітня 2022 — Луцьк. 28 серпня 2024 — відкриття кампусу в Дрогобичі.' },
+  { yr: 2026, label: 'СЬОГОДНІ',      title: 'Heritage OS',                                  body: 'Цифровий двійник університету. Симуляції, архів, сертифікати.' },
 ];
 
 const FAMOUS_ALUMNI = [
-  { name: 'Микита Хрущов', born: 1894, field: 'Робітничий факультет', title: 'Перший секретар ЦК КПРС (1953–1964)', desc: 'Навчався в технікумі. Ініціатор «відлиги» та першого космічного польоту.' },
-  { name: 'Анатолій Солов\'яненко', born: 1932, field: 'Гірнича інженерія · 1954', title: 'Тенор · Народний артист СРСР', desc: 'Закінчив ДПІ і викладав інженерну графіку. La Scala, Метрополітен, Ковент-Гарден.' },
-  { name: 'Юхим Звягільський', born: 1933, field: 'Гірнича справа', title: 'В.о. Прем\'єр-міністра України (1993–1994)', desc: 'Директор шахти «Засядька», народний депутат України.' },
-  { name: 'Ольга Буславець', born: 1975, field: 'Економічний факультет', title: 'Міністр енергетики України (2020)', desc: 'Перша жінка-Міністр енергетики. Реформа ринку та інтеграція з ENTSO-E.' },
-  { name: 'Станіслав Асєєв', born: 1989, field: 'КН / Журналістика', title: 'Журналіст, правозахисник', desc: 'Залишився в окупованому Донецьку для репортажів. Захоплений у 2017, звільнений у 2019.' },
-];
-
-const HERITAGE_VOICES = [
-  { q: 'Ми приймаємо студентів, які ніколи не побачать стін, де вчилися їхні батьки. Але вони отримують ті самі знання, той самий диплом, ту саму відповідальність.', name: 'Д. С. Шиленко', role: 'Ректор ДонНТУ · Дрогобич, 2024', verified: true },
-  { q: 'Університет пережив окупацію 1941 року — і продовжив роботу у Прокоп\'євську. Пережив 2014-й. Переживе і це.', name: 'Академічний щорічник ДонНТУ', role: 'Офіційне видання, 2022', verified: true },
-  { q: 'Кампус існує не в місці. Він існує в людях, які його несуть з собою.', name: 'Викладач гірничого факультету', role: 'Дрогобич, 2025' },
-  { q: 'Мій дід закінчив ДПІ в Донецьку, мій батько — ДонНТУ там само. Я закінчую ДонНТУ в Луцьку. Один університет — три адреси, одна якість.', name: 'Студент гірничого факультету', role: '4 курс · 2025' },
+  { name: 'Микита Хрущов',      born: 1894, field: 'Робітничий факультет',   role: 'Перший секретар ЦК КПРС (1953–1964)',   body: 'Ініціатор «відлиги» та першого космічного польоту. Навчався в технікумі.' },
+  { name: "Анатолій Солов'яненко", born: 1932, field: 'Гірнича інженерія · 1954', role: 'Тенор · Народний артист СРСР (1975)', body: 'Закінчив ДПІ і викладав інженерну графіку. La Scala, Метрополітен, Ковент-Гарден.' },
+  { name: 'Юхим Звягільський',  born: 1933, field: 'Гірнича справа',          role: "В.о. Прем'єр-міністра України (1993–1994)", body: 'Директор шахти «Засядька», народний депутат України.' },
+  { name: 'Ольга Буславець',    born: 1975, field: 'Економічний факультет',   role: 'Міністр енергетики України (2020)',     body: 'Перша жінка-Міністр енергетики. Реформа ринку та інтеграція з ENTSO-E.' },
+  { name: 'Станіслав Асєєв',    born: 1989, field: 'КН / Журналістика',       role: 'Журналіст, правозахисник',              body: 'Залишився в окупованому Донецьку. Захоплений у 2017, звільнений у 2019.' },
 ];
 
 const RECTORS = [
-  { name: 'Г. В. Малєєв', years: '1968–1989', era: 'Науковий розквіт', desc: 'Понад 20 років очолював інститут. ДПІ виріс до провідного технічного вузу УРСР.' },
-  { name: 'О. А. Мінаєв', years: '1989–2014', era: 'Трансформація та розквіт', desc: 'Герой України. 20 000+ студентів, QS-рейтинг, національний статус 2001.' },
-  { name: 'Я. О. Ляшок', years: '2014–2019', era: 'Перше переміщення', desc: 'Зберіг акредитацію і академічний склад у переміщенні до Покровська.' },
-  { name: 'Д. С. Шиленко', years: '2019–н.ч.', era: 'Стійкість і відродження', desc: 'Відкрив кампус у Дрогобичі 2024. Розвиває Erasmus+ та цифрову інфраструктуру.' },
+  { name: 'Г. В. Малєєв',   years: '1968–1989', era: 'Науковий розквіт',        body: 'Понад 20 років очолював інститут. ДПІ виріс до провідного технічного вузу УРСР.' },
+  { name: 'О. А. Мінаєв',   years: '1989–2014', era: 'Трансформація та розквіт', body: 'Герой України. 20 000+ студентів, QS-рейтинг, національний статус 2001.' },
+  { name: 'Я. О. Ляшок',    years: '2014–2019', era: 'Перше переміщення',        body: 'Зберіг акредитацію і академічний склад у переміщенні до Покровська.' },
+  { name: 'Д. С. Шиленко',  years: '2019–н.ч.', era: 'Стійкість і відродження', body: 'Відкрив кампус у Дрогобичі 2024. Розвиває Erasmus+ та цифрову інфраструктуру.' },
 ];
 
-/* ─── CSS values to match overview page exactly ─── */
-const WUF_BLUE  = '#005ab8';
-const WUF_PINK  = '#f48ba2';
-const WUF_TEAL  = '#c0e5e7';
-const WUF_YELL  = '#f5d248';
-const WUF_ORG   = '#f26522';   /* --ac from brand */
-const WUF_DARK  = '#0d0f14';
-const WUF_CREAM = '#f0ede6';
+const VOICES = [
+  { q: 'Ми приймаємо студентів, які ніколи не побачать стін, де вчилися їхні батьки. Але вони отримують ті самі знання, той самий диплом, ту саму відповідальність.', who: 'Д. С. Шиленко', role: 'Ректор ДонНТУ · Дрогобич, 2024' },
+  { q: "Університет пережив окупацію 1941 року — і продовжив роботу у Прокоп'євську. Пережив 2014-й. Переживе і це.", who: 'Академічний щорічник ДонНТУ', role: 'Офіційне видання, 2022' },
+  { q: 'Кампус існує не в місці. Він існує в людях, які його несуть з собою.', who: 'Викладач гірничого факультету', role: 'Дрогобич, 2025' },
+  { q: 'Мій дід закінчив ДПІ в Донецьку, мій батько — ДонНТУ там само. Я закінчую ДонНТУ в Луцьку. Один університет — три адреси, одна якість.', who: 'Студент гірничого факультету', role: '4 курс · 2025' },
+];
 
-/* Exact type scale from overview wuf-host-* classes */
-const T_BODY  = { fontFamily: 'var(--display)', fontSize: '1.5rem', lineHeight: '2rem',   fontWeight: 400 };
-const T_HEAD  = { fontFamily: 'var(--display)', fontSize: '2rem',   lineHeight: '2.5rem', fontWeight: 400 };
-const T_LABEL = { fontFamily: 'var(--mono)',    fontSize: '0.6rem', lineHeight: '1rem',   letterSpacing: '0.14em', textTransform: 'uppercase' };
-const T_STAT  = { fontFamily: 'var(--display)', fontSize: 'clamp(2rem,5vw,3.5rem)', fontWeight: 800, lineHeight: 1 };
-const T_HERO  = { fontFamily: 'var(--display)', fontSize: 'clamp(2.2rem,5vw,4rem)', fontWeight: 800, lineHeight: 1.1 };
-const T_QUOTE = { fontFamily: 'var(--display)', fontSize: '1.5rem', lineHeight: '2rem',   fontWeight: 400, fontStyle: 'italic' };
+/* ── Colours ───────────────────────────────────────────────── */
+const BLUE  = '#005ab8';
+const PINK  = '#f48ba2';
+const TEAL  = '#c0e5e7';
+const YELL  = '#f5d248';
+const ORG   = '#f26522';
+const DARK  = '#0d0f14';
+const NAVY  = '#1a1a2e';
+const CREAM = '#f0ede6';
+const WHITE = '#fff';
+const OFF   = '#111214';
 
-const PAD   = '3rem';         /* 48px — matches wuf-host-blue */
-const PAD_V = '5rem 3rem';   /* 80/48 — matches wuf-host-pink */
-const BORDER = '1px solid rgba(0,0,0,0.08)';
-const BORDER_D = '1px solid rgba(255,255,255,0.07)';
+/* ── Type tokens — IDENTICAL to wuf-host section 1 ─────────── */
+const H  = { fontFamily:'var(--display)', fontSize:'2rem',   lineHeight:'2.5rem', fontWeight:400 };  /* wuf-host-blue-h  */
+const B  = { fontFamily:'var(--display)', fontSize:'1.5rem', lineHeight:'2rem',   fontWeight:400 };  /* wuf-host-blue-p  */
+const LB = { fontFamily:'var(--mono)',    fontSize:'0.6rem', letterSpacing:'0.14em', textTransform:'uppercase', lineHeight:'1rem' };
+/* Big display year / stat — purely decorative, not section-1 text */
+const BIG = (size='clamp(3rem,8vw,6rem)') => ({ fontFamily:'var(--display)', fontSize:size, fontWeight:800, lineHeight:1 });
 
-/* Photo tile component */
-const PT = ({ src, alt, caption, style = {} }) => (
-  <div style={{ position: 'relative', overflow: 'hidden', ...style }}>
-    <img src={src} alt={alt} loading="lazy"
-      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+const PAD  = '3rem';
+const PADV = '5rem 3rem';
+const BR   = '1px solid rgba(0,0,0,0.08)';
+const BRD  = '1px solid rgba(255,255,255,0.07)';
+
+/* ── Shared components ────────────────────────────────────── */
+const Photo = ({ src, caption, style={} }) => (
+  <div style={{ position:'relative', overflow:'hidden', ...style }}>
+    <img src={src} loading="lazy"
+      style={{ width:'100%', height:'100%', objectFit:'cover', display:'block' }}/>
     {caption && (
-      <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0,
-        background: 'linear-gradient(transparent, rgba(0,0,0,0.7))',
-        padding: '2.5rem 1.25rem 0.875rem',
-        ...T_LABEL, color: 'rgba(255,255,255,0.8)' }}>
+      <div style={{ position:'absolute', bottom:0, left:0, right:0,
+        background:'linear-gradient(transparent,rgba(0,0,0,0.7))',
+        padding:'3rem 1.25rem 1rem', ...LB, color:'rgba(255,255,255,0.8)' }}>
         {caption}
       </div>
     )}
   </div>
 );
 
-/* Section label bar */
-const SL = ({ label, right, dark }) => (
-  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem',
-    padding: dark ? '2.5rem 3rem 1.25rem' : '2.5rem 3rem 1.25rem',
-    borderTop: dark ? BORDER_D : BORDER }}>
-    <span style={{ ...T_LABEL, color: dark ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.35)', flexShrink: 0 }}>{label}</span>
-    <div style={{ flex: 1, height: 1, background: dark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)' }} />
-    {right && <span style={{ ...T_LABEL, color: dark ? 'rgba(255,255,255,0.2)' : 'rgba(0,0,0,0.2)', flexShrink: 0 }}>{right}</span>}
+const Label = ({ text, light }) => (
+  <div style={{ ...LB, color: light ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.4)',
+    marginBottom:'1rem' }}>{text}</div>
+);
+
+const Divider = ({ text, sub }) => (
+  <div style={{ display:'flex', alignItems:'center', gap:'1rem', padding:'2.5rem 3rem 1.25rem',
+    borderTop: BR }}>
+    <span style={{ ...LB, color:'rgba(0,0,0,0.35)', flexShrink:0 }}>{text}</span>
+    <div style={{ flex:1, height:1, background:'rgba(0,0,0,0.08)' }}/>
+    {sub && <span style={{ ...LB, color:'rgba(0,0,0,0.2)', flexShrink:0 }}>{sub}</span>}
   </div>
 );
 
+/* ── Tile helper — coloured content block ────────────────── */
+const Tile = ({ bg=WHITE, tc=OFF, pad=PAD, border, style={}, children }) => (
+  <div style={{ background:bg, color:tc, padding:pad, ...border, ...style }}>
+    {children}
+  </div>
+);
+
+/* ═══════════════════════════════════════════════════════════ */
 const HeritagePage = ({ onNavigate }) => (
-  <div style={{ background: '#fff', minHeight: '100%' }}>
+  <div style={{ background:WHITE, minHeight:'100%' }}>
 
-    {/* ══ §1  HERO ══════════════════════════════════════════════ */}
-    <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', minHeight: 480, borderBottom: BORDER }}>
+    {/* §1  HERO */}
+    <div style={{ display:'grid', gridTemplateColumns:'2fr 1fr 1fr',
+      minHeight:500, borderBottom:BR }}>
 
-      {/* Blue: heading */}
-      <div style={{ background: WUF_BLUE, color: '#fff', padding: PAD,
-        display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '1.5rem' }}>
-        <div style={{ ...T_LABEL, color: 'rgba(255,255,255,0.6)' }}>02 · СПАДЩИНА · ОСЕРДЯ СИСТЕМИ</div>
-        <h1 style={{ ...T_HERO, color: '#fff', margin: 0 }}>
-          Університет,<br />
-          що{' '}<em style={{ fontStyle: 'italic', color: WUF_YELL }}>не має</em><br />
+      <Tile bg={BLUE} tc={WHITE} pad={PAD}
+        style={{ display:'flex', flexDirection:'column', justifyContent:'center',
+          gap:'1.5rem', borderRight:BR }}>
+        <Label text="02 · СПАДЩИНА · ОСЕРДЯ СИСТЕМИ" light/>
+        <h1 style={{ ...H, fontSize:'clamp(2rem,4vw,3rem)', lineHeight:'clamp(2.5rem,5vw,3.75rem)',
+          color:WHITE, margin:0 }}>
+          Університет,{' '}що{' '}
+          <em style={{ fontStyle:'italic', color:YELL }}>не має</em>{' '}
           фізичного місця.
         </h1>
-        <p style={{ ...T_BODY, fontSize: '1.125rem', lineHeight: '1.75rem', color: 'rgba(255,255,255,0.8)', margin: 0 }}>
+        <p style={{ ...B, color:'rgba(255,255,255,0.8)', margin:0 }}>
           DonNTU існує понад сто років. Два переміщення, дві евакуації, три міста —
           і жодного разу університет не закрився.
         </p>
-        <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap', marginTop: '0.5rem' }}>
+        <div style={{ display:'flex', gap:'0.75rem', flexWrap:'wrap' }}>
           <button className="wuf-hos-btn wuf-hos-btn--primary">Цифровий архів →</button>
-          <button className="wuf-hos-btn wuf-hos-btn--ghost" style={{ borderColor: 'rgba(255,255,255,0.3)', color: '#fff' }}>Кампус</button>
+          <button className="wuf-hos-btn wuf-hos-btn--ghost"
+            style={{ borderColor:'rgba(255,255,255,0.3)', color:WHITE }}>Кампус</button>
         </div>
-      </div>
+      </Tile>
 
-      {/* Photo: campus */}
-      <PT src="assets/donetsk-main.jpg" alt="Головний корпус ДонНТУ"
-        caption="1-й корпус · вул. Артема, 58"
-        style={{ borderLeft: BORDER, borderRight: BORDER }} />
+      <Photo src="assets/donetsk-main.jpg" caption="1-й корпус · вул. Артема, 58"
+        style={{ borderRight:BR }}/>
 
-      {/* Year tile */}
-      <div style={{ background: WUF_ORG, color: '#fff', padding: PAD,
-        display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-        <div style={{ ...T_LABEL, color: 'rgba(255,255,255,0.6)', marginBottom: '0.75rem' }}>ЗАСНОВАНО</div>
-        <div style={{ fontFamily: 'var(--display)', fontSize: 'clamp(4rem,8vw,6rem)',
-          fontWeight: 800, lineHeight: 1, color: '#fff' }}>1921</div>
-        <div style={{ ...T_LABEL, color: 'rgba(255,255,255,0.6)', marginTop: '0.5rem' }}>
-          105 РОКІВ · БЕЗПЕРЕРВНОЇ РОБОТИ
-        </div>
-      </div>
+      <Tile bg={ORG} tc={WHITE} pad={PAD}
+        style={{ display:'flex', flexDirection:'column', justifyContent:'flex-end' }}>
+        <Label text="ЗАСНОВАНО" light/>
+        <div style={{ ...BIG(), color:WHITE, marginBottom:'0.5rem' }}>1921</div>
+        <div style={{ ...LB, color:'rgba(255,255,255,0.6)' }}>105 РОКІВ · БЕЗПЕРЕРВНА РОБОТА</div>
+      </Tile>
     </div>
 
-    {/* ══ §2  STATS ════════════════════════════════════════════ */}
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', borderBottom: BORDER }}>
+    {/* §2  STATS */}
+    <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', borderBottom:BR }}>
       {[
-        { n: '110 000+', l: 'Випускників за всю історію',  bg: '#fff' },
-        { n: '~20 000',  l: 'Студентів на піку 2001–2014', bg: WUF_TEAL },
-        { n: 'QS 251–300',l:'Рейтинг EECA 2022',          bg: WUF_BLUE, light: true },
-        { n: '1,5 млн',  l: 'Томів у бібліотеці Донецька', bg: WUF_PINK },
-      ].map((s, i) => (
-        <div key={i} style={{ background: s.bg, padding: '2.5rem 2rem',
-          borderRight: i < 3 ? BORDER : 'none',
-          display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', gap: '0.5rem' }}>
-          <div style={{ ...T_STAT, color: s.light ? '#fff' : '#111214' }}>{s.n}</div>
-          <div style={{ ...T_LABEL, color: s.light ? 'rgba(255,255,255,0.65)' : 'rgba(0,0,0,0.45)' }}>{s.l}</div>
+        { n:'110 000+', l:'Випускників за всю історію',  bg:WHITE,  tc:OFF  },
+        { n:'~20 000',  l:'Студентів на піку 2001–2014', bg:TEAL,   tc:OFF  },
+        { n:'QS 251–300',l:'Рейтинг EECA 2022',          bg:BLUE,   tc:WHITE },
+        { n:'1,5 млн',  l:'Томів у бібліотеці Донецька', bg:PINK,   tc:OFF  },
+      ].map((s,i) => (
+        <div key={i} style={{ background:s.bg, color:s.tc, padding:'2.5rem 2rem',
+          borderRight: i<3 ? BR : 'none',
+          display:'flex', flexDirection:'column', justifyContent:'flex-end', gap:'0.5rem' }}>
+          <div style={{ ...BIG('clamp(2rem,4vw,3rem)'), color:s.tc }}>{s.n}</div>
+          <div style={{ ...LB, color: s.bg===BLUE ? 'rgba(255,255,255,0.6)' : 'rgba(0,0,0,0.45)' }}>{s.l}</div>
         </div>
       ))}
     </div>
 
-    {/* ══ §3  КАМПУС ══════════════════════════════════════════ */}
-    <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr',
-      gridTemplateRows: '340px 300px', borderBottom: BORDER }}>
+    {/* §3  КАМПУС */}
+    <div style={{ display:'grid', gridTemplateColumns:'2fr 1fr 1fr',
+      gridTemplateRows:'340px 300px', borderBottom:BR }}>
 
-      {/* Big main photo */}
-      <PT src="assets/donetsk-main.jpg" alt="Головний корпус ДонНТУ"
-        caption="1-й корпус · вул. Артема, 58 · Донецьк"
-        style={{ gridRow: '1/2', borderRight: BORDER }} />
+      <Photo src="assets/donetsk-main.jpg" caption="1-й корпус · вул. Артема, 58 · Донецьк"
+        style={{ gridRow:'1/2', borderRight:BR }}/>
 
-      {/* Pink text tile */}
-      <div style={{ background: WUF_PINK, padding: PAD_V,
-        display: 'flex', flexDirection: 'column', justifyContent: 'center', borderRight: BORDER }}>
-        <div style={{ ...T_LABEL, color: 'rgba(0,0,0,0.4)', marginBottom: '1rem' }}>КАМПУС · ДОНЕЦЬК</div>
-        <p style={{ ...T_BODY, fontSize: '1.25rem', lineHeight: '1.875rem', color: '#111214', margin: 0 }}>
+      <Tile bg={PINK} tc={OFF} pad={PADV}
+        style={{ display:'flex', flexDirection:'column', justifyContent:'center', borderRight:BR }}>
+        <Label text="КАМПУС · ДОНЕЦЬК"/>
+        <p style={{ ...B, color:OFF, margin:0 }}>
           Одинадцять корпусів у центрі Донецька.
           Головна будівля — пам'ятник архітектури 1930-х.
-          Бібліотека з 1,5 млн томів. Все залишилось там —
-          нетронуте, недоступне.
+          Бібліотека з 1,5 млн томів. Все залишилось там — нетронуте, недоступне.
         </p>
-      </div>
+      </Tile>
 
-      {/* Facade photo */}
-      <PT src="assets/donetsk-facade.jpg" alt="Фасад ДонНТУ" caption="Фасад · вул. Артема" />
+      <Photo src="assets/donetsk-facade.jpg" caption="Фасад · вул. Артема"/>
 
-      {/* Artyoma street photo */}
-      <PT src="assets/donetsk-artyoma.jpg" alt="Вул. Артема, Донецьк"
-        caption="Вул. Артема · Донецьк"
-        style={{ borderTop: BORDER, borderRight: BORDER }} />
+      <Photo src="assets/donetsk-artyoma.jpg" caption="Вул. Артема · Донецьк"
+        style={{ borderTop:BR, borderRight:BR }}/>
 
-      {/* Drohobych campus photo */}
-      <PT src="assets/drohobych-campus.jpg" alt="Кампус у Дрогобичі"
-        caption="Кампус ДонНТУ · Дрогобич · 2024"
-        style={{ borderTop: BORDER, borderRight: BORDER }} />
+      <Photo src="assets/drohobych-campus.jpg" caption="Кампус ДонНТУ · Дрогобич · 2024"
+        style={{ borderTop:BR, borderRight:BR }}/>
 
-      {/* Orange: current address */}
-      <div style={{ background: WUF_ORG, color: '#fff', padding: PAD,
-        display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', borderTop: BORDER }}>
-        <div style={{ ...T_LABEL, color: 'rgba(255,255,255,0.6)', marginBottom: '0.75rem' }}>ЗАРАЗ</div>
-        <div style={{ ...T_HEAD, color: '#fff', marginBottom: '0.5rem' }}>
-          Дрогобич,<br />Львівська обл.
-        </div>
-        <div style={{ ...T_LABEL, color: 'rgba(255,255,255,0.6)' }}>ВІДКРИТО · 28.08.2024</div>
-      </div>
+      <Tile bg={ORG} tc={WHITE} pad={PAD}
+        style={{ display:'flex', flexDirection:'column', justifyContent:'flex-end', borderTop:BR }}>
+        <Label text="ЗАРАЗ" light/>
+        <h2 style={{ ...H, color:WHITE, margin:'0 0 0.5rem' }}>
+          Дрогобич,<br/>Львівська обл.
+        </h2>
+        <div style={{ ...LB, color:'rgba(255,255,255,0.6)' }}>ВІДКРИТО · 28.08.2024</div>
+      </Tile>
     </div>
 
-    {/* ══ §4  ХРОНОЛОГІЯ ══════════════════════════════════════ */}
-    <SL label="Хронологія · 1921 – 2026" />
+    {/* §4  ХРОНОЛОГІЯ */}
+    <Divider text="Хронологія · 1921 – 2026"/>
 
-    <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr 1fr', borderTop: BORDER }}>
-      {/* 1921 — big teal tile */}
-      <div style={{ background: WUF_TEAL, padding: PAD, borderRight: BORDER,
-        display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', minHeight: 300 }}>
-        <div style={{ ...T_LABEL, color: 'rgba(0,0,0,0.4)', marginBottom: '0.75rem' }}>ЗАСНУВАННЯ</div>
-        <div style={{ fontFamily: 'var(--display)', fontSize: 'clamp(4rem,8vw,7rem)',
-          fontWeight: 800, lineHeight: 1, color: '#111214', marginBottom: '0.75rem' }}>1921</div>
-        <div style={{ ...T_BODY, fontSize: '1.25rem', lineHeight: '1.875rem', color: '#111214' }}>
-          Гірничий технікум у Юзівці.<br />
-          Перший технічний заклад Донбасу.
-        </div>
-      </div>
+    {/* Row A — big 1921 + 1941 + 1944 */}
+    <div style={{ display:'grid', gridTemplateColumns:'2fr 1fr 1fr', borderTop:BR }}>
 
-      {/* 1941 — pink war */}
-      <div style={{ background: WUF_PINK, padding: PAD, borderRight: BORDER,
-        display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-        <div style={{ ...T_LABEL, color: 'rgba(0,0,0,0.4)', marginBottom: '0.75rem' }}>ВІЙНА · ЕВАКУАЦІЯ</div>
-        <div style={{ fontFamily: 'var(--display)', fontSize: 'clamp(2.5rem,5vw,4rem)',
-          fontWeight: 800, lineHeight: 1, color: '#111214', marginBottom: '0.75rem' }}>1941</div>
-        <div style={{ ...T_BODY, fontSize: '1.1rem', lineHeight: '1.75rem', color: '#111214' }}>
-          До Прокоп'євська.<br />
-          Навчання тривало<br />
-          навіть під час війни.
-        </div>
-      </div>
+      <Tile bg={TEAL} tc={OFF} pad={PAD}
+        style={{ display:'flex', flexDirection:'column', justifyContent:'flex-end',
+          minHeight:300, borderRight:BR }}>
+        <Label text="ЗАСНУВАННЯ"/>
+        <div style={{ ...BIG('clamp(4rem,8vw,7rem)'), color:OFF, marginBottom:'1rem' }}>1921</div>
+        <p style={{ ...B, color:OFF, margin:0 }}>
+          Гірничий технікум у Юзівці.<br/>Перший технічний заклад Донбасу.
+        </p>
+      </Tile>
 
-      {/* 1944 — yellow award */}
-      <div style={{ background: WUF_YELL, padding: PAD,
-        display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-        <div style={{ ...T_LABEL, color: 'rgba(0,0,0,0.4)', marginBottom: '0.75rem' }}>НАГОРОДА ДЕРЖАВИ</div>
-        <div style={{ fontFamily: 'var(--display)', fontSize: 'clamp(2.5rem,5vw,4rem)',
-          fontWeight: 800, lineHeight: 1, color: '#111214', marginBottom: '0.75rem' }}>1944</div>
-        <div style={{ ...T_BODY, fontSize: '1.1rem', lineHeight: '1.75rem', color: '#111214' }}>
-          Орден Трудового<br />Червоного Прапора.
-        </div>
-      </div>
+      <Tile bg={PINK} tc={OFF} pad={PAD}
+        style={{ display:'flex', flexDirection:'column', justifyContent:'flex-end', borderRight:BR }}>
+        <Label text="ВІЙНА · ЕВАКУАЦІЯ"/>
+        <div style={{ ...BIG(), color:OFF, marginBottom:'1rem' }}>1941</div>
+        <p style={{ ...B, color:OFF, margin:0 }}>
+          До Прокоп'євська.<br/>Навчання тривало<br/>навіть під час війни.
+        </p>
+      </Tile>
+
+      <Tile bg={YELL} tc={OFF} pad={PAD}
+        style={{ display:'flex', flexDirection:'column', justifyContent:'flex-end' }}>
+        <Label text="НАГОРОДА ДЕРЖАВИ"/>
+        <div style={{ ...BIG(), color:OFF, marginBottom:'1rem' }}>1944</div>
+        <p style={{ ...B, color:OFF, margin:0 }}>
+          Орден Трудового<br/>Червоного Прапора.
+        </p>
+      </Tile>
     </div>
 
-    {/* Timeline row 2 */}
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr', borderTop: BORDER }}>
-      {/* 2001 — blue */}
-      <div style={{ background: WUF_BLUE, color: '#fff', padding: PAD, borderRight: BORDER,
-        display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', minHeight: 280 }}>
-        <div style={{ ...T_LABEL, color: 'rgba(255,255,255,0.55)', marginBottom: '0.75rem' }}>РОЗКВІТ</div>
-        <div style={{ fontFamily: 'var(--display)', fontSize: 'clamp(2.5rem,5vw,4rem)',
-          fontWeight: 800, lineHeight: 1, color: '#fff', marginBottom: '0.75rem' }}>2001</div>
-        <div style={{ ...T_BODY, fontSize: '1rem', lineHeight: '1.625rem', color: 'rgba(255,255,255,0.85)' }}>
-          Національний статус.<br />20 000 студентів.<br />QS 251–300.
-        </div>
-      </div>
+    {/* Row B — 2001 + 2014 + photo + 2026 */}
+    <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr 1fr', borderTop:BR }}>
 
-      {/* 2014 — dark */}
-      <div style={{ background: '#1a1a2e', color: '#fff', padding: PAD, borderRight: BORDER,
-        display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-        <div style={{ ...T_LABEL, color: 'rgba(255,255,255,0.35)', marginBottom: '0.75rem' }}>ОКУПАЦІЯ</div>
-        <div style={{ fontFamily: 'var(--display)', fontSize: 'clamp(2.5rem,5vw,4rem)',
-          fontWeight: 800, lineHeight: 1, color: WUF_CREAM, marginBottom: '0.75rem' }}>2014</div>
-        <div style={{ ...T_BODY, fontSize: '1rem', lineHeight: '1.625rem', color: 'rgba(255,255,255,0.65)' }}>
-          Переміщення до Покровська.<br />Без корпусів —<br />але з людьми.
-        </div>
-      </div>
+      <Tile bg={BLUE} tc={WHITE} pad={PAD}
+        style={{ display:'flex', flexDirection:'column', justifyContent:'flex-end',
+          minHeight:300, borderRight:BR }}>
+        <Label text="РОЗКВІТ" light/>
+        <div style={{ ...BIG(), color:WHITE, marginBottom:'1rem' }}>2001</div>
+        <p style={{ ...B, color:'rgba(255,255,255,0.85)', margin:0 }}>
+          Національний статус.<br/>20 000 студентів.<br/>QS 251–300.
+        </p>
+      </Tile>
 
-      {/* 2022 — Drohobych photo */}
-      <PT src="assets/drohobych-panorama.jpg" alt="Дрогобич"
-        caption="Дрогобич · нова адреса · 2024"
-        style={{ borderRight: BORDER, minHeight: 280 }} />
+      <Tile bg={NAVY} tc={CREAM} pad={PAD}
+        style={{ display:'flex', flexDirection:'column', justifyContent:'flex-end', borderRight:BR }}>
+        <Label text="ОКУПАЦІЯ" light/>
+        <div style={{ ...BIG(), color:CREAM, marginBottom:'1rem' }}>2014</div>
+        <p style={{ ...B, color:'rgba(240,237,230,0.75)', margin:0 }}>
+          Переміщення до Покровська.<br/>Без корпусів —<br/>але з людьми.
+        </p>
+      </Tile>
 
-      {/* 2026 — orange */}
-      <div style={{ background: WUF_ORG, color: '#fff', padding: PAD,
-        display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-        <div style={{ ...T_LABEL, color: 'rgba(255,255,255,0.6)', marginBottom: '0.75rem' }}>СЬОГОДНІ</div>
-        <div style={{ fontFamily: 'var(--display)', fontSize: 'clamp(2.5rem,5vw,4rem)',
-          fontWeight: 800, lineHeight: 1, color: '#fff', marginBottom: '0.75rem' }}>2026</div>
-        <div style={{ ...T_BODY, fontSize: '1rem', lineHeight: '1.625rem', color: 'rgba(255,255,255,0.85)' }}>
-          Heritage OS.<br />Цифровий двійник<br />університету.
-        </div>
-      </div>
+      <Photo src="assets/drohobych-panorama.jpg" caption="Дрогобич · нова адреса · 2024"
+        style={{ borderRight:BR, minHeight:300 }}/>
+
+      <Tile bg={ORG} tc={WHITE} pad={PAD}
+        style={{ display:'flex', flexDirection:'column', justifyContent:'flex-end' }}>
+        <Label text="СЬОГОДНІ" light/>
+        <div style={{ ...BIG(), color:WHITE, marginBottom:'1rem' }}>2026</div>
+        <p style={{ ...B, color:'rgba(255,255,255,0.85)', margin:0 }}>
+          Heritage OS.<br/>Цифровий двійник<br/>університету.
+        </p>
+      </Tile>
     </div>
 
-    {/* ══ §5  ЗНАМЕНИТІ ВИПУСКНИКИ ════════════════════════════ */}
-    <SL label="Знамениті випускники · Верифіковані особи" />
+    {/* §5  ЗНАМЕНИТІ ВИПУСКНИКИ */}
+    <Divider text="Знамениті випускники · Верифіковані особи"/>
 
-    {/* Alumni grid — varies */}
-    <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', borderTop: BORDER, borderBottom: BORDER }}>
+    {/* Big 2-col tile */}
+    <div style={{ display:'grid', gridTemplateColumns:'2fr 1fr', borderTop:BR, borderBottom:BR }}>
 
-      {/* Хрущов — big blue */}
-      <div style={{ background: WUF_BLUE, color: '#fff', padding: PAD,
-        display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
-        minHeight: 340, borderRight: BORDER }}>
-        <div style={{ ...T_LABEL, color: 'rgba(255,255,255,0.5)', marginBottom: '0.75rem' }}>
-          РОБІТНИЧИЙ ФАКУЛЬТЕТ · Н. 1894
-        </div>
-        <div style={{ ...T_HEAD, color: '#fff', marginBottom: '0.5rem' }}>Микита Хрущов</div>
-        <div style={{ ...T_BODY, fontSize: '1.125rem', lineHeight: '1.75rem',
-          color: 'rgba(255,255,255,0.75)', fontStyle: 'italic', marginBottom: '0.75rem' }}>
-          Перший секретар ЦК КПРС (1953–1964)
-        </div>
-        <div style={{ ...T_BODY, fontSize: '1rem', lineHeight: '1.625rem', color: 'rgba(255,255,255,0.75)' }}>
-          Ініціатор «відлиги» та першого космічного польоту.
-          Навчався в технікумі, пізніше — лідер СРСР.
-        </div>
-      </div>
+      <Tile bg={BLUE} tc={WHITE} pad={PAD}
+        style={{ display:'flex', flexDirection:'column', justifyContent:'flex-end',
+          minHeight:360, borderRight:BR }}>
+        <Label text={`РОБІТНИЧИЙ ФАКУЛЬТЕТ · Н. ${FAMOUS_ALUMNI[0].born}`} light/>
+        <h2 style={{ ...H, color:WHITE, margin:'0 0 1rem' }}>{FAMOUS_ALUMNI[0].name}</h2>
+        <p style={{ ...B, fontStyle:'italic', color:'rgba(255,255,255,0.75)', margin:'0 0 1rem' }}>
+          {FAMOUS_ALUMNI[0].role}
+        </p>
+        <p style={{ ...B, color:'rgba(255,255,255,0.75)', margin:0 }}>{FAMOUS_ALUMNI[0].body}</p>
+      </Tile>
 
-      {/* Солов'яненко — pink */}
-      <div style={{ background: WUF_PINK, padding: PAD,
-        display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-        <div style={{ ...T_LABEL, color: 'rgba(0,0,0,0.4)', marginBottom: '0.75rem' }}>
-          ГІРНИЧА ІНЖЕНЕРІЯ · 1954
-        </div>
-        <div style={{ ...T_HEAD, color: '#111214', marginBottom: '0.5rem' }}>
-          Анатолій Солов'яненко
-        </div>
-        <div style={{ ...T_BODY, fontSize: '1rem', lineHeight: '1.625rem',
-          fontStyle: 'italic', color: '#111214', marginBottom: '0.75rem' }}>
-          Тенор · Народний артист СРСР (1975)
-        </div>
-        <div style={{ ...T_BODY, fontSize: '0.95rem', lineHeight: '1.5rem', color: 'rgba(0,0,0,0.7)' }}>
-          Закінчив ДПІ, викладав інженерну графіку.
-          La Scala, Метрополітен, Ковент-Гарден.
-        </div>
-      </div>
+      <Tile bg={PINK} tc={OFF} pad={PAD}
+        style={{ display:'flex', flexDirection:'column', justifyContent:'flex-end' }}>
+        <Label text={`ГІРНИЧА ІНЖЕНЕРІЯ · Н. ${FAMOUS_ALUMNI[1].born}`}/>
+        <h2 style={{ ...H, color:OFF, margin:'0 0 1rem' }}>{FAMOUS_ALUMNI[1].name}</h2>
+        <p style={{ ...B, fontStyle:'italic', color:'rgba(0,0,0,0.65)', margin:'0 0 1rem' }}>
+          {FAMOUS_ALUMNI[1].role}
+        </p>
+        <p style={{ ...B, color:'rgba(0,0,0,0.65)', margin:0 }}>{FAMOUS_ALUMNI[1].body}</p>
+      </Tile>
     </div>
 
-    {/* Alumni row 2 */}
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', borderBottom: BORDER }}>
+    {/* 3-col alumni row */}
+    <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', borderBottom:BR }}>
       {[
-        { a: FAMOUS_ALUMNI[2], bg: WUF_TEAL,  tc: '#111214', mc: 'rgba(0,0,0,0.4)'   },
-        { a: FAMOUS_ALUMNI[3], bg: '#fff',     tc: '#111214', mc: 'rgba(0,0,0,0.4)'   },
-        { a: FAMOUS_ALUMNI[4], bg: WUF_DARK,   tc: WUF_CREAM, mc: 'rgba(255,255,255,0.35)' },
+        { a: FAMOUS_ALUMNI[2], bg:TEAL,  tc:OFF,   mc:'rgba(0,0,0,0.45)'   },
+        { a: FAMOUS_ALUMNI[3], bg:WHITE, tc:OFF,   mc:'rgba(0,0,0,0.45)'   },
+        { a: FAMOUS_ALUMNI[4], bg:DARK,  tc:CREAM, mc:'rgba(255,255,255,0.4)' },
       ].map(({ a, bg, tc, mc }, i) => (
-        <div key={i} style={{ background: bg, color: tc, padding: PAD, minHeight: 280,
-          borderRight: i < 2 ? BORDER : 'none', display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-          <div style={{ ...T_LABEL, color: mc, marginBottom: '0.75rem' }}>
-            {a.field} · Н. {a.born}
-          </div>
-          <div style={{ fontFamily: 'var(--display)', fontSize: '1.5rem', fontWeight: 700,
-            lineHeight: 1.25, color: tc, marginBottom: '0.4rem' }}>{a.name}</div>
-          <div style={{ ...T_BODY, fontSize: '0.9rem', fontStyle: 'italic',
-            color: tc === WUF_CREAM ? 'rgba(240,237,230,0.7)' : 'rgba(0,0,0,0.6)',
-            lineHeight: '1.5rem', marginBottom: '0.5rem' }}>{a.title}</div>
-          <div style={{ ...T_BODY, fontSize: '0.85rem', lineHeight: '1.4rem',
-            color: tc === WUF_CREAM ? 'rgba(240,237,230,0.55)' : 'rgba(0,0,0,0.55)' }}>{a.desc}</div>
-        </div>
+        <Tile key={i} bg={bg} tc={tc} pad={PAD}
+          style={{ minHeight:300, borderRight: i<2 ? BR : 'none',
+            display:'flex', flexDirection:'column', justifyContent:'flex-end' }}>
+          <Label text={`${a.field} · Н. ${a.born}`}/>
+          <h2 style={{ ...H, color:tc, margin:'0 0 1rem' }}>{a.name}</h2>
+          <p style={{ ...B, fontStyle:'italic', color:mc, margin:'0 0 0.75rem' }}>{a.role}</p>
+          <p style={{ ...B, color:mc, margin:0 }}>{a.body}</p>
+        </Tile>
       ))}
     </div>
 
-    {/* ══ §6  РЕКТОРИ ═════════════════════════════════════════ */}
-    <SL label="Ректори · Верифіковані дані" right="donntu.edu.ua · Wikipedia" />
+    {/* §6  РЕКТОРИ */}
+    <Divider text="Ректори · Верифіковані дані" sub="donntu.edu.ua · Wikipedia"/>
 
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderTop: BORDER, borderBottom: BORDER }}>
+    <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', borderTop:BR, borderBottom:BR }}>
       {RECTORS.map((r, i) => {
-        const schemes = [
-          { bg: WUF_TEAL, tc: '#111214', mc: 'rgba(0,0,0,0.4)' },
-          { bg: '#fff',   tc: '#111214', mc: 'rgba(0,0,0,0.4)' },
-          { bg: WUF_BLUE, tc: '#fff',    mc: 'rgba(255,255,255,0.5)' },
-          { bg: WUF_PINK, tc: '#111214', mc: 'rgba(0,0,0,0.4)' },
-        ];
-        const { bg, tc, mc } = schemes[i];
+        const sch = [
+          { bg:TEAL,  tc:OFF,   mc:'rgba(0,0,0,0.45)'    },
+          { bg:WHITE, tc:OFF,   mc:'rgba(0,0,0,0.45)'    },
+          { bg:BLUE,  tc:WHITE, mc:'rgba(255,255,255,0.6)'},
+          { bg:PINK,  tc:OFF,   mc:'rgba(0,0,0,0.45)'    },
+        ][i];
         return (
-          <div key={i} style={{ background: bg, color: tc, padding: PAD, minHeight: 240,
-            borderRight: i % 2 === 0 ? BORDER : 'none',
-            borderBottom: i < 2 ? BORDER : 'none',
-            display: 'flex', flexDirection: 'column', justifyContent: 'flex-end' }}>
-            <div style={{ ...T_LABEL, color: mc, marginBottom: '0.75rem',
-              background: 'rgba(0,0,0,0.08)', display: 'inline-block',
-              padding: '0.2rem 0.6rem', borderRadius: 2, alignSelf: 'flex-start' }}>
-              {r.era}
-            </div>
-            <div style={{ fontFamily: 'var(--display)', fontSize: '1.75rem',
-              fontWeight: 700, lineHeight: 1.2, color: tc, marginBottom: '0.25rem' }}>{r.name}</div>
-            <div style={{ ...T_LABEL, color: mc, marginBottom: '0.75rem' }}>{r.years}</div>
-            <div style={{ ...T_BODY, fontSize: '1rem', lineHeight: '1.625rem', color: mc }}>{r.desc}</div>
-          </div>
+          <Tile key={i} bg={sch.bg} tc={sch.tc} pad={PAD}
+            style={{ minHeight:280,
+              borderRight: i%2===0 ? BR : 'none',
+              borderBottom: i<2 ? BR : 'none',
+              display:'flex', flexDirection:'column', justifyContent:'flex-end' }}>
+            <div style={{ ...LB, color:sch.mc, background:'rgba(0,0,0,0.07)',
+              display:'inline-block', padding:'0.2rem 0.6rem', borderRadius:2,
+              alignSelf:'flex-start', marginBottom:'1rem' }}>{r.era}</div>
+            <h2 style={{ ...H, color:sch.tc, margin:'0 0 0.25rem' }}>{r.name}</h2>
+            <div style={{ ...LB, color:sch.mc, marginBottom:'1rem' }}>{r.years}</div>
+            <p style={{ ...B, color:sch.mc, margin:0 }}>{r.body}</p>
+          </Tile>
         );
       })}
     </div>
 
-    {/* ══ §7  ГОЛОСИ ══════════════════════════════════════════ */}
-    <SL label="Голоси · Свідчення" />
+    {/* §7  ГОЛОСИ */}
+    <Divider text="Голоси · Свідчення"/>
 
-    <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', borderTop: BORDER, borderBottom: BORDER }}>
+    <div style={{ display:'grid', gridTemplateColumns:'2fr 1fr', borderTop:BR, borderBottom:BR }}>
 
-      {/* Big quote — teal */}
-      <div style={{ background: WUF_TEAL, padding: PAD, borderRight: BORDER,
-        display: 'flex', flexDirection: 'column', justifyContent: 'center', minHeight: 340 }}>
-        <blockquote style={{ ...T_QUOTE, fontSize: '1.75rem', lineHeight: '2.25rem',
-          color: '#111214', margin: '0 0 2rem' }}>
-          «{HERITAGE_VOICES[0].q}»
+      {/* Big quote */}
+      <Tile bg={TEAL} tc={OFF} pad={PAD}
+        style={{ display:'flex', flexDirection:'column', justifyContent:'center',
+          minHeight:360, borderRight:BR }}>
+        <blockquote style={{ ...B, fontStyle:'italic', color:OFF,
+          margin:'0 0 2rem', fontSize:'1.5rem', lineHeight:'2rem' }}>
+          «{VOICES[0].q}»
         </blockquote>
-        <div style={{ ...T_LABEL, color: 'rgba(0,0,0,0.45)', marginBottom: '0.25rem' }}>
-          {HERITAGE_VOICES[0].name}
-        </div>
-        <div style={{ ...T_LABEL, color: 'rgba(0,0,0,0.3)' }}>{HERITAGE_VOICES[0].role}</div>
-      </div>
+        <div style={{ ...LB, color:'rgba(0,0,0,0.5)', marginBottom:'0.25rem' }}>{VOICES[0].who}</div>
+        <div style={{ ...LB, color:'rgba(0,0,0,0.35)' }}>{VOICES[0].role}</div>
+      </Tile>
 
-      {/* Stack: quote 2 + 3 */}
-      <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <div style={{ background: WUF_BLUE, color: '#fff', padding: PAD, flex: 1,
-          display: 'flex', flexDirection: 'column', justifyContent: 'center', borderBottom: BORDER }}>
-          <blockquote style={{ ...T_QUOTE, fontSize: '1.1rem', lineHeight: '1.75rem',
-            color: '#fff', margin: '0 0 1rem' }}>
-            «{HERITAGE_VOICES[1].q}»
+      {/* Stack 2 quotes */}
+      <div style={{ display:'flex', flexDirection:'column' }}>
+        <Tile bg={BLUE} tc={WHITE} pad={PAD}
+          style={{ flex:1, display:'flex', flexDirection:'column',
+            justifyContent:'center', borderBottom:BR }}>
+          <blockquote style={{ ...B, fontStyle:'italic', color:WHITE, margin:'0 0 1.5rem' }}>
+            «{VOICES[1].q}»
           </blockquote>
-          <div style={{ ...T_LABEL, color: 'rgba(255,255,255,0.5)' }}>{HERITAGE_VOICES[1].name}</div>
-        </div>
-        <div style={{ background: WUF_PINK, padding: PAD, flex: 1,
-          display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-          <blockquote style={{ ...T_QUOTE, fontSize: '1.1rem', lineHeight: '1.75rem',
-            color: '#111214', margin: '0 0 1rem' }}>
-            «{HERITAGE_VOICES[2].q}»
+          <div style={{ ...LB, color:'rgba(255,255,255,0.5)' }}>{VOICES[1].who}</div>
+        </Tile>
+        <Tile bg={PINK} tc={OFF} pad={PAD}
+          style={{ flex:1, display:'flex', flexDirection:'column', justifyContent:'center' }}>
+          <blockquote style={{ ...B, fontStyle:'italic', color:OFF, margin:'0 0 1.5rem' }}>
+            «{VOICES[2].q}»
           </blockquote>
-          <div style={{ ...T_LABEL, color: 'rgba(0,0,0,0.4)' }}>{HERITAGE_VOICES[2].name}</div>
-        </div>
+          <div style={{ ...LB, color:'rgba(0,0,0,0.45)' }}>{VOICES[2].who}</div>
+        </Tile>
       </div>
     </div>
 
-    {/* Voice row 2 */}
-    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', borderBottom: BORDER }}>
-      {HERITAGE_VOICES.slice(2).map((v, i) => (
-        <div key={i} style={{ background: i === 0 ? '#fff' : WUF_YELL,
-          padding: PAD, minHeight: 260,
-          borderRight: i === 0 ? BORDER : 'none',
-          display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-          <blockquote style={{ ...T_QUOTE, fontSize: '1.25rem', lineHeight: '2rem',
-            color: '#111214', margin: '0 0 1.5rem' }}>
+    {/* 2-col quote row */}
+    <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', borderBottom:BR }}>
+      {[
+        { v: VOICES[2], bg:WHITE },
+        { v: VOICES[3], bg:YELL  },
+      ].map(({ v, bg }, i) => (
+        <Tile key={i} bg={bg} tc={OFF} pad={PAD}
+          style={{ minHeight:280, borderRight: i===0 ? BR : 'none',
+            display:'flex', flexDirection:'column', justifyContent:'center' }}>
+          <blockquote style={{ ...B, fontStyle:'italic', color:OFF, margin:'0 0 1.5rem' }}>
             «{v.q}»
           </blockquote>
-          <div style={{ ...T_LABEL, color: 'rgba(0,0,0,0.45)', marginBottom: '0.25rem' }}>{v.name}</div>
-          <div style={{ ...T_LABEL, color: 'rgba(0,0,0,0.3)' }}>{v.role}</div>
-        </div>
+          <div style={{ ...LB, color:'rgba(0,0,0,0.5)', marginBottom:'0.25rem' }}>{v.who}</div>
+          <div style={{ ...LB, color:'rgba(0,0,0,0.35)' }}>{v.role}</div>
+        </Tile>
       ))}
     </div>
 
-    {/* ══ §8  МАНІФЕСТ CTA ════════════════════════════════════ */}
-    <div style={{ background: WUF_DARK, color: WUF_CREAM,
-      padding: 'clamp(4rem,8vw,8rem) 3rem',
-      textAlign: 'center', display: 'flex', flexDirection: 'column',
-      alignItems: 'center', gap: '2rem' }}>
-      <div style={{ ...T_LABEL, color: WUF_ORG }}>МАНІФЕСТ</div>
-      <h2 style={{ fontFamily: 'var(--display)', fontWeight: 800,
-        fontSize: 'clamp(2rem,6vw,5rem)', lineHeight: 1.1,
-        color: WUF_CREAM, margin: 0, maxWidth: 800 }}>
+    {/* §8  МАНІФЕСТ */}
+    <Tile bg={DARK} tc={CREAM} pad="clamp(4rem,8vw,8rem) 3rem"
+      style={{ textAlign:'center', display:'flex', flexDirection:'column',
+        alignItems:'center', gap:'2rem' }}>
+      <div style={{ ...LB, color:ORG }}>МАНІФЕСТ</div>
+      <h2 style={{ ...H, fontSize:'clamp(2rem,6vw,4rem)', lineHeight:'clamp(2.5rem,7vw,5rem)',
+        color:CREAM, margin:0, maxWidth:800, fontWeight:400 }}>
         Пам'ять{' '}
-        <em style={{ fontStyle: 'italic', color: WUF_YELL }}>активується</em>,<br />
+        <em style={{ fontStyle:'italic', color:YELL }}>активується</em>,<br/>
         а не зберігається.
       </h2>
-      <p style={{ ...T_BODY, fontSize: '1.125rem', color: 'rgba(240,237,230,0.65)',
-        maxWidth: 560, margin: 0, lineHeight: '1.75rem' }}>
+      <p style={{ ...B, color:'rgba(240,237,230,0.65)', maxWidth:600, margin:0 }}>
         Кожна лабораторія, кожна сесія симуляції, кожен документ архіву —
         акт активації. Ви не вивчаєте університет. Ви <em>є</em> університетом.
       </p>
-      <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap',
-        justifyContent: 'center', marginTop: '1rem' }}>
+      <div style={{ display:'flex', gap:'0.75rem', flexWrap:'wrap', justifyContent:'center' }}>
         <button className="wuf-hos-btn wuf-hos-btn--primary">Отримати сертифікат →</button>
         <button className="wuf-hos-btn wuf-hos-btn--ghost">Цифровий архів</button>
         <button className="wuf-hos-btn wuf-hos-btn--ghost">Симуляція</button>
       </div>
-    </div>
+    </Tile>
 
   </div>
 );
