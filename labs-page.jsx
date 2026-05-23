@@ -1,313 +1,290 @@
-/* Labs Page v5 — WeeGo design, card grid, filters, rich detail panel */
+/* Labs Page v6 — wuf-host type scale, virtual interactive labs tied to DonNTU history */
 
+/* ── Type tokens (wuf-host exact) ─────────────────────────────── */
+const LH  = { fontFamily:'var(--display)', fontSize:'2rem',   lineHeight:'2.5rem', fontWeight:400 };
+const LB2 = { fontFamily:'var(--display)', fontSize:'1.5rem', lineHeight:'2rem',   fontWeight:400 };
+const LBL = { fontFamily:'var(--mono)',    fontSize:'0.6rem', letterSpacing:'0.14em', textTransform:'uppercase', lineHeight:'1rem' };
+const LPAD = '3rem';
+const LBR  = '1px solid rgba(0,0,0,0.08)';
+
+/* ── Colours ───────────────────────────────────────────────────── */
+const LBLUE='#005ab8', LPINK='#f48ba2', LTEAL='#c0e5e7', LYELL='#f5d248';
+const LORG='#f26522', LDARK='#0d0f14', LCREAM='#f0ede6', LNAVY='#1a1a2e';
+const LWHITE='#fff', LOFF='#111214';
+
+/* ── Status config ─────────────────────────────────────────────── */
+const STATUS = {
+  open:      { color: LBLUE,  dot: LBLUE  },
+  completed: { color: '#4a7c59', dot: '#4a7c59' },
+  flagship:  { color: LORG,   dot: LORG   },
+};
+
+/* ── Labs data ─────────────────────────────────────────────────── */
 const LABS = [
   {
-    id:'LAB-M01', n:'01', ua:'Симулятор гірничої безпеки', sub:'Корпус B-01', disc:'Гірнича', d:5, t:'90 хв', s:'completed', sLbl:'ЗАВЕРШЕНО',
-    icon:'⛏',
-    brief:'Шахтне SCADA-середовище з моніторингом метану, вентиляції та аварійних сценаріїв.',
-    fullDesc:'Повноцінна симуляція шахтного середовища з моніторингом метану, вентиляції та аварійних ситуацій. Базується на реальних польових даних шахт Донбасу. Студенти працюють з цифровими двійниками реального обладнання.',
-    equipment:['Симулятор SCADA вентиляції', 'Датчики метану CH₄ (цифрові двійники)', 'Пульт диспетчера шахти', 'VR-шоломи для занурення в шахту', 'Термоанемометричний прилад'],
-    labWorks:['Аналіз газової обстановки у вибої', 'Проєктування вентиляційної мережі', 'Дії при аварійному загазуванні', 'Евакуація персоналу — моделювання'],
-    publications:['Коваленко О.М. «Моделювання газодинамічних явищ у шахтах» // Уголь Украины, 2019','Петров В.І. «Цифровий двійник вентиляції шахти ім. Засядька» // Геотехнічна механіка, 2021'],
-    students:148, utilization:92,
+    id:'L·01', ua:'Шахта ім. Засядька', disc:'Гірнича інженерія',
+    d:4, t:'60 хв', s:'open', sLbl:'ВІДКРИТО',
+    brief:'SCADA-тренажер диспетчера: метан, вентиляція та аварійний сценарій у реальному часі.',
+    fullDesc:"Цифровий двійник диспетчерського пункту шахти ім. Засядька — найбільшої шахти Донбасу (25 000 гірників, глибина 1400 м). Студент бере роль чергового диспетчера і в реальному часі відстежує показники вентиляції, рівень метану в трьох вибоях та стан підйомних механізмів. Сценарій завершується аварійною ситуацією, яку треба розв'язати за 8 хвилин.",
+    interactions:['Моніторинг метану CH₄ по вибоях','Управління вентиляційними дверима','Аварія: газовий викид — евакуація зміни',"Зв'язок з гірничорятувальниками"],
+    context:"Шахта ім. Засядька, вул. Стратонавтів, Донецьк. Діяла 1958–2018.",
+    color: LTEAL,
   },
   {
-    id:'LAB-E01', n:'02', ua:'Енергосистеми та відновлювані ДЕ', sub:'Корпус B-03', disc:'Енергетика', d:4, t:'50 хв', s:'completed', sLbl:'ЗАВЕРШЕНО',
-    icon:'⚡',
-    brief:'Моделювання електричних мереж 110/35/6 кВ, ВДЕ та оптимізація навантаження.',
-    fullDesc:'Моделювання електричних мереж та енергосистем промислових підприємств. Аналіз стійкості, оптимізація навантаження, інтеграція відновлювальних джерел у промислову мережу.',
-    equipment:['Симулятор мережі 110/35/6 кВ', 'Модель СЕС 10 кВт', 'Реле захисту SEPAM (цифрова копія)', 'Програмний комплекс PSS/E', 'Вимірювальний комплекс RMS'],
-    labWorks:['Розрахунок коротких замикань', 'Моделювання електропостачання шахти', 'Оптимізація графіка навантаження', 'Інтеграція ВДЕ в промислову мережу'],
-    publications:['Бунько В.О. «Оптимізація енергоспоживання» // Електротехніка, 2020','Ляшенко Т.М. «Мікросітки для відновлення» // Energy, 2023'],
-    students:112, utilization:78,
+    id:'L·02', ua:'Кампус Артема, 58', disc:'Архів університету',
+    d:1, t:'30 хв', s:'open', sLbl:'ВІДКРИТО',
+    brief:'3D-прогулянка кампусом Донецька — аудиторії, архівні фото 1950–2014, останній день.',
+    fullDesc:"Реконструйований цифровий кампус ДонНТУ на вул. Артема, 58. Ходиш по коридорах, заходиш в аудиторії, дивишся архівні фото і документи. Кожна кімната — шар часу: переключаєш між 1960, 1991, 2005 та 2014 роками і бачиш як змінювалось середовище. Завершується 16 лютого 2022 — останній день перед евакуацією.",
+    interactions:['Навігація по корпусах (схема поверхів)','Перемикач часових шарів 1960→2014','Архівні документи і фотографії','Остання перекличка: 16.02.2022'],
+    context:"Головний корпус ДонНТУ, Донецьк. Відкритий 1926, окупований 2014.",
+    color: LYELL,
   },
   {
-    id:'LAB-A01', n:'03', ua:'Автоматизація та робототехніка', sub:'Корпус B-02', disc:'Автоматизація', d:4, t:'55 хв', s:'open', sLbl:'ВІДКРИТО',
-    icon:'🤖',
-    brief:'ПЛК-програмування, SCADA, промисловий IoT та керування роботом-маніпулятором.',
-    fullDesc:'Розробка та тестування систем автоматизованого керування промисловими процесами. ПЛК-програмування, SCADA-інтерфейси, промисловий IoT — усе на базі реального обладнання з числовим керуванням.',
-    equipment:['ПЛК Siemens S7-1200 (емулятор)', 'SCADA WinCC', 'Робот-маніпулятор (цифровий двійник)', 'Промислові датчики IoT', 'Перетворювачі частоти ABB'],
-    labWorks:['Програмування ПЛК для конвеєра', 'Налаштування SCADA-інтерфейсу', 'Керування роботом-маніпулятором', 'Побудова IoT-мережі датчиків'],
-    publications:['Гринченко В.І. «Автоматизація конвеєрного транспорту» // АСУ ТП, 2018','Козлов А.С. «Промисловий IoT для шахт» // Sensors, 2022'],
-    students:98, utilization:85,
+    id:'L·03', ua:'Евакуація × 3', disc:'Історія університету',
+    d:2, t:'45 хв', s:'open', sLbl:'ВІДКРИТО',
+    brief:'Три евакуації: 1941, 2014, 2022. Порівняльна карта, документи, рішення.',
+    fullDesc:"Інтерактивна карта трьох евакуацій університету. 1941: під бомбардуваннями — до Прокоп'євська. 2014: під обстрілами — до Покровська. 2022: знову — до Луцька, потім Дрогобич. Для кожної евакуації: маршрут, перелік вивезеного обладнання, накази ректора, листи викладачів і студентів.",
+    interactions:['Карта маршрутів трьох евакуацій','Архів наказів і документів по роках','Порівняння: що вдалось зберегти',"Інтерв'ю очевидців (аудіо)"],
+    context:"Прокоп'євськ (1941) → Покровськ (2014) → Луцьк → Дрогобич (2022–2024).",
+    color: LPINK,
   },
   {
-    id:'LAB-C01', n:'04', ua:'Кібербезпека АСУ ТП', sub:'Корпус B-02', disc:'Кібербезпека', d:4, t:'60 хв', s:'open', sLbl:'ВІДКРИТО',
-    icon:'🔐',
-    brief:'Захист промислових SCADA від кіберзагроз, аналіз вразливостей Modbus, криптографія.',
-    fullDesc:'Захист промислових АСУ ТП від кіберзагроз. Аналіз вразливостей SCADA, криптографія, мережева безпека критичної інфраструктури. Відпрацювання реальних сценаріїв атак у ізольованому середовищі.',
-    equipment:['Кіберполігон АСУ ТП (ізольована мережа)', 'Honeypot для промислових протоколів', 'Nessus сканер вразливостей', 'SIEM для промислових мереж', 'Форензик-станція'],
-    labWorks:['Аналіз вразливостей Modbus', 'Захист SCADA від MitM-атак', 'Криптографічний захист телеметрії', 'Реагування на кіберінцидент — сценарій'],
-    publications:['Шевченко І.П. «Захист АСУ ТП від APT-атак» // Кібербезпека, 2023','Ковальчук Д.М. «Аномалії у трафіку промпротоколів» // IEEE Access, 2024'],
-    students:76, utilization:70,
+    id:'L·04', ua:'Геологічний розріз Донбасу', disc:'Геологія',
+    d:3, t:'50 хв', s:'open', sLbl:'ВІДКРИТО',
+    brief:'Профіль надр до 2000 м: клікай шари, визначай породи, знаходь вугільні пласти.',
+    fullDesc:"Вертикальний розріз донецького басейну від поверхні до глибини 2000 м. Клікаєш на геологічний шар — отримуєш інформацію про породу, вік, характеристики. Завдання: знайти 6 вугільних пластів, оцінити їх промислову цінність, нанести на карту шахтне поле. Дані базуються на реальних геологічних звітах ДонНТУ.",
+    interactions:['Вертикальний розріз з 12 шарами','Визначення мінералів та порід','Розрахунок запасів пласта','Побудова геологічної карти шахтного поля'],
+    context:"Реальні геологічні дані Донецького кам'яновугільного басейну, архів ДонНТУ.",
+    color: LTEAL,
   },
   {
-    id:'LAB-AI01', n:'05', ua:'Штучний інтелект та ML', sub:'Корпус B-04', disc:'IT', d:5, t:'75 хв', s:'open', sLbl:'ВІДКРИТО',
-    icon:'🧠',
-    brief:'Нейронні мережі, комп\'ютерний зір, NLP та MLOps на GPU-кластері університету.',
-    fullDesc:'Дослідження та практична розробка систем ШІ: навчання нейронних мереж, комп\'ютерний зір для промисловості, обробка природної мови, MLOps-пайплайни. GPU-кластер 8×RTX 4090.',
-    equipment:['GPU-кластер 8×NVIDIA RTX 4090', 'Датасет промислових дефектів DonNTU-IDS', 'Промислові камери технічного зору', 'MLflow + DVC середовище', 'Роботизована рука для навчання'],
-    labWorks:['Детекція дефектів гірничого обладнання (YOLO)', 'NLP-аналіз технічної документації', 'Прогнозування аварій (TimeSeries)', 'Розгортання ML-моделі у виробництві'],
-    publications:['Сірченко О.В. «Детекція дефектів конвеєрної стрічки методами CV» // Applied Sciences, 2024','Мороз Д.І. «Прогнозування поломок шахтного обладнання» // Machines, 2023'],
-    students:134, utilization:95,
+    id:'L·05', ua:'Реконструкція міста', disc:'Містобудування',
+    d:4, t:'75 хв', s:'open', sLbl:'ВІДКРИТО',
+    brief:'Симулятор відбудови: супутникові дані руйнувань, тріаж, розподіл ресурсів.',
+    fullDesc:"Ти — керівник відділу відновлення. Є супутникові знімки пошкодженого міста, обмежений бюджет і 500 днів. Потрібно: оцінити збитки за категоріями, скласти тріаж інфраструктури (лікарні → школи → житло → промисловість), обрати підрядників, розподілити фінансування. Сценарії побудовані на основі даних CEDOS та World Bank.",
+    interactions:['Карта пошкоджень з фільтрами','Тріаж: розстав пріоритети відбудови','Бюджетний калькулятор','Підсумковий звіт та рейтинг рішень'],
+    context:"Методологія RAPID Assessment, World Bank. Синтетичні дані на основі відкритих джерел.",
+    color: LBLUE,
   },
   {
-    id:'LAB-GEO01', n:'06', ua:'ГІС та дистанційне зондування', sub:'Корпус B-06', disc:'Геодезія', d:3, t:'60 хв', s:'open', sLbl:'ВІДКРИТО',
-    icon:'🛰',
-    brief:'QGIS, Copernicus-дані, картування руйнувань та моделювання забруднень ДЗЗ.',
-    fullDesc:'Геоінформаційні системи для аналізу промислових та постконфліктних територій. Обробка знімків Sentinel-2/SAR, 3D-моделювання рельєфу, оцінка збитків інфраструктури за супутниковими даними.',
-    equipment:['QGIS + ArcGIS Pro', 'Архів знімків Copernicus / Sentinel', 'Дрон DJI Phantom 4 RTK (симулятор)', 'Обчислювальний кластер для обробки растрів', 'GPS-приймач L1/L2 (цифровий двійник)'],
-    labWorks:['Картування руйнувань за Sentinel-2', 'Оцінка мінного забруднення (алгоритм HALO)', 'Побудова 3D-рельєфу за LiDAR-даними', 'Аналіз зміни землекористування 2014–2024'],
-    publications:['Козак Д.С. «Супутниковий моніторинг руйнувань Маріуполя» // Remote Sensing, 2023','Панченко Л.О. «ГІС-оцінка деградації сільгоспугідь Донбасу» // Land, 2024'],
-    students:89, utilization:72,
+    id:'L·06', ua:'Метанова хвиля', disc:'Безпека праці',
+    d:5, t:'40 хв', s:'open', sLbl:'ВІДКРИТО',
+    brief:'Фізика вибуху в шахті: розрахуй вентиляцію, встанови кордон безпеки, врятуй зміну.',
+    fullDesc:"Симуляція поширення метанової хвилі в гірничій виробці. Задаєш параметри вентиляції, довжину виробки, концентрацію газу. Модель розраховує зону вибуху, ударну хвилю, температуру. Твоя задача — встановити правильний вентиляційний режим і евакуювати зміну до моменту займання. Ціна помилки — статистика реальних аварій.",
+    interactions:['Параметрична модель вибуху','Розрахунок вентиляційного тиску','Евакуаційний план (таймер)','Статистика аварій Донбасу 1990–2014'],
+    context:"Базується на методиці ННДІПБОП (Донецьк). Параметри реальних шахт Донбасу.",
+    color: LORG,
   },
   {
-    id:'LAB-ENV01', n:'07', ua:'Екологічний моніторинг', sub:'Корпус B-05', disc:'Екологія', d:3, t:'45 хв', s:'open', sLbl:'ВІДКРИТО',
-    icon:'🌿',
-    brief:'Аналіз забруднення ґрунтів, повітря та води у постіндустріальних районах Донбасу.',
-    fullDesc:'Комплексний екологічний моніторинг промислових територій. Аналіз важких металів у ґрунтах, моніторинг атмосферних викидів, оцінка якості поверхневих вод у постконфліктних умовах.',
-    equipment:['Польова хімічна лабораторія', 'Газоаналізатор (VOC, SO₂, NOₓ)', 'Атомно-абсорбційний спектрометр', 'IoT-мережа моніторингу якості повітря', 'Програмний комплекс AERMOD'],
-    labWorks:['Оцінка забруднення важкими металами', 'Атмосферне розсіювання промвикидів', 'Якість поверхневих вод: індекс WQI', 'Екологічний аудит промислового об\'єкта'],
-    publications:['Іванова К.П. «Забруднення ґрунтів важкими металами в зоні бойових дій» // Env.Sci., 2024','Мельник Т.А. «Атмосферні викиди зруйнованих промпідприємств» // Atmosphere, 2023'],
-    students:67, utilization:60,
+    id:'L·07', ua:'Коксова піч', disc:'Хімічні технології',
+    d:3, t:'45 хв', s:'open', sLbl:'ВІДКРИТО',
+    brief:'Повний цикл коксування: від донецького вугілля до металургійного коксу та побічних продуктів.',
+    fullDesc:"Повний цикл виробництва коксу від завантаження вугільної шихти до вивантаження готового продукту. Студент контролює температуру, тривалість, хімічний склад. Побічні продукти (бензол, смола, аміак) збираються і оцінюються. Фінальний крок: перевірка якості коксу за стандартом ДСТУ для металургії.",
+    interactions:['Завантаження шихти та склад вугілля','Температурний графік піролізу','Збір та ідентифікація побічних продуктів','QC: перевірка якості коксу'],
+    context:"Донецький коксохімічний завод — один з найбільших в Європі. Сировина: вугілля марок Ж, КЖ.",
+    color: LYELL,
   },
   {
-    id:'LAB-NET01', n:'08', ua:'Комп\'ютерні мережі та SDN', sub:'Корпус B-04', disc:'IT', d:3, t:'50 хв', s:'completed', sLbl:'ЗАВЕРШЕНО',
-    icon:'🌐',
-    brief:'Cisco/Linux-мережі, SDN OpenFlow, маршрутизація та безпека мережної інфраструктури.',
-    fullDesc:'Проєктування та адміністрування комп\'ютерних мереж. Програмно-визначені мережі (SDN), сегментація VLAN, VPN, QoS для промислових додатків та захист мережного периметру.',
-    equipment:['Cisco Catalyst 2960 (Packet Tracer)', 'SDN-контролер OpenDaylight', 'Linux-сервери для мережних служб', 'Wireshark / ntopng аналізатор', 'Firewall Fortinet (навчальна ліцензія)'],
-    labWorks:['Налаштування OSPF/BGP маршрутизації', 'SDN-контролер + OpenFlow flow-tables', 'VPN-тунель для промислових SCADA', 'Аналіз мережного трафіку та IDS'],
-    publications:['Борисенко А.Г. «SDN для промислових мереж гірничих підприємств» // Computers, 2022'],
-    students:103, utilization:80,
+    id:'L·08', ua:'Аудиторія 1921', disc:'Історія університету',
+    d:1, t:'25 хв', s:'completed', sLbl:'ЗАВЕРШЕНО',
+    brief:'Перша лекція ДГІ, 30 травня 1921. Засновники, перші залікові книжки, голоси епохи.',
+    fullDesc:"Віртуальна реконструкція першої аудиторії Донецького гірничого інституту. Дата: 30 травня 1921. Ти — студент першого набору. Перша лекція з геодезії, 23 студенти, крейда на дошці. Між заняттями — архівна колекція: перші залікові книжки, список викладачів, фотографії юзівського технікуму.",
+    interactions:['Реконструйована аудиторія (3D)','Архів: перший список студентів 1921','Перші залікові книжки (скани)','Хронологія: ДГІ → ДПІ → ДНТУ → ДонНТУ'],
+    context:"Гірничий технікум у Юзівці (нині Донецьк), відкритий 30 травня 1921 р.",
+    color: LCREAM,
   },
   {
-    id:'LAB-MECH01', n:'09', ua:'Механіка та матеріалознавство', sub:'Корпус B-01', disc:'Механіка', d:3, t:'55 хв', s:'open', sLbl:'ВІДКРИТО',
-    icon:'⚙',
-    brief:'МСЕ-аналіз, ANSYS-симуляція, тестування матеріалів для гірничого обладнання.',
-    fullDesc:'Обчислювальна механіка та матеріалознавство для проєктування гірничого обладнання. МСЕ-аналіз статичних і динамічних навантажень, вибір матеріалів, втомне руйнування, топологічна оптимізація.',
-    equipment:['ANSYS Workbench (навчальна ліцензія)', 'SolidWorks Simulation', '3D-принтер FDM + SLA', 'Машина для випробувань матеріалів (цифровий двійник)', 'Мікроскоп Olympus BX53 (симулятор)'],
-    labWorks:['МСЕ-аналіз елемента шахтного кріплення', 'Оптимізація топології несучої рами', 'Аналіз втомного руйнування (S-N крива)', 'Моделювання удару для засобів захисту'],
-    publications:['Рева О.В. «Топологічна оптимізація кріпильних елементів шахтної механізованої кріпі» // Strength of Materials, 2023'],
-    students:82, utilization:65,
+    id:'L·09', ua:'Дрон над Донецьком', disc:'Дистанційне зондування',
+    d:3, t:'55 хв', s:'open', sLbl:'ВІДКРИТО',
+    brief:'Пілотуєш дрон над реконструйованим містом, фіксуєш пошкодження, складаєш HALO-звіт.',
+    fullDesc:"Симулятор польоту розвідувального дрону над умовним містом (геометрія — реальний Донецьк, текстури — нейтральні). Місія: за 20 хвилин польоту обстежити 6 кварталів, зафіксувати пошкодження, класифікувати об'єкти (житло, лікарня, дорога, міст). Зібрані дані автоматично формуються у звіт HALO-формату.",
+    interactions:['Симулятор польоту (WASD + камера)','Класифікатор пошкоджень (клік на об\'єкт)','Тепловізійний і RGB режими','Генерація HALO-звіту'],
+    context:"Методологія HALO Trust та UN Habitat для оцінки пошкоджень в зонах конфліктів.",
+    color: LBLUE,
   },
   {
-    id:'LAB-CHEM01', n:'10', ua:'Хімічні технології', sub:'Корпус B-05', disc:'Хімія', d:2, t:'40 хв', s:'open', sLbl:'ВІДКРИТО',
-    icon:'🧪',
-    brief:'Хімічна технологія коксохімії, водоочищення та переробка промислових відходів.',
-    fullDesc:'Хімічні технології переробки сировини та промислових відходів. Коксохімія, водоочищення стічних вод гірничих підприємств, утилізація шлаків та нейтралізація хімічних забруднень.',
-    equipment:['Лабораторний реактор хімічного синтезу', 'Хромато-мас-спектрометр (симулятор)', 'Піч для коксування вугілля (мікромодель)', 'Установка флокуляції для водоочищення', 'ІЧ-спектрометр FTIR'],
-    labWorks:['Аналіз якості коксівного вугілля', 'Очищення шахтних вод від сульфатів', 'Нейтралізація кислих стоків', 'Утилізація доменного шлаку'],
-    publications:['Ткаченко М.В. «Хімічна технологія переробки шлаків Донецького металургійного заводу» // Ukr.Chem.J., 2022'],
-    students:54, utilization:48,
-  },
-  {
-    id:'LAB-D01', n:'11', ua:'Цифрова економіка та аналітика', sub:'Корпус B-02', disc:'Економіка', d:2, t:'40 хв', s:'open', sLbl:'ВІДКРИТО',
-    icon:'📊',
-    brief:'BI-дашборди, ERP-симуляція, оцінка збитків та фінансове моделювання відбудови.',
-    fullDesc:'Економічне моделювання, аналіз даних, бізнес-аналітика. Цифрова трансформація промислових підприємств, оцінка збитків від збройної агресії, фінансове моделювання проєктів відбудови.',
-    equipment:['Power BI / Tableau Desktop', 'Python + Pandas / NumPy / Plotly', 'ERP-симулятор SAP Learning', 'ГІС-модулі для оцінки збитків', 'Bloomberg Terminal (навчальний)'],
-    labWorks:['Оцінка збитків підприємств Донбасу', 'BI-дашборд для промислового підприємства', 'Аналіз ринку праці ВПО', 'Фінансове моделювання проєкту відбудови'],
-    publications:['Мельник Т.А. «Оцінка прямих збитків промислової інфраструктури» // Економіка України, 2023'],
-    students:119, utilization:74,
-  },
-  {
-    id:'LAB-SIM01', n:'12', ua:'Тренажерний центр', sub:'Корпус B-03', disc:'Симуляція', d:3, t:'60 хв', s:'open', sLbl:'ВІДКРИТО',
-    icon:'🖥',
-    brief:'Повноекранні тренажери: диспетчер шахти, пульт управління підстанцією, HoReCa-OS.',
-    fullDesc:'Мультидисциплінарний тренажерний центр для практичного відпрацювання технологічних процесів. Симулятори диспетчерського управління, аварійних ситуацій та нестаціонарних режимів.',
-    equipment:['Симулятор диспетчера шахти (5 місць)', 'Тренажер управління підстанцією', 'VR-шоломи Meta Quest 3 (10 од)', 'Тактильні контролери для VR', 'Проєктор 180° для середовища занурення'],
-    labWorks:['Диспетчерське управління у кризовій ситуації', 'Обслуговування підстанції під напругою', 'Аварійна зупинка доменної печі', 'Евакуація з гірничої виробки — VR'],
-    publications:['Дяченко В.Р. «VR-тренажери для підготовки шахтарів: ефективність» // Safety Science, 2023'],
-    students:201, utilization:88,
-  },
-  {
-    id:'LAB-ARCH01', n:'13', ua:'Цифрова архітектура та BIM', sub:'Корпус B-06', disc:'Архітектура', d:3, t:'60 хв', s:'open', sLbl:'ВІДКРИТО',
-    icon:'🏗',
-    brief:'BIM-проєктування відбудови, Revit, параметрична архітектура та 3D-рендеринг.',
-    fullDesc:'Цифрове проєктування та BIM-моделювання для відбудови зруйнованої інфраструктури. Від концепту до будівельної документації з урахуванням вимог стійкості та енергоефективності.',
-    equipment:['Autodesk Revit 2025 (навчальна ліцензія)', 'Rhino 8 + Grasshopper', '3D-принтер для макетів', 'VR-візуалізація проєктів (Meta Quest 3)', 'Рендер-ферма (NVIDIA RTX A6000)'],
-    labWorks:['BIM-модель зруйнованого будинку для відбудови', 'Параметричне фасадне проєктування', 'Енергетичне моделювання будівлі', 'BIM-координація: архітектура + конструкції + MEP'],
-    publications:['Остапенко Ю.В. «BIM-методологія у відновленні постконфліктних міст» // Buildings, 2024'],
-    students:77, utilization:68,
-  },
-  {
-    id:'LAB-R01', n:'14', ua:'Лабораторія відновлення Донбасу', sub:'Корпус B-06', disc:'Відновлення', d:5, t:'90 хв', s:'flagship', sLbl:'ФЛАГМАН',
-    icon:'🔬',
-    brief:'Флагманський міждисциплінарний центр: ГІС-картування, тріаж інфраструктури, сценарії розселення.',
-    fullDesc:'Міждисциплінарне середовище планування відбудови. Картування забруднень, тріаж інфраструктури, сценарії розселення — на основі реальних даних та академічних досліджень ДонНТУ.',
-    equipment:['ГІС-платформа QGIS + Copernicus', 'Дрон-симулятор для обстеження руйнувань', 'BIM-модулі для проєктування відбудови', '3D-принтер для макетування', 'Дашборд моніторингу відбудови Донеччини'],
-    labWorks:['Картування мінної небезпеки за ДЗЗ', 'Тріаж інфраструктури: пріоритезація відбудови', 'Екологічна оцінка забруднення ґрунтів', 'Сценарне планування розселення громади'],
-    publications:['Бондаренко А.В. «Методика тріажу інфраструктури постконфліктних територій» // Urban Studies, 2024','Козак Д.С. «Супутниковий моніторинг руйнувань Маріуполя» // Remote Sensing, 2023'],
-    students:243, utilization:97,
+    id:'L·10', ua:'Рішення ректора', disc:'Управління в кризі',
+    d:5, t:'90 хв', s:'flagship', sLbl:'ФЛАГМАН',
+    brief:'28 лютого 2022, 04:00. Ти — ректор. 72 години щоб врятувати університет. Квест з реальними документами.',
+    fullDesc:"Текстовий квест-симулятор на основі реальних подій лютого–квітня 2022. Ти — ректор ДонНТУ. Почалось повномасштабне вторгнення. Є 72 години, команда, список майна, бази даних студентів і 50 000 справ в архіві. Кожне рішення має наслідки. Наприкінці — порівняння з тим, що насправді зробив Д. С. Шиленко.",
+    interactions:['Текстовий квест (розгалужені рішення)','Документи: накази, списки, листи (реальні скани)','Лічильник часу і ресурсів','Фінал: порівняння з реальними рішеннями'],
+    context:"Реальна хронологія: 24 лютого — вторгнення, 12 квітня 2022 — ДонНТУ в Луцьку.",
+    color: LDARK,
+    partners:['Кризовий менеджмент','Право','Психологія','Логістика','Архівна справа','Цифрова безпека'],
   },
 ];
 
-const DISC_FILTERS = ['Всі', 'IT', 'Гірнича', 'Енергетика', 'Автоматизація', 'Кібербезпека', 'Відновлення', 'Інше'];
+/* ── Shared micro-components ───────────────────────────────────── */
+const Dots = ({ filled, total=5 }) => (
+  <div style={{ display:'flex', gap:4, alignItems:'center' }}>
+    {Array.from({ length: total }, (_, i) => (
+      <span key={i} style={{
+        width: 7, height: 7, borderRadius:'50%',
+        background: i < filled ? LDARK : 'transparent',
+        border: `1.5px solid ${i < filled ? LDARK : 'rgba(0,0,0,0.2)'}`,
+        display:'inline-block', flexShrink:0,
+      }} />
+    ))}
+  </div>
+);
 
-const DISC_COLORS = {
-  'IT':             { text:'var(--lime)',  bg:'rgba(205,242,79,.06)',  border:'rgba(205,242,79,.2)'  },
-  'Гірнича':        { text:'var(--ac)',    bg:'rgba(212,196,181,.06)', border:'rgba(212,196,181,.2)' },
-  'Енергетика':     { text:'var(--slate)', bg:'rgba(136,152,170,.06)', border:'rgba(136,152,170,.2)' },
-  'Автоматизація':  { text:'var(--t1)',    bg:'rgba(255,255,255,.03)', border:'rgba(255,255,255,.1)' },
-  'Кібербезпека':   { text:'var(--gr)',    bg:'rgba(106,159,116,.06)', border:'rgba(106,159,116,.2)' },
-  'Геодезія':       { text:'var(--slate)', bg:'rgba(136,152,170,.06)', border:'rgba(136,152,170,.2)' },
-  'Екологія':       { text:'var(--gr)',    bg:'rgba(106,159,116,.06)', border:'rgba(106,159,116,.2)' },
-  'Механіка':       { text:'var(--t2)',    bg:'rgba(255,255,255,.02)', border:'rgba(255,255,255,.08)' },
-  'Хімія':          { text:'var(--rust)',  bg:'rgba(196,80,57,.06)',   border:'rgba(196,80,57,.2)'   },
-  'Економіка':      { text:'var(--ac)',    bg:'rgba(212,196,181,.06)', border:'rgba(212,196,181,.2)' },
-  'Симуляція':      { text:'var(--lime)',  bg:'rgba(205,242,79,.04)',  border:'rgba(205,242,79,.15)' },
-  'Архітектура':    { text:'var(--slate)', bg:'rgba(136,152,170,.06)', border:'rgba(136,152,170,.2)' },
-  'Відновлення':    { text:'var(--lime)',  bg:'rgba(205,242,79,.08)',  border:'rgba(205,242,79,.35)' },
+const Badge = ({ s, label }) => {
+  const cfg = STATUS[s] || STATUS.open;
+  return (
+    <span style={{
+      ...LBL,
+      display:'inline-flex', alignItems:'center', gap:5,
+      padding:'4px 10px',
+      border:`1px solid ${cfg.color}`,
+      color: cfg.color,
+    }}>
+      <span style={{ width:5, height:5, borderRadius:'50%', background:cfg.dot, flexShrink:0 }} />
+      {label}
+    </span>
+  );
 };
 
-const STATS = [
-  { v:'14', l:'Лабораторій' },
-  { v:'6',  l:'Корпусів' },
-  { v:'22', l:'Дисципліни' },
-  { v:'1.4K', l:'Студентів/рік' },
-  { v:'87%', l:'Утилізація' },
-  { v:'18', l:'Публікацій 2024' },
-];
-
-const StatusColors = {
-  completed: 'var(--gr)',
-  open:      'var(--ac)',
-  flagship:  'var(--lime)',
-  locked:    'var(--t3)',
-};
-
-const LabCard = ({ lab, isOpen, onToggle }) => {
-  const dc = DISC_COLORS[lab.disc] || { text:'var(--t2)', bg:'transparent', border:'var(--b1)' };
-  const sc = StatusColors[lab.s] || 'var(--t3)';
+/* ── Single lab row ────────────────────────────────────────────── */
+const LabRow = ({ lab, open, onToggle }) => {
+  const isFlg = lab.s === 'flagship';
+  const rowBg = open ? 'rgba(0,0,0,0.03)' : LWHITE;
 
   return (
-    <div style={{ borderBottom:'1px solid var(--b1)', background: isOpen ? 'rgba(212,196,181,.02)' : 'transparent' }}>
-      {/* Card header — clickable */}
+    <div style={{ borderBottom: LBR }}>
+
+      {/* ── Main row ── */}
       <div
         onClick={onToggle}
         style={{
           display:'grid',
-          gridTemplateColumns:'40px 1fr auto',
-          gap:'1rem',
+          gridTemplateColumns:'5.5rem 1fr 12rem 6rem 5rem 9rem 5.5rem',
+          alignItems:'center',
           padding:'1.25rem 1.5rem',
           cursor:'pointer',
-          transition:'background .2s',
+          background: rowBg,
+          transition:'background .15s',
+          gap:'1rem',
         }}
-        onMouseEnter={e => { if (!isOpen) e.currentTarget.style.background = 'rgba(255,255,255,.015)'; }}
-        onMouseLeave={e => { e.currentTarget.style.background = isOpen ? 'rgba(212,196,181,.02)' : 'transparent'; }}
+        onMouseEnter={e => { if(!open) e.currentTarget.style.background='rgba(0,0,0,0.02)'; }}
+        onMouseLeave={e => { e.currentTarget.style.background = open ? 'rgba(0,0,0,0.03)' : LWHITE; }}
       >
-        {/* Icon */}
-        <div style={{
-          width:40, height:40,
-          border:`1px solid ${isOpen ? 'rgba(212,196,181,.3)' : 'var(--b1)'}`,
-          display:'flex', alignItems:'center', justifyContent:'center',
-          fontSize:'1.125rem', flexShrink:0,
-          background: isOpen ? 'rgba(212,196,181,.06)' : 'transparent',
-          transition:'all .2s',
-        }}>{lab.icon}</div>
 
-        {/* Info */}
-        <div style={{ minWidth:0 }}>
-          <div style={{ display:'flex', alignItems:'center', gap:'0.625rem', marginBottom:'4px', flexWrap:'wrap' }}>
-            <span style={{ fontFamily:'var(--mono)', fontSize:'0.5625rem', color:'var(--t3)', letterSpacing:'0.1em' }}>{lab.id}</span>
-            <span style={{
-              fontFamily:'var(--mono)', fontSize:'0.5rem', letterSpacing:'0.1em',
-              padding:'2px 6px',
-              border:`1px solid ${dc.border}`,
-              color: dc.text,
-              background: dc.bg,
-              textTransform:'uppercase',
-            }}>{lab.disc}</span>
+        {/* ID */}
+        <span style={{ ...LBL, color:'rgba(0,0,0,0.35)', fontSize:'0.55rem' }}>{lab.id}</span>
+
+        {/* Name */}
+        <div>
+          <div style={{ ...LH, fontSize:'1.125rem', lineHeight:'1.5rem', color: LDARK }}>
+            {lab.ua}
+            {isFlg && <span style={{ ...LBL, color:LORG, marginLeft:'0.75rem', fontSize:'0.5rem' }}>★ ФЛАГМАН</span>}
           </div>
-          <div style={{ fontFamily:'var(--sans)', fontSize:'1rem', fontWeight:700, lineHeight:1.25, marginBottom:'4px' }}>{lab.ua}</div>
-          <div style={{ fontFamily:'var(--mono)', fontSize:'0.5625rem', color:'var(--t3)', letterSpacing:'0.08em' }}>{lab.sub}</div>
-          <div style={{ fontSize:'0.8rem', color:'var(--t3)', lineHeight:1.5, marginTop:'6px', maxWidth:'52ch' }}>{lab.brief}</div>
+          <div style={{ ...LBL, color:'rgba(0,0,0,0.4)', marginTop:3, fontSize:'0.55rem' }}>{lab.context}</div>
         </div>
 
-        {/* Meta */}
-        <div style={{ display:'flex', flexDirection:'column', alignItems:'flex-end', gap:'0.5rem', flexShrink:0 }}>
-          <span style={{
-            fontFamily:'var(--mono)', fontSize:'0.5rem', letterSpacing:'0.1em',
-            padding:'2px 8px', border:`1px solid ${sc}44`,
-            color: sc, display:'flex', alignItems:'center', gap:'5px',
-          }}>
-            <span style={{ width:4, height:4, borderRadius:'50%', background:sc, display:'inline-block' }}></span>
-            {lab.sLbl}
-          </span>
-          <div style={{ display:'flex', alignItems:'center', gap:'6px' }}>
-            <span className="pdots"><PDots filled={lab.d} /></span>
-            <span style={{ fontFamily:'var(--mono)', fontSize:'0.5625rem', color:'var(--t3)' }}>{lab.t}</span>
-          </div>
-          {/* utilization bar */}
-          <div style={{ width:80 }}>
-            <div style={{ display:'flex', justifyContent:'space-between', marginBottom:3 }}>
-              <span style={{ fontFamily:'var(--mono)', fontSize:'0.5rem', color:'var(--t3)' }}>УТИЛ.</span>
-              <span style={{ fontFamily:'var(--mono)', fontSize:'0.5rem', color: lab.utilization > 85 ? 'var(--lime)' : 'var(--t3)' }}>{lab.utilization}%</span>
-            </div>
-            <div className="bar">
-              <div className={`bar-fill${lab.utilization > 85 ? ' bar-lime' : lab.s === 'flagship' ? ' bar-lime' : ''}`}
-                   style={{ width: lab.utilization + '%' }}></div>
-            </div>
-          </div>
-          <span style={{ fontFamily:'var(--mono)', fontSize:'0.5rem', color: isOpen ? 'var(--ac)' : 'var(--t3)', marginTop:'2px', transition:'color .2s' }}>
-            {isOpen ? '↑ ЗГОРНУТИ' : '↓ РОЗГОРНУТИ'}
-          </span>
-        </div>
+        {/* Discipline */}
+        <span style={{ ...LBL, color:'rgba(0,0,0,0.5)', fontSize:'0.55rem' }}>{lab.disc}</span>
+
+        {/* Dots */}
+        <Dots filled={lab.d} />
+
+        {/* Duration */}
+        <span style={{ ...LBL, color:'rgba(0,0,0,0.5)', fontSize:'0.55rem' }}>{lab.t}</span>
+
+        {/* Status */}
+        <Badge s={lab.s} label={lab.sLbl} />
+
+        {/* Open */}
+        <span style={{
+          ...LBL, color: open ? LBLUE : LDARK,
+          fontSize:'0.55rem', textAlign:'right',
+          transition:'color .15s',
+        }}>
+          {open ? '↑ ЗГОРН.' : 'ВІДКРИТИ →'}
+        </span>
       </div>
 
-      {/* Expanded detail */}
-      {isOpen && (
+      {/* ── Expanded panel ── */}
+      {open && (
         <div style={{
-          borderTop:'1px solid var(--b1)',
-          padding:'1.5rem 1.5rem 1.75rem',
-          display:'grid', gridTemplateColumns:'1fr 1fr', gap:'1.5rem',
-          borderLeft:`3px solid ${lab.s === 'flagship' ? 'var(--lime)' : 'rgba(212,196,181,.3)'}`,
+          borderTop: LBR,
+          display:'grid', gridTemplateColumns:'1fr 1fr',
+          borderLeft:`3px solid ${isFlg ? LORG : LBLUE}`,
         }}>
-          {/* Left: description + equipment */}
-          <div style={{ display:'flex', flexDirection:'column', gap:'1.25rem' }}>
+
+          {/* Left: description + context */}
+          <div style={{
+            padding:`2rem ${LPAD}`,
+            borderRight: LBR,
+            display:'flex', flexDirection:'column', gap:'1.5rem',
+          }}>
             <div>
-              <span className="lbl" style={{ display:'block', marginBottom:'0.5rem' }}>ОПИС</span>
-              <p style={{ fontSize:'0.875rem', color:'var(--t2)', lineHeight:1.72 }}>{lab.fullDesc}</p>
+              <div style={{ ...LBL, color:'rgba(0,0,0,0.35)', marginBottom:'0.75rem' }}>ОПИС ЛАБОРАТОРІЇ</div>
+              <p style={{ ...LB2, fontSize:'1rem', lineHeight:'1.6rem', color:LDARK }}>{lab.fullDesc}</p>
             </div>
-            <div>
-              <span className="lbl lbl-amber" style={{ display:'block', marginBottom:'0.625rem' }}>ОБЛАДНАННЯ</span>
-              <div style={{ display:'flex', flexDirection:'column', gap:'5px' }}>
-                {lab.equipment.map((eq, i) => (
-                  <div key={i} style={{ display:'flex', gap:'8px', alignItems:'flex-start' }}>
-                    <span style={{ color:'var(--ac)', fontFamily:'var(--mono)', fontSize:'0.625rem', marginTop:2, flexShrink:0 }}>◇</span>
-                    <span style={{ fontSize:'0.8125rem', color:'var(--t2)', lineHeight:1.45 }}>{eq}</span>
-                  </div>
-                ))}
-              </div>
+            <div style={{
+              padding:'1rem 1.25rem',
+              background: lab.color === LDARK ? '#f5f0e8' : `${lab.color}22`,
+              borderLeft:`3px solid ${lab.color === LDARK ? '#555' : lab.color}`,
+            }}>
+              <div style={{ ...LBL, color:'rgba(0,0,0,0.4)', marginBottom:'0.375rem', fontSize:'0.55rem' }}>КОНТЕКСТ</div>
+              <span style={{ ...LBL, color: LDARK, fontSize:'0.6rem' }}>{lab.context}</span>
             </div>
           </div>
 
-          {/* Right: lab works + publications */}
-          <div style={{ display:'flex', flexDirection:'column', gap:'1.25rem' }}>
+          {/* Right: interactions */}
+          <div style={{ padding:`2rem ${LPAD}`, display:'flex', flexDirection:'column', gap:'1.5rem' }}>
             <div>
-              <span className="lbl" style={{ display:'block', marginBottom:'0.625rem', color:'var(--lime)', opacity:.9 }}>ЛАБОРАТОРНІ РОБОТИ</span>
-              <div style={{ display:'flex', flexDirection:'column', gap:'5px' }}>
-                {lab.labWorks.map((lw, i) => (
-                  <div key={i} style={{ display:'flex', gap:'8px', alignItems:'flex-start' }}>
-                    <span style={{ fontFamily:'var(--mono)', fontSize:'0.5625rem', color:'var(--lime)', marginTop:2, flexShrink:0, minWidth:18 }}>{String(i+1).padStart(2,'0')}</span>
-                    <span style={{ fontSize:'0.8125rem', color:'var(--t2)', lineHeight:1.45 }}>{lw}</span>
+              <div style={{ ...LBL, color:'rgba(0,0,0,0.35)', marginBottom:'1rem' }}>ІНТЕРАКТИВНІ МОДУЛІ</div>
+              <div style={{ display:'flex', flexDirection:'column', gap:'0.75rem' }}>
+                {lab.interactions.map((item, i) => (
+                  <div key={i} style={{
+                    display:'flex', gap:'1rem', alignItems:'flex-start',
+                    padding:'0.75rem 1rem',
+                    border: LBR,
+                    background: LWHITE,
+                  }}>
+                    <span style={{
+                      ...LBL, fontSize:'0.55rem',
+                      color: isFlg ? LORG : LBLUE,
+                      flexShrink:0, minWidth:'1.25rem',
+                    }}>
+                      {String(i+1).padStart(2,'0')}
+                    </span>
+                    <span style={{ ...LBL, color:LDARK, fontSize:'0.6rem', lineHeight:'1rem' }}>{item}</span>
                   </div>
                 ))}
               </div>
             </div>
-            <div>
-              <span className="lbl lbl-dim" style={{ display:'block', marginBottom:'0.5rem' }}>ПУБЛІКАЦІЇ</span>
-              {lab.publications.map((pub, i) => (
-                <p key={i} style={{ fontSize:'0.75rem', color:'var(--t3)', lineHeight:1.6, fontStyle:'italic', marginBottom:'4px' }}>{pub}</p>
-              ))}
-            </div>
-            <div style={{ marginTop:'auto', paddingTop:'0.875rem', borderTop:'1px solid var(--b1)', display:'flex', gap:'0.5rem', alignItems:'center', justifyContent:'space-between' }}>
-              <div style={{ display:'flex', gap:'4px' }}>
-                <span style={{ fontFamily:'var(--mono)', fontSize:'0.5rem', color:'var(--t3)' }}>СТУДЕНТІВ:</span>
-                <span style={{ fontFamily:'var(--mono)', fontSize:'0.5rem', color:'var(--t1)' }}>{lab.students}</span>
-              </div>
-              <button className="btn btn-sm btn-g">ЗАПУСТИТИ СИМУЛЯЦІЮ →</button>
+            <div style={{
+              marginTop:'auto',
+              paddingTop:'1.25rem',
+              borderTop: LBR,
+              display:'flex', gap:'0.75rem',
+            }}>
+              <button
+                style={{
+                  ...LBL, fontSize:'0.6rem',
+                  padding:'0.75rem 1.5rem',
+                  background: isFlg ? LORG : LBLUE,
+                  color: LWHITE, border:'none', cursor:'pointer',
+                }}
+                onClick={e => { e.stopPropagation(); }}
+              >
+                ЗАПУСТИТИ →
+              </button>
+              <button
+                style={{
+                  ...LBL, fontSize:'0.6rem',
+                  padding:'0.75rem 1.25rem',
+                  background:'transparent',
+                  color: LDARK,
+                  border:`1px solid rgba(0,0,0,0.2)`,
+                  cursor:'pointer',
+                }}
+                onClick={e => { e.stopPropagation(); }}
+              >
+                МЕТОДИЧКА
+              </button>
             </div>
           </div>
         </div>
@@ -316,186 +293,211 @@ const LabCard = ({ lab, isOpen, onToggle }) => {
   );
 };
 
+/* ── Flagship block ────────────────────────────────────────────── */
+const FlagshipBlock = ({ lab, onNavigate }) => (
+  <div style={{
+    display:'grid', gridTemplateColumns:'2fr 1fr',
+    background: LDARK, color: LWHITE,
+    border:`1px solid rgba(255,255,255,0.06)`,
+  }}>
+    {/* Left */}
+    <div style={{
+      padding: LPAD,
+      borderRight:'1px solid rgba(255,255,255,0.06)',
+      display:'flex', flexDirection:'column', gap:'1.5rem',
+    }}>
+      <div style={{ ...LBL, color: LORG, fontSize:'0.6rem' }}>ФЛАГМАН · {lab.id}</div>
+
+      <div>
+        <h2 style={{ ...LH, fontSize:'2.5rem', lineHeight:'3rem', color:LWHITE, margin:0 }}>
+          {lab.ua}
+        </h2>
+        <p style={{ ...LB2, color:'rgba(255,255,255,0.55)', marginTop:'1rem', maxWidth:'44ch' }}>
+          {lab.brief}
+        </p>
+      </div>
+
+      <div style={{ display:'flex', gap:'0.75rem', flexWrap:'wrap' }}>
+        <button
+          style={{
+            ...LBL, fontSize:'0.6rem',
+            padding:'0.875rem 1.75rem',
+            background: LORG, color:LWHITE,
+            border:'none', cursor:'pointer',
+          }}
+          onClick={() => onNavigate && onNavigate('simulation')}
+        >
+          ЗАПУСТИТИ ФЛАГМАН →
+        </button>
+        <button
+          style={{
+            ...LBL, fontSize:'0.6rem',
+            padding:'0.875rem 1.5rem',
+            background:'transparent', color:LWHITE,
+            border:'1px solid rgba(255,255,255,0.2)',
+            cursor:'pointer',
+          }}
+        >
+          МЕТОДИЧНИЙ ОПИС
+        </button>
+      </div>
+
+      {/* Stats */}
+      <div style={{ display:'flex', gap:'2.5rem', paddingTop:'1.5rem', borderTop:'1px solid rgba(255,255,255,0.07)' }}>
+        <div>
+          <div style={{ fontFamily:'var(--display)', fontSize:'2rem', fontWeight:400, color:LORG, lineHeight:1 }}>72</div>
+          <div style={{ ...LBL, color:'rgba(255,255,255,0.4)', marginTop:6, fontSize:'0.55rem' }}>ГОДИНИ КВЕСТУ</div>
+        </div>
+        <div>
+          <div style={{ fontFamily:'var(--display)', fontSize:'2rem', fontWeight:400, color:LWHITE, lineHeight:1 }}>48</div>
+          <div style={{ ...LBL, color:'rgba(255,255,255,0.4)', marginTop:6, fontSize:'0.55rem' }}>РІШЕНЬ</div>
+        </div>
+        <div>
+          <div style={{ fontFamily:'var(--display)', fontSize:'2rem', fontWeight:400, color:LTEAL, lineHeight:1 }}>6</div>
+          <div style={{ ...LBL, color:'rgba(255,255,255,0.4)', marginTop:6, fontSize:'0.55rem' }}>ДИСЦИПЛІН</div>
+        </div>
+      </div>
+    </div>
+
+    {/* Right: partner disciplines */}
+    <div style={{ padding: LPAD, display:'flex', flexDirection:'column', gap:'1.5rem' }}>
+      <div style={{ ...LBL, color:'rgba(255,255,255,0.35)', fontSize:'0.55rem' }}>ПАРТНЕРСЬКІ ДИСЦИПЛІНИ</div>
+      <div style={{ display:'flex', flexDirection:'column' }}>
+        {(lab.partners || []).map((d, i, arr) => (
+          <div key={d} style={{
+            display:'flex', justifyContent:'space-between', alignItems:'center',
+            padding:'0.875rem 0',
+            borderBottom: i < arr.length-1 ? '1px solid rgba(255,255,255,0.06)' : 'none',
+          }}>
+            <span style={{ ...LBL, color:'rgba(255,255,255,0.7)', fontSize:'0.6rem' }}>{d}</span>
+            <span style={{ color: LORG, fontSize:'0.5rem' }}>•</span>
+          </div>
+        ))}
+      </div>
+      <div style={{
+        marginTop:'auto', paddingTop:'1.5rem',
+        borderTop:'1px solid rgba(255,255,255,0.07)',
+      }}>
+        <div style={{ ...LBL, color:'rgba(255,255,255,0.35)', fontSize:'0.55rem', marginBottom:'0.75rem' }}>БАЗА МАТЕРІАЛІВ</div>
+        <p style={{ ...LBL, color:'rgba(255,255,255,0.55)', fontSize:'0.6rem', lineHeight:'1.4rem' }}>
+          Реальні накази ДонНТУ · Архів МОН України · Хронологія CEDOS · Матеріали ОБСЄ
+        </p>
+      </div>
+    </div>
+  </div>
+);
+
+/* ── Column headers ────────────────────────────────────────────── */
+const TableHead = () => (
+  <div style={{
+    display:'grid',
+    gridTemplateColumns:'5.5rem 1fr 12rem 6rem 5rem 9rem 5.5rem',
+    alignItems:'center',
+    padding:'0.75rem 1.5rem',
+    gap:'1rem',
+    borderBottom: LBR,
+    background:'rgba(0,0,0,0.02)',
+  }}>
+    {['КОД','ЛАБОРАТОРІЯ','ДИСЦИПЛІНА','РІВЕНЬ','ЧАС','СТАТУС',''].map((h, i) => (
+      <span key={i} style={{ ...LBL, color:'rgba(0,0,0,0.3)', fontSize:'0.5rem' }}>{h}</span>
+    ))}
+  </div>
+);
+
+/* ── Main page ─────────────────────────────────────────────────── */
 const LabsPage = ({ onNavigate }) => {
-  const [filter, setFilter]   = React.useState('Всі');
   const [expanded, setExpanded] = React.useState(null);
-  const [search, setSearch]   = React.useState('');
-
-  const filtered = LABS.filter(l => {
-    const disc = filter === 'Всі' ? true
-      : filter === 'Інше' ? !['IT','Гірнича','Енергетика','Автоматизація','Кібербезпека','Відновлення'].includes(l.disc)
-      : l.disc === filter;
-    const q = search.toLowerCase();
-    const matchSearch = !q || l.ua.toLowerCase().includes(q) || l.disc.toLowerCase().includes(q) || l.sub.toLowerCase().includes(q);
-    return disc && matchSearch;
-  });
-
-  const toggle = id => setExpanded(expanded === id ? null : id);
-
   const flagship = LABS.find(l => l.s === 'flagship');
+  const rows = LABS.filter(l => l.s !== 'flagship');
+
+  const toggle = id => setExpanded(prev => prev === id ? null : id);
 
   return (
-    <div className="page page-anim" style={{ display:'flex', flexDirection:'column', gap:'2.5rem' }}>
+    <div style={{ background: LCREAM, minHeight:'100vh' }}>
 
-      {/* Header */}
-      <div>
-        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-end', gap:'2rem', marginBottom:'1.5rem', flexWrap:'wrap' }}>
-          <div>
-            <span className="lbl" style={{ marginBottom:'0.5rem', display:'block' }}>05 · ЛАБОРАТОРІЇ</span>
-            <h1 className="h1">Лабораторний <em>комплекс</em></h1>
-            <p className="body" style={{ marginTop:'0.625rem', maxWidth:'50ch', fontSize:'1rem' }}>
-              Чотирнадцять інженерних модулів по шести корпусах — від гірничої симуляції до цифрового відновлення Донбасу.
-            </p>
-          </div>
-          {/* search */}
-          <div style={{ display:'flex', alignItems:'center', gap:0, border:'1px solid var(--b1)', background:'var(--s1)', flexShrink:0 }}>
-            <span style={{ padding:'0.65rem 0.875rem', fontFamily:'var(--mono)', fontSize:'0.6rem', color:'var(--t3)', letterSpacing:'0.1em', borderRight:'1px solid var(--b1)' }}>ПОШУК</span>
-            <input
-              value={search}
-              onChange={e => setSearch(e.target.value)}
-              placeholder="назва, дисципліна..."
-              style={{
-                background:'none', border:'none', outline:'none', padding:'0.65rem 1rem',
-                color:'var(--t1)', fontFamily:'var(--mono)', fontSize:'0.75rem',
-                width:200, letterSpacing:'0.05em',
-              }}
-            />
-          </div>
+      {/* ── Hero ── */}
+      <div style={{
+        display:'grid', gridTemplateColumns:'2fr 1fr',
+        borderBottom: LBR,
+        minHeight: 320,
+      }}>
+        {/* Title tile */}
+        <div style={{
+          padding: LPAD,
+          paddingTop:'4rem',
+          background: LWHITE,
+          borderRight: LBR,
+          display:'flex', flexDirection:'column', gap:'1.25rem',
+        }}>
+          <div style={{ ...LBL, color:'rgba(0,0,0,0.35)', fontSize:'0.55rem' }}>05 · ЛАБОРАТОРІЇ · ЦИФРОВІ СИМУЛЯЦІЇ</div>
+          <h1 style={{ ...LH, fontSize:'2.5rem', lineHeight:'3rem', color:LDARK, margin:0 }}>
+            Віртуальні<br/><em style={{ fontStyle:'italic', color:LBLUE }}>лабораторії</em>
+          </h1>
+          <p style={{ ...LB2, color:'rgba(0,0,0,0.6)', maxWidth:'42ch', margin:0 }}>
+            Десять інтерактивних модулів прив'язаних до реальної історії ДонНТУ — від шахти Засядька до рішень ректора 2022 року.
+          </p>
         </div>
 
-        {/* Stats row */}
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(6,1fr)', gap:0, border:'1px solid var(--b1)' }}>
-          {STATS.map((s, i) => (
+        {/* Stats grid */}
+        <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', background: LDARK }}>
+          {[
+            { v:'10', l:'Лабораторій' },
+            { v:'9', l:'Дисциплін' },
+            { v:'5', l:'Рівнів складності' },
+            { v:'100+', l:'Років історії' },
+          ].map((s, i) => (
             <div key={i} style={{
-              padding:'12px 14px',
-              borderRight: i < STATS.length-1 ? '1px solid var(--b1)' : 'none',
-              background:'rgba(9,9,9,.74)',
+              padding:'2rem 1.5rem',
+              borderRight: i % 2 === 0 ? '1px solid rgba(255,255,255,0.06)' : 'none',
+              borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.06)' : 'none',
+              display:'flex', flexDirection:'column', justifyContent:'flex-end', gap:8,
             }}>
-              <div style={{ fontFamily:'var(--serif)', fontSize:'1.5rem', fontWeight:300, lineHeight:1, marginBottom:5, color: i === 0 ? 'var(--lime)' : 'var(--t1)' }}>{s.v}</div>
-              <div style={{ fontFamily:'var(--mono)', fontSize:'0.5rem', letterSpacing:'0.1em', textTransform:'uppercase', color:'var(--t3)' }}>{s.l}</div>
+              <div style={{ fontFamily:'var(--display)', fontSize:'2.5rem', fontWeight:400, lineHeight:1, color: i===0 ? LORG : i===3 ? LTEAL : LWHITE }}>
+                {s.v}
+              </div>
+              <div style={{ ...LBL, color:'rgba(255,255,255,0.4)', fontSize:'0.55rem' }}>{s.l}</div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Filter bar */}
-      <div>
-        <div style={{ display:'flex', borderBottom:'1px solid var(--b1)', overflowX:'auto', scrollbarWidth:'none' }}>
-          {DISC_FILTERS.map(f => (
-            <button key={f} onClick={() => { setFilter(f); setExpanded(null); }} style={{
-              background:'none', border:'none', borderBottom:`2px solid ${filter === f ? 'var(--lime)' : 'transparent'}`,
-              color: filter === f ? 'var(--t1)' : 'var(--t3)',
-              fontFamily:'var(--mono)', fontSize:'0.5625rem', letterSpacing:'0.14em',
-              padding:'0.875rem 1.25rem', cursor:'pointer', whiteSpace:'nowrap',
-              transition:'all .2s', flexShrink:0,
-              background: filter === f ? 'rgba(205,242,79,.04)' : 'none',
-            }}>{f.toUpperCase()}</button>
-          ))}
-          <div style={{ marginLeft:'auto', display:'flex', alignItems:'center', padding:'0 1rem', borderLeft:'1px solid var(--b1)' }}>
-            <span style={{ fontFamily:'var(--mono)', fontSize:'0.5rem', color:'var(--t3)', letterSpacing:'0.1em' }}>{filtered.length} З {LABS.length}</span>
-          </div>
-        </div>
-
-        {/* Labs list */}
-        <div style={{ border:'1px solid var(--b1)', borderTop:'none' }}>
-          {filtered.length === 0 ? (
-            <div style={{ padding:'3rem', textAlign:'center', fontFamily:'var(--mono)', fontSize:'0.75rem', color:'var(--t3)' }}>
-              НІЧОГО НЕ ЗНАЙДЕНО — СПРОБУЙТЕ ІНШИЙ ФІЛЬТР
-            </div>
-          ) : filtered.map(lab => (
-            <LabCard key={lab.id} lab={lab} isOpen={expanded === lab.id} onToggle={() => toggle(lab.id)} />
-          ))}
-        </div>
+      {/* ── Table ── */}
+      <div style={{ background: LWHITE, borderBottom: LBR }}>
+        <TableHead />
+        {rows.map(lab => (
+          <LabRow
+            key={lab.id}
+            lab={lab}
+            open={expanded === lab.id}
+            onToggle={() => toggle(lab.id)}
+          />
+        ))}
       </div>
 
-      {/* Flagship section */}
+      {/* ── Flagship ── */}
       {flagship && (
         <div>
-          <div className="div-row">
-            <span className="lbl" style={{ whiteSpace:'nowrap' }}>ФЛАГМАН · ОСОБЛИВО ЗНАЧИМИЙ ПРОЕКТ</span>
-            <div className="div-line"></div>
-          </div>
-
           <div style={{
-            display:'grid', gridTemplateColumns:'1.2fr 1fr',
-            border:'1px solid rgba(205,242,79,.2)',
-            borderLeft:'3px solid var(--lime)',
-            background:'rgba(205,242,79,.025)',
-            overflow:'hidden',
+            padding:'1.25rem 1.5rem',
+            background: LCREAM,
+            borderBottom: LBR,
+            display:'flex', alignItems:'center', gap:'1rem',
           }}>
-            <div style={{ padding:'2.25rem', borderRight:'1px solid var(--b1)' }}>
-              <span className="lbl" style={{ color:'var(--lime)', marginBottom:'0.875rem', display:'block' }}>ФЛАГМАН · {flagship.id}</span>
-              <h2 className="h2" style={{ marginTop:'0', lineHeight:1.1 }}>
-                {flagship.ua.split(' ').slice(0,2).join(' ')}<br/>
-                <em>{flagship.ua.split(' ').slice(2).join(' ')}</em>
-              </h2>
-              <p className="body" style={{ marginTop:'1.25rem', fontSize:'0.9375rem', maxWidth:'46ch' }}>
-                {flagship.fullDesc}
-              </p>
-              <div style={{ display:'flex', gap:'0.625rem', marginTop:'1.75rem', flexWrap:'wrap' }}>
-                <button className="btn btn-g" onClick={() => onNavigate && onNavigate('simulation')}>ВІДКРИТИ ФЛАГМАН →</button>
-                <button className="btn btn-sm">СИЛАБУС PDF</button>
-              </div>
-              <div style={{ marginTop:'1.5rem', display:'flex', gap:'1.5rem' }}>
-                <div>
-                  <div style={{ fontFamily:'var(--serif)', fontSize:'1.75rem', fontWeight:300, color:'var(--lime)', lineHeight:1 }}>{flagship.students}</div>
-                  <div style={{ fontFamily:'var(--mono)', fontSize:'0.5rem', color:'var(--t3)', letterSpacing:'0.1em', marginTop:4 }}>СТУДЕНТІВ/РІК</div>
-                </div>
-                <div>
-                  <div style={{ fontFamily:'var(--serif)', fontSize:'1.75rem', fontWeight:300, color:'var(--lime)', lineHeight:1 }}>{flagship.utilization}%</div>
-                  <div style={{ fontFamily:'var(--mono)', fontSize:'0.5rem', color:'var(--t3)', letterSpacing:'0.1em', marginTop:4 }}>УТИЛІЗАЦІЯ</div>
-                </div>
-                <div>
-                  <div style={{ fontFamily:'var(--serif)', fontSize:'1.75rem', fontWeight:300, color:'var(--ac)', lineHeight:1 }}>{flagship.labWorks.length}</div>
-                  <div style={{ fontFamily:'var(--mono)', fontSize:'0.5rem', color:'var(--t3)', letterSpacing:'0.1em', marginTop:4 }}>ЛАБОРАТОРНИХ РОБІТ</div>
-                </div>
-              </div>
-            </div>
-
-            <div style={{ padding:'2.25rem', display:'flex', flexDirection:'column', gap:'1.25rem' }}>
-              <div>
-                <span className="lbl" style={{ marginBottom:'1rem', display:'block' }}>ПАРТНЕРСЬКІ ДИСЦИПЛІНИ</span>
-                <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr' }}>
-                  {['ГІС та ДЗЗ','Кібербезпека','Екологія','Містобудування','Економіка','Архітектура','Цифрове виробництво','Право'].map((d, i, arr) => (
-                    <div key={d} style={{
-                      display:'flex', justifyContent:'space-between', alignItems:'center',
-                      padding:'0.6rem 0', fontSize:'0.8125rem',
-                      borderBottom: i < arr.length - 2 ? '1px solid var(--b1)' : 'none',
-                      transition:'color .2s', cursor:'default',
-                    }}
-                    onMouseEnter={e => e.currentTarget.style.color = 'var(--lime)'}
-                    onMouseLeave={e => e.currentTarget.style.color = ''}>
-                      <span>{d}</span>
-                      <span style={{ color:'var(--lime)', fontSize:'0.5rem' }}>•</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div style={{ paddingTop:'1.25rem', borderTop:'1px solid var(--b1)', marginTop:'auto' }}>
-                <span className="lbl" style={{ marginBottom:'0.5rem', display:'block' }}>ПАРТНЕРИ · ГРАНТОДАВЦІ</span>
-                <p className="body" style={{ fontSize:'0.8125rem' }}>
-                  ЄС · Українська фундація відбудови · Світовий банк · МОН України
-                </p>
-                <div style={{ display:'flex', gap:'0.625rem', marginTop:'0.875rem', flexWrap:'wrap' }}>
-                  {['ЄС','УФВ','World Bank','МОН'].map(p => (
-                    <span key={p} style={{
-                      fontFamily:'var(--mono)', fontSize:'0.5rem', letterSpacing:'0.1em',
-                      padding:'3px 8px', border:'1px solid var(--b1)', color:'var(--t3)',
-                    }}>{p}</span>
-                  ))}
-                </div>
-              </div>
-            </div>
+            <span style={{ ...LBL, color:'rgba(0,0,0,0.35)', fontSize:'0.55rem', whiteSpace:'nowrap' }}>
+              ФЛАГМАНСЬКА ЛАБОРАТОРІЯ
+            </span>
+            <div style={{ flex:1, height:1, background:'rgba(0,0,0,0.08)' }} />
+            <Badge s="flagship" label="ФЛАГМАН" />
           </div>
+          <FlagshipBlock lab={flagship} onNavigate={onNavigate} />
         </div>
       )}
 
-      <Inst />
     </div>
   );
 };
 
-/* ── Building page (unchanged logic, WeeGo styling via CSS vars) ── */
+/* ── Building page (unchanged) ─────────────────────────────────── */
 const FLOORS = ['F·09','F·08','F·07','F·06','F·05','F·04','F·03','F·02','F·01'];
 const ROOMS = [
   { tp:'ЗАЛА',   id:'R·01', ua:'Лекційна зала А',           en:'Lecture Hall A',    dp:40, cp:16 },
