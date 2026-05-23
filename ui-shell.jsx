@@ -75,7 +75,9 @@ const TopBar = ({ cur, nav, copyLink, copied }) => {
     <header className="wuf-nav">
       {/* Logo */}
       <div className="wuf-nav-logo" onClick={handleLogoClick} title="Клікніть 5 разів для адмін-панелі">
-        <div className="wuf-nav-logo-mark">D</div>
+        <div className="wuf-nav-logo-mark">
+          <img src="assets/logo/logo_D_white.png" alt="DONNTU" />
+        </div>
         <div className="wuf-nav-logo-text">
           <span className="wuf-nav-brand">DONNTU</span>
           <span className="wuf-nav-sub">ЦИФРОВА СПАДЩИНА</span>

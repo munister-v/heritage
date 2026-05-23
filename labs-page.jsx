@@ -98,7 +98,7 @@ const LABS = [
     d:3, t:'55 хв', s:'open', sLbl:'ВІДКРИТО',
     brief:'Пілотуєш дрон над реконструйованим містом, фіксуєш пошкодження, складаєш HALO-звіт.',
     fullDesc:"Симулятор польоту розвідувального дрону над умовним містом (геометрія — реальний Донецьк, текстури — нейтральні). Місія: за 20 хвилин польоту обстежити 6 кварталів, зафіксувати пошкодження, класифікувати об'єкти (житло, лікарня, дорога, міст). Зібрані дані автоматично формуються у звіт HALO-формату.",
-    interactions:['Симулятор польоту (WASD + камера)','Класифікатор пошкоджень (клік на об\'єкт)','Тепловізійний і RGB режими','Генерація HALO-звіту'],
+    interactions:['Симулятор польоту (WASD + камера)',"Класифікатор пошкоджень (клік на об'єкт)",'Тепловізійний і RGB режими','Генерація HALO-звіту'],
     context:"Методологія HALO Trust та UN Habitat для оцінки пошкоджень в зонах конфліктів.",
     color: LBLUE,
   },
@@ -113,6 +113,632 @@ const LABS = [
     partners:['Кризовий менеджмент','Право','Психологія','Логістика','Архівна справа','Цифрова безпека'],
   },
 ];
+
+/* ── Interactive Lab Simulators ────────────────────────────────── */
+
+/* L·01 — Mine SCADA dispatcher */
+const SimMine = () => {
+  const [methane, setMethane] = React.useState(0.8);
+  const [vent, setVent] = React.useState(true);
+  const [alarm, setAlarm] = React.useState(false);
+  const [evacCountdown, setEvacCountdown] = React.useState(null);
+
+  React.useEffect(() => {
+    const t = setInterval(() => {
+      setMethane(m => {
+        const delta = (vent ? -0.15 : 0.35) + (Math.random() - 0.5) * 0.4;
+        const next = Math.max(0, Math.min(5, m + delta));
+        if (next > 2.5) setAlarm(true);
+        if (next < 1) setAlarm(false);
+        return next;
+      });
+    }, 1200);
+    return () => clearInterval(t);
+  }, [vent]);
+
+  React.useEffect(() => {
+    if (evacCountdown === null) return;
+    if (evacCountdown <= 0) return;
+    const t = setTimeout(() => setEvacCountdown(c => c - 1), 1000);
+    return () => clearTimeout(t);
+  }, [evacCountdown]);
+
+  const pct = (methane / 5) * 100;
+  const danger = methane > 2.5;
+
+  return (
+    <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'2rem', padding:'2rem' }}>
+      {/* Methane gauge */}
+      <div style={{ background:'rgba(255,255,255,0.04)', padding:'2rem', border:'1px solid rgba(255,255,255,0.08)' }}>
+        <div style={{ ...LBL, color:'rgba(255,255,255,0.4)' }}>МЕТАН · CH₄ · ВИБІЙ №1</div>
+        <div style={{ fontFamily:'var(--display)', fontSize:'4rem', color: danger ? LORG : LTEAL, marginTop:'1rem', lineHeight:1 }}>
+          {methane.toFixed(2)}<span style={{ fontSize:'1.5rem', color:'rgba(255,255,255,0.4)' }}> %</span>
+        </div>
+        <div style={{ height:8, background:'rgba(255,255,255,0.08)', marginTop:'1.5rem', position:'relative' }}>
+          <div style={{ position:'absolute', left:0, top:0, bottom:0, width:`${pct}%`, background: danger ? LORG : LTEAL, transition:'width 0.8s' }} />
+          <div style={{ position:'absolute', left:'50%', top:-4, bottom:-4, width:2, background:'#fff', opacity:0.3 }} />
+        </div>
+        <div style={{ display:'flex', justifyContent:'space-between', marginTop:8 }}>
+          <span style={{ ...LBL, fontSize:'0.5rem', color:'rgba(255,255,255,0.4)' }}>0 %</span>
+          <span style={{ ...LBL, fontSize:'0.5rem', color: LORG }}>МЕЖА · 2.5 %</span>
+          <span style={{ ...LBL, fontSize:'0.5rem', color:'rgba(255,255,255,0.4)' }}>5 %</span>
+        </div>
+        {danger && <div style={{ marginTop:'1rem', padding:'0.75rem', background:`${LORG}22`, border:`1px solid ${LORG}`, ...LBL, color:LORG, fontSize:'0.65rem' }}>⚠ ПЕРЕВИЩЕННЯ ДОПУСТИМОЇ КОНЦЕНТРАЦІЇ</div>}
+      </div>
+
+      {/* Controls */}
+      <div style={{ display:'flex', flexDirection:'column', gap:'1rem' }}>
+        <button onClick={() => setVent(!vent)} style={{
+          ...LBL, padding:'1.25rem', background: vent ? LTEAL : 'rgba(255,255,255,0.06)',
+          color: vent ? LDARK : '#fff', border:'none', cursor:'pointer', fontSize:'0.7rem',
+        }}>
+          ВЕНТИЛЯЦІЯ · {vent ? 'УВІМК' : 'ВИМК'}
+        </button>
+        <button
+          onClick={() => setEvacCountdown(180)}
+          disabled={evacCountdown !== null}
+          style={{
+            ...LBL, padding:'1.25rem', background: alarm ? LORG : 'rgba(255,255,255,0.06)',
+            color:'#fff', border:`1px solid ${alarm ? LORG : 'rgba(255,255,255,0.15)'}`,
+            cursor: evacCountdown !== null ? 'default' : 'pointer', fontSize:'0.7rem',
+            opacity: evacCountdown !== null ? 0.5 : 1,
+          }}
+        >
+          {evacCountdown !== null
+            ? `ЕВАКУАЦІЯ · ${Math.floor(evacCountdown/60)}:${String(evacCountdown%60).padStart(2,'0')}`
+            : 'АВАРІЙНА ЕВАКУАЦІЯ ЗМІНИ'}
+        </button>
+        <div style={{ marginTop:'auto', padding:'1rem', background:'rgba(255,255,255,0.03)', border:'1px solid rgba(255,255,255,0.06)' }}>
+          <div style={{ ...LBL, color:'rgba(255,255,255,0.4)', fontSize:'0.55rem', marginBottom:'0.5rem' }}>ОПЕРАТИВНА ЗВЕДЕНКА</div>
+          <div style={{ ...LBL, color:'#fff', fontSize:'0.65rem', lineHeight:'1.2rem' }}>
+            Зміна: 247 гірників<br/>
+            Глибина: 1320 м<br/>
+            Вентилятор: {vent ? '⊙ ОБЕРТИ 1450 об/хв' : '✕ ЗУПИНЕНО'}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* L·02 — Campus time slider */
+const SimCampus = () => {
+  const [year, setYear] = React.useState(1991);
+  const eras = [
+    { y:1960, e:'ДПІ · повоєнне відродження', dets:['12 кафедр', '4800 студентів', 'Перший електронно-обчислювальний клас'] },
+    { y:1991, e:'Незалежність · перехід', dets:['Перейменування ДПІ → ДДТУ', '12 факультетів', '15 200 студентів'] },
+    { y:2005, e:'Розквіт · національний статус', dets:['ДонНТУ · 22 000 студентів', 'QS-рейтинг 251–300', 'Міжнародні гранти Erasmus'] },
+    { y:2014, e:'Окупація · останні місяці', dets:['Серпень — обстріли', 'Втрата кампусу', 'Переміщення до Покровська'] },
+  ];
+  const active = eras.reduce((a,b) => Math.abs(b.y - year) < Math.abs(a.y - year) ? b : a);
+
+  return (
+    <div style={{ padding:'2rem' }}>
+      <div style={{ ...LBL, color:'rgba(255,255,255,0.4)', marginBottom:'0.5rem' }}>ШАР ЧАСУ · ВУЛ. АРТЕМА, 58</div>
+      <div style={{ fontFamily:'var(--display)', fontSize:'4rem', color:LTEAL, lineHeight:1 }}>{year}</div>
+
+      <input
+        type="range" min="1960" max="2014" value={year}
+        onChange={e => setYear(+e.target.value)}
+        style={{ width:'100%', marginTop:'2rem', accentColor: LTEAL }}
+      />
+      <div style={{ display:'flex', justifyContent:'space-between', marginTop:8 }}>
+        {eras.map(e => (
+          <span key={e.y} style={{ ...LBL, fontSize:'0.55rem', color: Math.abs(e.y-year)<3 ? LTEAL : 'rgba(255,255,255,0.4)' }}>{e.y}</span>
+        ))}
+      </div>
+
+      <div style={{ marginTop:'2.5rem', padding:'1.75rem', background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.08)' }}>
+        <div style={{ ...LBL, color: LTEAL, fontSize:'0.65rem', marginBottom:'1rem' }}>{active.e}</div>
+        {active.dets.map((d,i) => (
+          <div key={i} style={{ ...LBL, color:'#fff', fontSize:'0.7rem', lineHeight:'1.6rem', display:'flex', gap:'1rem' }}>
+            <span style={{ color: LTEAL }}>◇</span>{d}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+/* L·03 — Three evacuations */
+const SimEvac = () => {
+  const evacs = [
+    { y:1941, from:'Сталіно', to:"Прокоп'євськ", km:3200, days:42, color:LPINK,
+      details:['Бомбардування 17 жовтня 1941', 'Вивезено 2 ешелони обладнання', 'Втрачено 70% колекції бібліотеки', 'Продовжили навчання січень 1942'] },
+    { y:2014, from:'Донецьк', to:'Покровськ', km:84, days:14, color:LYELL,
+      details:['Обстріли серпень–вересень', 'Вивезено документи акредитації', 'Залишок майна заблоковано', '450 викладачів виїхали'] },
+    { y:2022, from:'Покровськ', to:'Дрогобич', km:1280, days:51, color:LBLUE,
+      details:['Початок: 24 лютого 2022', 'Луцьк → Дрогобич за 8 місяців', 'Кампус-побратим: ДДПУ', '28 серпня 2024 — відкриття'] },
+  ];
+  const [sel, setSel] = React.useState(0);
+  const e = evacs[sel];
+
+  return (
+    <div style={{ padding:'2rem' }}>
+      <div style={{ display:'flex', gap:'0.5rem', marginBottom:'2rem' }}>
+        {evacs.map((ev, i) => (
+          <button key={ev.y} onClick={() => setSel(i)} style={{
+            flex:1, ...LBL, padding:'1rem',
+            background: i === sel ? ev.color : 'rgba(255,255,255,0.04)',
+            color: i === sel ? LDARK : '#fff',
+            border: i === sel ? 'none' : '1px solid rgba(255,255,255,0.08)',
+            cursor:'pointer', fontSize:'0.7rem',
+          }}>
+            ЕВАКУАЦІЯ {ev.y}
+          </button>
+        ))}
+      </div>
+
+      <div style={{ display:'grid', gridTemplateColumns:'1fr 2fr', gap:'2rem' }}>
+        <div>
+          <div style={{ ...LBL, color:'rgba(255,255,255,0.4)' }}>МАРШРУТ</div>
+          <div style={{ fontFamily:'var(--display)', fontSize:'1.5rem', color:'#fff', marginTop:'0.5rem', lineHeight:1.3 }}>
+            {e.from}<br/>
+            <span style={{ color: e.color }}>↓</span><br/>
+            {e.to}
+          </div>
+          <div style={{ marginTop:'1.5rem', display:'flex', gap:'1.5rem' }}>
+            <div>
+              <div style={{ fontFamily:'var(--display)', fontSize:'2rem', color: e.color, lineHeight:1 }}>{e.km}</div>
+              <div style={{ ...LBL, fontSize:'0.5rem', color:'rgba(255,255,255,0.4)', marginTop:4 }}>КМ</div>
+            </div>
+            <div>
+              <div style={{ fontFamily:'var(--display)', fontSize:'2rem', color: e.color, lineHeight:1 }}>{e.days}</div>
+              <div style={{ ...LBL, fontSize:'0.5rem', color:'rgba(255,255,255,0.4)', marginTop:4 }}>ДНІВ</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div style={{ ...LBL, color:'rgba(255,255,255,0.4)', marginBottom:'1rem' }}>ХРОНОЛОГІЯ ПОДІЙ</div>
+          {e.details.map((d,i) => (
+            <div key={i} style={{ display:'flex', gap:'1rem', padding:'0.75rem 0', borderBottom: i < e.details.length-1 ? '1px solid rgba(255,255,255,0.05)' : 'none' }}>
+              <span style={{ ...LBL, fontSize:'0.55rem', color: e.color, minWidth:'1.25rem' }}>{String(i+1).padStart(2,'0')}</span>
+              <span style={{ ...LBL, color:'#fff', fontSize:'0.65rem', lineHeight:'1.1rem' }}>{d}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* L·04 — Geological cross-section */
+const SimGeo = () => {
+  const layers = [
+    { d:'0–50',     n:'Ґрунт',                color:'#8b6f47', coal:false },
+    { d:'50–250',   n:'Глини, піски',         color:'#a89070', coal:false },
+    { d:'250–400',  n:'Пісковики кам.-вуг.',   color:'#6b5a3f', coal:false },
+    { d:'400–500',  n:'Пласт m₃ · 0.9 м',      color:'#1a1a1a', coal:true, label:'Антрацит' },
+    { d:'500–700',  n:'Сланці аргілітові',     color:'#3d3a35', coal:false },
+    { d:'700–850',  n:'Пласт l₁ · 1.4 м',      color:'#1a1a1a', coal:true, label:'Коксівне Ж' },
+    { d:'850–1100', n:'Пісковики світло-сірі', color:'#7a6d52', coal:false },
+    { d:'1100–1200',n:'Пласт k₈ · 1.1 м',      color:'#1a1a1a', coal:true, label:'Газове Г' },
+    { d:'1200–1500',n:'Аргіліти, алевроліти', color:'#4a4339', coal:false },
+    { d:'1500–1600',n:'Пласт h₈ · 1.8 м',      color:'#1a1a1a', coal:true, label:'Коксівне К' },
+    { d:'1600–1850',n:'Девонські породи',     color:'#5c4e3a', coal:false },
+    { d:'1850–2000',n:'Кристалічний фундамент',color:'#3a3530', coal:false },
+  ];
+  const [sel, setSel] = React.useState(3);
+  const found = layers.map((l,i) => sel === i && l.coal ? 1 : 0).reduce((a,b) => a+b, 0);
+  const totalCoal = layers.filter(l => l.coal).length;
+
+  return (
+    <div style={{ padding:'2rem' }}>
+      <div style={{ display:'grid', gridTemplateColumns:'200px 1fr', gap:'2rem' }}>
+        {/* Cross-section */}
+        <div>
+          <div style={{ ...LBL, color:'rgba(255,255,255,0.4)', marginBottom:'0.75rem' }}>РОЗРІЗ · 0–2000 М</div>
+          <div style={{ display:'flex', flexDirection:'column', border:'1px solid rgba(255,255,255,0.1)' }}>
+            {layers.map((l, i) => (
+              <div key={i} onClick={() => setSel(i)} style={{
+                background: l.color, height: 36, cursor:'pointer',
+                position:'relative',
+                border: sel === i ? `2px solid ${LORG}` : 'none',
+                transition:'border 0.15s',
+              }}>
+                {l.coal && <span style={{ position:'absolute', top:'50%', left:6, transform:'translateY(-50%)', color: LORG, fontSize:'0.6rem' }}>◆</span>}
+              </div>
+            ))}
+          </div>
+        </div>
+        {/* Detail */}
+        <div>
+          <div style={{ ...LBL, color: layers[sel].coal ? LORG : 'rgba(255,255,255,0.4)' }}>
+            ШАР · {layers[sel].d} М {layers[sel].coal && '· ВУГІЛЬНИЙ ПЛАСТ'}
+          </div>
+          <div style={{ fontFamily:'var(--display)', fontSize:'1.75rem', color:'#fff', marginTop:'0.5rem' }}>
+            {layers[sel].n}
+          </div>
+          {layers[sel].coal && (
+            <div style={{ marginTop:'1.5rem', padding:'1.25rem', background:`${LORG}11`, border:`1px solid ${LORG}`, color: LORG }}>
+              <div style={{ ...LBL, fontSize:'0.55rem' }}>МАРКА ВУГІЛЛЯ</div>
+              <div style={{ fontFamily:'var(--display)', fontSize:'1.25rem', marginTop:6 }}>{layers[sel].label}</div>
+            </div>
+          )}
+          <div style={{ marginTop:'2rem', padding:'1rem', background:'rgba(255,255,255,0.04)', display:'flex', justifyContent:'space-between' }}>
+            <span style={{ ...LBL, color:'rgba(255,255,255,0.5)', fontSize:'0.6rem' }}>ЗНАЙДЕНО ПЛАСТІВ:</span>
+            <span style={{ ...LBL, color: LORG, fontSize:'0.7rem' }}>{layers.filter((l,i) => l.coal).map((l,i) => i).slice(0,1).length} / {totalCoal}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* L·05 — Reconstruction triage */
+const SimRecon = () => {
+  const items = [
+    { n:'Лікарня № 4',             cost:120, days:90,  cat:"Здоров'я" },
+    { n:'Школа № 12',              cost:45,  days:60,  cat:'Освіта' },
+    { n:'Водогін, мікрор. Лазурний',cost:80,  days:45,  cat:'Інфраструктура' },
+    { n:'Житловий блок A-7',       cost:200, days:120, cat:'Житло' },
+    { n:'Міст через р. Бик',       cost:60,  days:30,  cat:'Транспорт' },
+    { n:'Підстанція 110 кВ',       cost:90,  days:75,  cat:'Енергетика' },
+  ];
+  const [budget] = React.useState(400);
+  const [sel, setSel] = React.useState({});
+  const total = Object.entries(sel).reduce((s, [k,v]) => v ? s + items[+k].cost : s, 0);
+  const days  = Object.entries(sel).reduce((s, [k,v]) => v ? Math.max(s, items[+k].days) : s, 0);
+
+  return (
+    <div style={{ padding:'2rem' }}>
+      <div style={{ display:'grid', gridTemplateColumns:'1fr 220px', gap:'2rem' }}>
+        <div style={{ display:'flex', flexDirection:'column', gap:'0.5rem' }}>
+          {items.map((it, i) => {
+            const chosen = !!sel[i];
+            const wouldExceed = !chosen && total + it.cost > budget;
+            return (
+              <div key={i} onClick={() => !wouldExceed && setSel({ ...sel, [i]: !chosen })}
+                style={{
+                  display:'grid', gridTemplateColumns:'1fr 80px 80px',
+                  padding:'0.875rem 1rem',
+                  background: chosen ? `${LTEAL}22` : 'rgba(255,255,255,0.03)',
+                  border: chosen ? `1px solid ${LTEAL}` : '1px solid rgba(255,255,255,0.08)',
+                  cursor: wouldExceed ? 'not-allowed' : 'pointer',
+                  opacity: wouldExceed ? 0.4 : 1,
+                  alignItems:'center', gap:'0.5rem',
+                }}>
+                <div>
+                  <div style={{ ...LBL, color: chosen ? LTEAL : '#fff', fontSize:'0.7rem' }}>{it.n}</div>
+                  <div style={{ ...LBL, color:'rgba(255,255,255,0.4)', fontSize:'0.5rem', marginTop:3 }}>{it.cat}</div>
+                </div>
+                <span style={{ ...LBL, color:'#fff', fontSize:'0.7rem', textAlign:'right' }}>{it.cost} млн</span>
+                <span style={{ ...LBL, color:'rgba(255,255,255,0.5)', fontSize:'0.6rem', textAlign:'right' }}>{it.days} дн</span>
+              </div>
+            );
+          })}
+        </div>
+        <div style={{ padding:'1.5rem', background:'rgba(255,255,255,0.04)', border:'1px solid rgba(255,255,255,0.08)' }}>
+          <div style={{ ...LBL, color:'rgba(255,255,255,0.4)' }}>БЮДЖЕТ</div>
+          <div style={{ fontFamily:'var(--display)', fontSize:'1.75rem', color:'#fff' }}>{total} <span style={{ color:'rgba(255,255,255,0.4)' }}>/ {budget}</span></div>
+          <div style={{ height:6, background:'rgba(255,255,255,0.06)', marginTop:'0.5rem' }}>
+            <div style={{ width:`${Math.min(100, total/budget*100)}%`, height:'100%', background: total > budget * 0.9 ? LORG : LTEAL, transition:'width .3s' }} />
+          </div>
+          <div style={{ marginTop:'1.5rem', ...LBL, color:'rgba(255,255,255,0.4)' }}>ТЕРМІН</div>
+          <div style={{ fontFamily:'var(--display)', fontSize:'1.5rem', color:'#fff' }}>{days} <span style={{ fontSize:'0.875rem', color:'rgba(255,255,255,0.4)' }}>днів</span></div>
+          <div style={{ marginTop:'1.5rem', ...LBL, color:'rgba(255,255,255,0.4)' }}>ОБРАНО ОБ'ЄКТІВ</div>
+          <div style={{ fontFamily:'var(--display)', fontSize:'1.5rem', color: LTEAL }}>{Object.values(sel).filter(Boolean).length} / {items.length}</div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* L·06 — Methane explosion physics */
+const SimBlast = () => {
+  const [conc, setConc] = React.useState(8);
+  const [vent, setVent] = React.useState(50);
+  const ignites = conc >= 5 && conc <= 15;
+  const blastR = ignites ? Math.round((conc - 5) * (1 - vent/100) * 12 + 8) : 0;
+  return (
+    <div style={{ padding:'2rem', display:'grid', gridTemplateColumns:'1fr 1fr', gap:'2rem' }}>
+      <div>
+        <div style={{ ...LBL, color:'rgba(255,255,255,0.4)' }}>КОНЦЕНТРАЦІЯ CH₄</div>
+        <div style={{ fontFamily:'var(--display)', fontSize:'3rem', color: ignites ? LORG : LTEAL, lineHeight:1 }}>{conc}<span style={{ fontSize:'1rem' }}> %</span></div>
+        <input type="range" min="0" max="25" value={conc} onChange={e => setConc(+e.target.value)} style={{ width:'100%', marginTop:'1rem', accentColor: LORG }} />
+        <div style={{ ...LBL, color:'rgba(255,255,255,0.4)', fontSize:'0.5rem', marginTop:6 }}>
+          ЗОНА ВИБУХУ: 5–15 % · НИЖЧЕ — НЕ ГОРИТЬ · ВИЩЕ — БРАК O₂
+        </div>
+
+        <div style={{ ...LBL, color:'rgba(255,255,255,0.4)', marginTop:'2rem' }}>ВЕНТИЛЯЦІЯ</div>
+        <div style={{ fontFamily:'var(--display)', fontSize:'2rem', color:'#fff' }}>{vent}<span style={{ fontSize:'0.875rem' }}> %</span></div>
+        <input type="range" min="0" max="100" value={vent} onChange={e => setVent(+e.target.value)} style={{ width:'100%', marginTop:'1rem', accentColor: LTEAL }} />
+      </div>
+      <div style={{ background:'rgba(255,255,255,0.04)', border:`1px solid ${ignites ? LORG : 'rgba(255,255,255,0.08)'}`, padding:'1.5rem', display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center', textAlign:'center' }}>
+        <div style={{ ...LBL, color: ignites ? LORG : LTEAL }}>{ignites ? '⚠ ВИБУХ' : '✓ БЕЗПЕЧНО'}</div>
+        <div style={{ fontFamily:'var(--display)', fontSize:'4rem', color: ignites ? LORG : LTEAL, lineHeight:1, marginTop:'1rem' }}>
+          {ignites ? `${blastR} м` : '—'}
+        </div>
+        <div style={{ ...LBL, color:'rgba(255,255,255,0.5)', fontSize:'0.6rem', marginTop:'0.5rem' }}>РАДІУС ВИБУХОВОЇ ХВИЛІ</div>
+        <div style={{ marginTop:'2rem', ...LBL, color:'rgba(255,255,255,0.4)', fontSize:'0.55rem', lineHeight:'1.1rem' }}>
+          {ignites
+            ? `Евакуація: ${Math.ceil(blastR * 1.5)} м від епіцентру`
+            : conc < 5 ? 'Метан розсіюється — займання неможливе'
+            : 'Концентрація вище верхньої межі вибуху'}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* L·07 — Coking process */
+const SimCoke = () => {
+  const stages = [
+    { t:100,  n:'Сушіння',         out:'Волога',   c:LTEAL },
+    { t:350,  n:'Виділення газу',  out:'Метан',    c:LYELL },
+    { t:550,  n:'Піроліз',         out:'Смола',    c:LORG },
+    { t:800,  n:'Спікання',        out:'Напівкокс',c:LPINK },
+    { t:1050, n:'Готовий кокс',    out:'Кокс М₂₅',c:LWHITE },
+  ];
+  const [t, setT] = React.useState(100);
+  const stage = stages.reduce((a, b) => Math.abs(b.t - t) < Math.abs(a.t - t) ? b : a);
+
+  return (
+    <div style={{ padding:'2rem' }}>
+      <div style={{ ...LBL, color:'rgba(255,255,255,0.4)' }}>ТЕМПЕРАТУРА В ПЕЧІ</div>
+      <div style={{ fontFamily:'var(--display)', fontSize:'4rem', color: stage.c, lineHeight:1 }}>{t}<span style={{ fontSize:'1.5rem', color:'rgba(255,255,255,0.4)' }}> °C</span></div>
+      <input type="range" min="20" max="1100" value={t} onChange={e => setT(+e.target.value)} style={{ width:'100%', marginTop:'1.5rem', accentColor: LORG }} />
+
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(5, 1fr)', gap:'0.5rem', marginTop:'2rem' }}>
+        {stages.map((s,i) => (
+          <div key={i} style={{
+            padding:'1rem', textAlign:'center',
+            background: s === stage ? `${s.c}22` : 'rgba(255,255,255,0.03)',
+            border: s === stage ? `1px solid ${s.c}` : '1px solid rgba(255,255,255,0.06)',
+            transition:'all .2s',
+          }}>
+            <div style={{ ...LBL, color: s === stage ? s.c : 'rgba(255,255,255,0.4)', fontSize:'0.55rem' }}>{s.t} °C</div>
+            <div style={{ ...LBL, color:'#fff', fontSize:'0.6rem', marginTop:6 }}>{s.n}</div>
+            <div style={{ ...LBL, color:'rgba(255,255,255,0.5)', fontSize:'0.5rem', marginTop:3 }}>→ {s.out}</div>
+          </div>
+        ))}
+      </div>
+
+      <div style={{ marginTop:'2rem', padding:'1.5rem', background:`${stage.c}11`, borderLeft:`3px solid ${stage.c}` }}>
+        <div style={{ ...LBL, color: stage.c }}>ПОТОЧНИЙ ПРОДУКТ</div>
+        <div style={{ fontFamily:'var(--display)', fontSize:'1.5rem', color:'#fff', marginTop:6 }}>{stage.out}</div>
+      </div>
+    </div>
+  );
+};
+
+/* L·08 — 1921 classroom */
+const SimAuditorium = () => {
+  const items = [
+    { x:20, y:30, t:'Дошка', d:'Крейда, ребра з геометричних побудов. Перша лекція — нарисна геометрія.' },
+    { x:50, y:55, t:'Студенти · 23 ос.', d:'Перший набір ДГІ, 30 травня 1921. Серед них — майбутній академік М.В.Луговцов.' },
+    { x:80, y:40, t:'Вікно', d:'Вид на терикон шахти "Юзівка-Південна". Усі лекції — під свистом шахтних гудків.' },
+    { x:35, y:75, t:'Залікова', d:'Перші залікові книжки видані 12 червня 1921. Виготовлені з обгорткового паперу.' },
+    { x:65, y:80, t:'Викладач', d:'А.П.Маньківський — перший директор Гірничого технікуму. Викладав сам.' },
+  ];
+  const [sel, setSel] = React.useState(0);
+  return (
+    <div style={{ padding:'2rem', display:'grid', gridTemplateColumns:'1.5fr 1fr', gap:'2rem' }}>
+      <div style={{
+        position:'relative', aspectRatio:'4/3',
+        background:'#3a2f24', border:'1px solid rgba(255,255,255,0.1)',
+        backgroundImage:'linear-gradient(135deg, #3a2f24 0%, #2a201a 100%)',
+      }}>
+        {items.map((it, i) => (
+          <button key={i} onClick={() => setSel(i)} style={{
+            position:'absolute', left:`${it.x}%`, top:`${it.y}%`,
+            width:32, height:32, borderRadius:'50%',
+            background: sel === i ? LYELL : 'rgba(255,255,255,0.15)',
+            border:`2px solid ${sel === i ? LYELL : 'rgba(255,255,255,0.3)'}`,
+            color: sel === i ? LDARK : '#fff', cursor:'pointer',
+            ...LBL, fontSize:'0.55rem',
+          }}>{i+1}</button>
+        ))}
+        <div style={{ position:'absolute', bottom:8, left:8, ...LBL, color:'rgba(255,255,255,0.4)', fontSize:'0.5rem' }}>
+          ГІРНИЧИЙ ТЕХНІКУМ · ЮЗІВКА · 30.05.1921
+        </div>
+      </div>
+      <div>
+        <div style={{ ...LBL, color: LYELL }}>{String(sel+1).padStart(2,'0')} · {items[sel].t}</div>
+        <p style={{ ...LBL, color:'#fff', fontSize:'0.75rem', lineHeight:'1.4rem', marginTop:'1rem', textTransform:'none', letterSpacing:0, fontFamily:'var(--display)' }}>
+          {items[sel].d}
+        </p>
+      </div>
+    </div>
+  );
+};
+
+/* L·09 — Drone reconnaissance */
+const SimDrone = () => {
+  const [pos, setPos] = React.useState({ x:50, y:50 });
+  const targets = [
+    { x:25, y:30, t:'ЖИТЛО',   damaged:true,  c:LORG },
+    { x:65, y:25, t:'ШКОЛА',   damaged:false, c:LTEAL },
+    { x:80, y:60, t:'МІСТ',    damaged:true,  c:LORG },
+    { x:20, y:70, t:'ЛІКАРНЯ', damaged:false, c:LTEAL },
+    { x:55, y:80, t:'ДОРОГА',  damaged:true,  c:LORG },
+  ];
+  const nearest = targets
+    .map(t => ({ ...t, d: Math.hypot(t.x - pos.x, t.y - pos.y) }))
+    .sort((a, b) => a.d - b.d)[0];
+
+  const move = (dx, dy) => setPos(p => ({ x: Math.max(0, Math.min(100, p.x + dx)), y: Math.max(0, Math.min(100, p.y + dy)) }));
+
+  return (
+    <div style={{ padding:'2rem', display:'grid', gridTemplateColumns:'1.5fr 1fr', gap:'2rem' }}>
+      <div style={{
+        position:'relative', aspectRatio:'4/3',
+        background:'#1d2530', border:'1px solid rgba(255,255,255,0.1)',
+        backgroundImage:'repeating-linear-gradient(0deg, transparent 0, transparent 11%, rgba(255,255,255,0.04) 11%, rgba(255,255,255,0.04) 11.5%), repeating-linear-gradient(90deg, transparent 0, transparent 11%, rgba(255,255,255,0.04) 11%, rgba(255,255,255,0.04) 11.5%)',
+      }}>
+        {targets.map((t,i) => (
+          <div key={i} style={{
+            position:'absolute', left:`${t.x}%`, top:`${t.y}%`,
+            transform:'translate(-50%,-50%)',
+            width:14, height:14, background: t.c, borderRadius:2,
+          }} />
+        ))}
+        <div style={{
+          position:'absolute', left:`${pos.x}%`, top:`${pos.y}%`,
+          transform:'translate(-50%,-50%)',
+          width:24, height:24, border:`2px solid ${LYELL}`, borderRadius:'50%',
+          boxShadow:`0 0 0 8px ${LYELL}22`,
+          transition:'left .15s, top .15s',
+        }} />
+      </div>
+      <div>
+        <div style={{ ...LBL, color:'rgba(255,255,255,0.4)' }}>УПРАВЛІННЯ ДРОНОМ</div>
+        <div style={{ display:'grid', gridTemplateColumns:'40px 40px 40px', gap:4, marginTop:'1rem', width:'fit-content' }}>
+          <div></div>
+          <button onClick={() => move(0,-8)} style={{ ...LBL, height:40, background:'rgba(255,255,255,0.06)', color:'#fff', border:'1px solid rgba(255,255,255,0.1)', cursor:'pointer' }}>↑</button>
+          <div></div>
+          <button onClick={() => move(-8,0)} style={{ ...LBL, height:40, background:'rgba(255,255,255,0.06)', color:'#fff', border:'1px solid rgba(255,255,255,0.1)', cursor:'pointer' }}>←</button>
+          <button onClick={() => move(0,8)} style={{ ...LBL, height:40, background:'rgba(255,255,255,0.06)', color:'#fff', border:'1px solid rgba(255,255,255,0.1)', cursor:'pointer' }}>↓</button>
+          <button onClick={() => move(8,0)} style={{ ...LBL, height:40, background:'rgba(255,255,255,0.06)', color:'#fff', border:'1px solid rgba(255,255,255,0.1)', cursor:'pointer' }}>→</button>
+        </div>
+        <div style={{ marginTop:'2rem', padding:'1rem', background:'rgba(255,255,255,0.04)' }}>
+          <div style={{ ...LBL, color:'rgba(255,255,255,0.4)' }}>НАЙБЛИЖЧИЙ ОБ'ЄКТ</div>
+          <div style={{ fontFamily:'var(--display)', fontSize:'1.25rem', color: nearest.c, marginTop:6 }}>{nearest.t}</div>
+          <div style={{ ...LBL, color:'rgba(255,255,255,0.5)', fontSize:'0.55rem', marginTop:4 }}>
+            СТАТУС: {nearest.damaged ? '⚠ ПОШКОДЖЕНО' : '✓ ЦІЛЕ'}
+          </div>
+          <div style={{ ...LBL, color:'rgba(255,255,255,0.4)', fontSize:'0.55rem', marginTop:4 }}>
+            ВІДСТАНЬ: {Math.round(nearest.d * 10)} М
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* L·10 — Rector's decision (text quest) */
+const SimQuest = () => {
+  const nodes = {
+    start: {
+      t:'28 лютого 2022, 04:00. Дзвонить чергова. Над Покровськом — гуркіт. Що робиш?',
+      ch:[
+        { l:'Скликаю екстрене засідання ректорату', g:'meeting' },
+        { l:'Сам перевіряю кампус — потім вирішую', g:'check' },
+        { l:'Дзвоню в МОН за вказівками',          g:'mon' },
+      ],
+    },
+    meeting: {
+      t:'Деканат зібрався за 25 хвилин. Усі — за продовження роботи. Але дані студентів і реєстри — на серверах кампусу. Що в першу чергу?',
+      ch:[
+        { l:'Витяг даних на флешки і хмару',          g:'data' },
+        { l:'Евакуація викладачів і їхніх родин',     g:'people' },
+        { l:'Дзвінок до ДДПУ Дрогобича — про притулок',g:'drohobych' },
+      ],
+    },
+    check: { t:"Поки ти їздив — пройшло 4 години. Зв'язок з МОН втрачено. Деканат розгублений. Це програш — потрібна швидка координація.", ch:[ { l:'Почати спочатку', g:'start' } ], final:true, win:false },
+    mon: { t:'МОН видав загальну вказівку. Але вона не враховує специфіку ДонНТУ. Час йде. Втрачено ініціативу.', ch:[ { l:'Спробувати інакше', g:'start' } ], final:true, win:false },
+    data: { t:'Дані вивезено. Тепер — люди. Але хто організовує транспорт?', ch:[ { l:'Власні автомобілі викладачів', g:'drohobych' }, { l:'Орендований автобус', g:'drohobych' } ] },
+    people: { t:'Викладачі організували логістику самі. Тепер критично — куди?', ch:[ { l:'Дрогобич, ДДПУ', g:'drohobych' } ] },
+    drohobych: {
+      t:'ДДПУ погодився прийняти. 12 квітня 2022 — перша лекція в Луцьку (тимчасово), серпень 2024 — відкриття кампусу в Дрогобичі. Університет збережено.',
+      ch:[ { l:'Завершити', g:'start' } ],
+      final:true, win:true,
+    },
+  };
+  const [n, setN] = React.useState('start');
+  const node = nodes[n];
+
+  return (
+    <div style={{ padding:'2rem', maxWidth:700, margin:'0 auto' }}>
+      <div style={{ ...LBL, color: node.final ? (node.win ? LTEAL : LORG) : LYELL }}>
+        {node.final ? (node.win ? '★ УНІВЕРСИТЕТ ЗБЕРЕЖЕНО' : '✕ СПРОБУЙ ЗНОВУ') : 'РІШЕННЯ РЕКТОРА'}
+      </div>
+      <p style={{ fontFamily:'var(--display)', fontSize:'1.5rem', color:'#fff', marginTop:'1.25rem', lineHeight:'2.25rem' }}>
+        {node.t}
+      </p>
+      <div style={{ display:'flex', flexDirection:'column', gap:'0.5rem', marginTop:'2rem' }}>
+        {node.ch.map((c, i) => (
+          <button key={i} onClick={() => setN(c.g)} style={{
+            ...LBL, padding:'1rem 1.25rem', textAlign:'left',
+            background:'rgba(255,255,255,0.04)', color:'#fff',
+            border:'1px solid rgba(255,255,255,0.1)',
+            cursor:'pointer', fontSize:'0.7rem', lineHeight:'1.2rem',
+          }}
+          onMouseEnter={e => e.currentTarget.style.background='rgba(255,255,255,0.08)'}
+          onMouseLeave={e => e.currentTarget.style.background='rgba(255,255,255,0.04)'}>
+            → {c.l}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const SIM_MAP = {
+  'L·01': SimMine,
+  'L·02': SimCampus,
+  'L·03': SimEvac,
+  'L·04': SimGeo,
+  'L·05': SimRecon,
+  'L·06': SimBlast,
+  'L·07': SimCoke,
+  'L·08': SimAuditorium,
+  'L·09': SimDrone,
+  'L·10': SimQuest,
+};
+
+/* ── Full-screen lab simulator modal ───────────────────────────── */
+const LabSimulator = ({ lab, onClose }) => {
+  const Sim = SIM_MAP[lab.id];
+  React.useEffect(() => {
+    const onKey = e => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
+    document.body.style.overflow = 'hidden';
+    return () => { window.removeEventListener('keydown', onKey); document.body.style.overflow = ''; };
+  }, [onClose]);
+
+  return (
+    <div style={{
+      position:'fixed', inset:0, zIndex:9999,
+      background: LDARK, color:'#fff',
+      overflowY:'auto',
+      backgroundImage:'url(assets/logo/DONNTU_PATTERN_white.png)',
+      backgroundRepeat:'repeat-x', backgroundPosition:'bottom left',
+      backgroundSize:'600px auto',
+    }}>
+      <div style={{ position:'absolute', inset:0, background:'rgba(13,15,20,0.85)' }} />
+      <div style={{ position:'relative', minHeight:'100vh', display:'flex', flexDirection:'column' }}>
+        {/* Header */}
+        <div style={{
+          padding:'1.5rem 2rem',
+          borderBottom:'1px solid rgba(255,255,255,0.07)',
+          display:'flex', alignItems:'center', justifyContent:'space-between',
+          background:'rgba(0,0,0,0.5)',
+        }}>
+          <div style={{ display:'flex', alignItems:'center', gap:'1rem' }}>
+            <img src="assets/logo/logo_D_white.png" alt="" style={{ width:32, height:32, objectFit:'contain' }} />
+            <div>
+              <div style={{ ...LBL, color:'rgba(255,255,255,0.4)' }}>{lab.id} · {lab.disc} · СИМУЛЯТОР</div>
+              <div style={{ fontFamily:'var(--display)', fontSize:'1.25rem', color:'#fff', marginTop:3 }}>{lab.ua}</div>
+            </div>
+          </div>
+          <button onClick={onClose} style={{
+            ...LBL, padding:'0.625rem 1.25rem',
+            background:'transparent', color:'#fff',
+            border:'1px solid rgba(255,255,255,0.2)', cursor:'pointer',
+          }}>ESC · ЗАКРИТИ</button>
+        </div>
+        {/* Sim body */}
+        <div style={{ flex:1, padding:'1rem 0' }}>
+          {Sim ? <Sim /> : (
+            <div style={{ padding:'4rem', textAlign:'center', ...LBL, color:'rgba(255,255,255,0.4)' }}>
+              СИМУЛЯТОР У РОЗРОБЦІ
+            </div>
+          )}
+        </div>
+        {/* Footer */}
+        <div style={{
+          padding:'1rem 2rem', borderTop:'1px solid rgba(255,255,255,0.07)',
+          background:'rgba(0,0,0,0.5)', ...LBL, color:'rgba(255,255,255,0.4)', fontSize:'0.55rem',
+          display:'flex', justifyContent:'space-between',
+        }}>
+          <span>ДОННТУ · ЦИФРОВА ЛАБОРАТОРІЯ · {lab.context}</span>
+          <span>v1.0 · Симуляція</span>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 /* ── Shared micro-components ───────────────────────────────────── */
 const Dots = ({ filled, total=5 }) => (
@@ -145,7 +771,7 @@ const Badge = ({ s, label }) => {
 };
 
 /* ── Single lab row ────────────────────────────────────────────── */
-const LabRow = ({ lab, open, onToggle }) => {
+const LabRow = ({ lab, open, onToggle, onLaunch }) => {
   const isFlg = lab.s === 'flagship';
   const rowBg = open ? 'rgba(0,0,0,0.03)' : LWHITE;
 
@@ -268,7 +894,7 @@ const LabRow = ({ lab, open, onToggle }) => {
                   background: isFlg ? LORG : LBLUE,
                   color: LWHITE, border:'none', cursor:'pointer',
                 }}
-                onClick={e => { e.stopPropagation(); }}
+                onClick={e => { e.stopPropagation(); onLaunch && onLaunch(lab); }}
               >
                 ЗАПУСТИТИ →
               </button>
@@ -294,7 +920,7 @@ const LabRow = ({ lab, open, onToggle }) => {
 };
 
 /* ── Flagship block ────────────────────────────────────────────── */
-const FlagshipBlock = ({ lab, onNavigate }) => (
+const FlagshipBlock = ({ lab, onLaunch }) => (
   <div style={{
     display:'grid', gridTemplateColumns:'2fr 1fr',
     background: LDARK, color: LWHITE,
@@ -325,7 +951,7 @@ const FlagshipBlock = ({ lab, onNavigate }) => (
             background: LORG, color:LWHITE,
             border:'none', cursor:'pointer',
           }}
-          onClick={() => onNavigate && onNavigate('simulation')}
+          onClick={() => onLaunch && onLaunch(lab)}
         >
           ЗАПУСТИТИ ФЛАГМАН →
         </button>
@@ -407,10 +1033,13 @@ const TableHead = () => (
 /* ── Main page ─────────────────────────────────────────────────── */
 const LabsPage = ({ onNavigate }) => {
   const [expanded, setExpanded] = React.useState(null);
+  const [activeLab, setActiveLab] = React.useState(null);
   const flagship = LABS.find(l => l.s === 'flagship');
   const rows = LABS.filter(l => l.s !== 'flagship');
 
   const toggle = id => setExpanded(prev => prev === id ? null : id);
+  const launch = lab => setActiveLab(lab);
+  const close = () => setActiveLab(null);
 
   return (
     <div style={{ background: LCREAM, minHeight:'100vh' }}>
@@ -470,6 +1099,7 @@ const LabsPage = ({ onNavigate }) => {
             lab={lab}
             open={expanded === lab.id}
             onToggle={() => toggle(lab.id)}
+            onLaunch={launch}
           />
         ))}
       </div>
@@ -489,9 +1119,12 @@ const LabsPage = ({ onNavigate }) => {
             <div style={{ flex:1, height:1, background:'rgba(0,0,0,0.08)' }} />
             <Badge s="flagship" label="ФЛАГМАН" />
           </div>
-          <FlagshipBlock lab={flagship} onNavigate={onNavigate} />
+          <FlagshipBlock lab={flagship} onLaunch={launch} />
         </div>
       )}
+
+      {/* Lab simulator modal */}
+      {activeLab && <LabSimulator lab={activeLab} onClose={close} />}
 
     </div>
   );

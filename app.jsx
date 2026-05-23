@@ -1,4 +1,11 @@
 /* Main App v7 — clean query-param routing (?p=heritage), backwards-compatible with old #heritage */
+/* Init CSS vars from localStorage or defaults so wuf-host-* colours work on every page */
+(()=>{
+  const DEFAULTS = {'--ac':'#E07830','--wuf-blue':'#005ab8','--wuf-pink':'#f48ba2','--wuf-teal':'#c0e5e7'};
+  let saved = DEFAULTS;
+  try { saved = JSON.parse(localStorage.getItem('donntu_colors')) || DEFAULTS; } catch(e){}
+  Object.entries(saved).forEach(([k,v])=>document.documentElement.style.setProperty(k,v));
+})();
 const VALID_PAGES = new Set([
   'overview','heritage','campus','building','labs','simulation','achievements',
   'archive','certs','future','library','applicant','studentlife',
