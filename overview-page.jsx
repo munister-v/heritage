@@ -181,34 +181,6 @@ const DEFAULT_SPEAKERS = [
     bio:  'Очолював профільні установи з видобутку вугілля. Поєднував практичну роботу з науковою діяльністю. Герой України (2003).',
     img:  'assets/people/surgay.jpg',
   },
-  {
-    name: 'Віктор Калашников',
-    meta: 'НАУКА · ЕНЕРГЕТИКА',
-    role: 'Професор, кандидат технічних наук',
-    bio:  'Лауреат Державної премії України. Розробляв системи відновлюваної енергії та автоматичні теплові установки.',
-    img:  'assets/people/kalashnykov.jpg',
-  },
-  {
-    name: 'Сергій Тулуб',
-    meta: 'випуск 1976 · АТОМНА ЕНЕРГЕТИКА',
-    role: 'Інженер-економіст гірничий',
-    bio:  'Очолював профільні структури атомної енергетики України. Сприяв розвитку галузі у важкі для країни роки. Герой України (2004).',
-    img:  'assets/people/tulub.jpg',
-  },
-  {
-    name: 'Станіслав Поважний',
-    meta: 'випуск 1961 · ОСВІТА',
-    role: 'Інженер-електромеханік, освітянин',
-    bio:  'Працював у системі вищої освіти Донбасу понад 50 років. Виховав покоління інженерних кадрів. Герой України (2013).',
-    img:  'assets/people/povazhnyi.jpg',
-  },
-  {
-    name: 'Олександр Риженков',
-    meta: 'випуск 1972 · МЕТАЛУРГІЯ',
-    role: 'Інженер-металург (чорна металургія)',
-    bio:  'Очолював металургійні підприємства повного циклу. Модернізував виробничі потужності галузі. Герой України (2010).',
-    img:  'assets/people/ryzhenkov.jpg',
-  },
 ];
 
 const DEFAULT_FOCUS = [
@@ -341,17 +313,165 @@ const OverviewPage = ({ onNavigate }) => {
         </div>
       </section>
 
-      {/* ══ Arrow: Як долучитись ══ */}
-      <section className="wuf-arrow-section">
-        <div className="wuf-arrow-section-inner">
-          <button className="wuf-arrow-link" onClick={() => onNavigate('applicant')}>
-            <div className="wuf-arrow-link-top">
-              <span className="wuf-arrow-link-label">Як долучитись?</span>
-              <span className="wuf-arrow-link-arrow">→</span>
+      {/* ══ HERITAGE OS SECTION — dark Mondrian ══ */}
+      <section style={{background:'#0d0f14'}}>
+
+        {/* Row 1: heading + Donetsk photo */}
+        <div style={{display:'grid', gridTemplateColumns:'2fr 1fr', minHeight:440}}>
+
+          {/* Dark title tile */}
+          <div style={{background:'#0d0f14', color:'#f0ede6', padding:'4rem 3rem',
+            display:'flex', flexDirection:'column', justifyContent:'flex-end', gap:'1.25rem',
+            borderRight:'1px solid rgba(255,255,255,0.07)', borderBottom:'1px solid rgba(255,255,255,0.07)'}}>
+            <div style={{fontFamily:'var(--mono)', fontSize:'0.6rem', letterSpacing:'0.16em',
+              textTransform:'uppercase', color:'rgba(240,237,230,0.35)'}}>
+              ЦИФРОВА ПЛАТФОРМА · DONNTU
             </div>
-            <span className="wuf-arrow-link-sub">Абітурієнту, кафедри, вступ</span>
-          </button>
+            <h2 style={{fontFamily:'var(--display)', fontWeight:800, margin:0,
+              fontSize:'clamp(2.5rem,5vw,4.5rem)', lineHeight:1.05, color:'#f0ede6'}}>
+              DONNTU<br/>
+              <em style={{fontStyle:'italic', color:'#f26522'}}>HERITAGE</em>{' '}OS
+            </h2>
+            <p style={{fontFamily:'var(--display)', fontSize:'1.125rem', lineHeight:'1.75rem',
+              color:'rgba(240,237,230,0.6)', margin:0, maxWidth:520}}>
+              Цифровий двійник університету — архів, симуляції, сертифікаційна платформа
+              та часова капсула. Університет, що існує незалежно від адреси.
+            </p>
+            <div style={{display:'flex', gap:'0.75rem', flexWrap:'wrap', marginTop:'0.5rem'}}>
+              <button className="wuf-hos-btn wuf-hos-btn--primary" onClick={() => onNavigate('heritage')}>
+                Спадщина →
+              </button>
+              <button className="wuf-hos-btn wuf-hos-btn--ghost" style={{borderColor:'rgba(255,255,255,0.2)', color:'rgba(240,237,230,0.7)'}}>
+                Про систему
+              </button>
+            </div>
+          </div>
+
+          {/* Donetsk city photo from Wikimedia */}
+          <div style={{position:'relative', overflow:'hidden',
+            borderBottom:'1px solid rgba(255,255,255,0.07)'}}>
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Donetsk_city_panorama.jpg/1280px-Donetsk_city_panorama.jpg"
+              onError={function(e){ e.target.src='assets/donetsk-main.jpg'; }}
+              alt="Донецьк · панорама міста"
+              loading="lazy"
+              style={{width:'100%', height:'100%', objectFit:'cover', display:'block'}}
+            />
+            <div style={{position:'absolute', bottom:0, left:0, right:0,
+              background:'linear-gradient(transparent, rgba(0,0,0,0.8))',
+              padding:'3rem 1.5rem 1.25rem',
+              fontFamily:'var(--mono)', fontSize:'0.6rem', letterSpacing:'0.12em',
+              textTransform:'uppercase', color:'rgba(255,255,255,0.7)'}}>
+              Донецьк · місто, яке чекає · Wikimedia Commons
+            </div>
+          </div>
         </div>
+
+        {/* Row 2: three centers */}
+        <div style={{display:'grid', gridTemplateColumns:'1fr 1fr 1fr'}}>
+
+          {/* Центр сертифікації — blue */}
+          <div style={{background:'#005ab8', color:'#fff', padding:'3rem',
+            borderRight:'1px solid rgba(255,255,255,0.1)',
+            display:'flex', flexDirection:'column', justifyContent:'space-between', minHeight:320}}>
+            <div>
+              <div style={{fontFamily:'var(--mono)', fontSize:'0.6rem', letterSpacing:'0.14em',
+                textTransform:'uppercase', color:'rgba(255,255,255,0.5)', marginBottom:'1.25rem'}}>
+                01 · ЦЕНТР СЕРТИФІКАЦІЇ
+              </div>
+              <h3 style={{fontFamily:'var(--display)', fontWeight:800, fontSize:'1.75rem',
+                lineHeight:1.2, color:'#fff', margin:'0 0 1rem'}}>
+                Цифрові сертифікати
+              </h3>
+              <p style={{fontFamily:'var(--display)', fontSize:'1rem', lineHeight:'1.625rem',
+                color:'rgba(255,255,255,0.75)', margin:0}}>
+                Верифіковані цифрові документи для студентів та випускників ДонНТУ.
+                Підтвердження ідентичності та освіти — незалежно від того, де ви зараз.
+              </p>
+            </div>
+            <button className="wuf-hos-btn" onClick={() => onNavigate('certs')}
+              style={{marginTop:'2rem', background:'rgba(255,255,255,0.12)',
+                border:'1px solid rgba(255,255,255,0.25)', color:'#fff', alignSelf:'flex-start'}}>
+              Отримати сертифікат →
+            </button>
+          </div>
+
+          {/* Центр симуляції — teal/dark */}
+          <div style={{background:'#0d7f72', color:'#fff', padding:'3rem',
+            borderRight:'1px solid rgba(255,255,255,0.1)',
+            display:'flex', flexDirection:'column', justifyContent:'space-between', minHeight:320}}>
+            <div>
+              <div style={{fontFamily:'var(--mono)', fontSize:'0.6rem', letterSpacing:'0.14em',
+                textTransform:'uppercase', color:'rgba(255,255,255,0.5)', marginBottom:'1.25rem'}}>
+                02 · ЦЕНТР ЕМУЛЯЦІЇ
+              </div>
+              <h3 style={{fontFamily:'var(--display)', fontWeight:800, fontSize:'1.75rem',
+                lineHeight:1.2, color:'#fff', margin:'0 0 1rem'}}>
+                Симуляція кампусу
+              </h3>
+              <p style={{fontFamily:'var(--display)', fontSize:'1rem', lineHeight:'1.625rem',
+                color:'rgba(255,255,255,0.75)', margin:0}}>
+                Інтерактивні лабораторії, симульований кампус ДонНТУ та навчальні
+                модулі — доступні з будь-якої точки світу.
+              </p>
+            </div>
+            <button className="wuf-hos-btn" onClick={() => onNavigate('simulation')}
+              style={{marginTop:'2rem', background:'rgba(255,255,255,0.12)',
+                border:'1px solid rgba(255,255,255,0.25)', color:'#fff', alignSelf:'flex-start'}}>
+              Увійти до симуляції →
+            </button>
+          </div>
+
+          {/* Часова капсула — orange */}
+          <div style={{background:'#f26522', color:'#fff', padding:'3rem',
+            display:'flex', flexDirection:'column', justifyContent:'space-between', minHeight:320}}>
+            <div>
+              <div style={{fontFamily:'var(--mono)', fontSize:'0.6rem', letterSpacing:'0.14em',
+                textTransform:'uppercase', color:'rgba(255,255,255,0.5)', marginBottom:'1.25rem'}}>
+                03 · ЧАСОВА КАПСУЛА
+              </div>
+              <h3 style={{fontFamily:'var(--display)', fontWeight:800, fontSize:'1.75rem',
+                lineHeight:1.2, color:'#fff', margin:'0 0 1rem'}}>
+                Послання майбутньому
+              </h3>
+              <p style={{fontFamily:'var(--display)', fontSize:'1rem', lineHeight:'1.625rem',
+                color:'rgba(255,255,255,0.85)', margin:0}}>
+                Залиште своє послання для майбутніх поколінь ДонНТУ. Відкриється,
+                коли університет повернеться до Донецька.
+              </p>
+            </div>
+            <button className="wuf-hos-btn" onClick={() => onNavigate('timecapsule')}
+              style={{marginTop:'2rem', background:'rgba(0,0,0,0.15)',
+                border:'1px solid rgba(255,255,255,0.3)', color:'#fff', alignSelf:'flex-start'}}>
+              Залишити послання →
+            </button>
+          </div>
+        </div>
+
+        {/* Row 3: additional features strip */}
+        <div style={{display:'grid', gridTemplateColumns:'repeat(3,1fr)',
+          borderTop:'1px solid rgba(255,255,255,0.07)'}}>
+          {[
+            { n:'01', title:'Цифровий архів', desc:'Документи, фото та відео з понад 100-річної історії.', page:'archive' },
+            { n:'02', title:'Інтерактивне панно', desc:'Портрети видатних постатей ДонНТУ — клікайте, читайте.', page:'panneau' },
+            { n:'03', title:'Наука та досягнення', desc:'Патенти, наукові школи, лауреати — задокументовано.', page:'achievements' },
+          ].map((f, i) => (
+            <div key={i} onClick={() => onNavigate(f.page)}
+              style={{padding:'2rem 2.5rem', cursor:'pointer',
+                borderRight: i < 2 ? '1px solid rgba(255,255,255,0.07)' : 'none',
+                background:'#111318', transition:'background 0.2s'}}
+              onMouseEnter={e => e.currentTarget.style.background='#161b24'}
+              onMouseLeave={e => e.currentTarget.style.background='#111318'}>
+              <div style={{fontFamily:'var(--mono)', fontSize:'0.55rem', letterSpacing:'0.14em',
+                color:'rgba(255,255,255,0.25)', marginBottom:'0.75rem'}}>{f.n}</div>
+              <div style={{fontFamily:'var(--display)', fontWeight:700, fontSize:'1rem',
+                color:'#f0ede6', marginBottom:'0.4rem'}}>{f.title}</div>
+              <div style={{fontFamily:'var(--display)', fontSize:'0.85rem', lineHeight:'1.4rem',
+                color:'rgba(240,237,230,0.45)'}}>{f.desc}</div>
+            </div>
+          ))}
+        </div>
+
       </section>
 
       {/* ══ REACH STATS ══ */}
@@ -366,6 +486,13 @@ const OverviewPage = ({ onNavigate }) => {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ══ ПАННО ══ */}
+      <section className="wuf-panneau-sec">
+        <div className="wuf-panneau-embed">
+          <HeritageDonntuPage onNavigate={onNavigate}/>
         </div>
       </section>
 
@@ -404,105 +531,97 @@ const OverviewPage = ({ onNavigate }) => {
 
       {/* ══ WAR & UNIVERSITY ══ */}
       <section className="wuf-war">
-        <div className="wuf-sec-strip wuf-sec-strip--red">
-          <span className="wuf-sec-strip-num">СЕКЦІЯ 03</span>
-          <span className="wuf-sec-strip-rule"/>
-          <span className="wuf-sec-strip-label">ЧОТИРИ АДРЕСИ ОДНОГО УНІВЕРСИТЕТУ</span>
-        </div>
-        <div className="wuf-war-head">
-          <h2 className="wuf-war-h">Чотири адреси одного університету</h2>
-          <p className="wuf-war-lead">
-            Від Донецька через Покровськ, Луцьк до Дрогобича — ДонНТУ чотири рази рятував своє ім'я,
-            свою місію та своїх людей.
-          </p>
-        </div>
+        <div className="wuf-war-mondrian">
 
-        <div className="wuf-war-grid">
+          {/* 1а — Донецьк · текстовий блок */}
+          <div className="wuf-wm-don-txt">
+            <div className="wuf-wm-don-label">1921 — 2014 · Перша адреса</div>
+            <h2 className="wuf-wm-don-h">Донецьк</h2>
+            <div className="wuf-wm-don-period">Під окупацією з квітня 2014</div>
+            <p className="wuf-wm-don-p">
+              Головний кампус на 11 корпусів — місце народження університету.
+              Бібліотека, аудиторії, лабораторії — залишені, але не забуті.
+              З квітня 2014 — під окупацією.
+            </p>
+            <div className="wuf-wm-don-addr">вул. Артема, 58 · Донецьк</div>
+          </div>
 
-          {/* 1 — Donetsk */}
-          <div className="wuf-war-card wuf-war-card--occupied">
-            <div className="wuf-war-card-img">
-              <img src="assets/donetsk-main.jpg" alt="Головний корпус ДонНТУ у Донецьку" loading="lazy"/>
-              <div className="wuf-war-card-badge wuf-war-card-badge--red">окупований з 2014</div>
-            </div>
-            <div className="wuf-war-card-body">
-              <div className="wuf-war-card-period">1921 — 2014</div>
-              <h3 className="wuf-war-card-city">Донецьк</h3>
-              <p className="wuf-war-card-addr">вул. Артема, 58</p>
-              <p className="wuf-war-card-text">
-                Головний кампус на 11 корпусів — місце народження університету.
-                Бібліотека, аудиторії, лабораторії — залишені, але не забуті.
-                З квітня 2014 — під окупацією.
-              </p>
+          {/* 1б — Донецьк · фото корпусу */}
+          <div className="wuf-wm-cell wuf-wm-don-img">
+            <img src="assets/donetsk-main.jpg" alt="Головний корпус ДонНТУ у Донецьку" loading="lazy"/>
+            <div className="wuf-wm-badge wuf-wm-badge--red">окупований з квітня 2014</div>
+          </div>
+
+          {/* 2 — Покровськ до удару */}
+          <div className="wuf-wm-cell wuf-wm-pokr-b">
+            <img src="assets/pokrovsk-main.jpg" alt="Покровськ до удару" loading="lazy"/>
+            <div className="wuf-wm-badge wuf-wm-badge--teal">2014 — 2024 · до удару</div>
+            <div className="wuf-wm-caption">
+              <div className="wuf-wm-caption-period">Друга адреса · Покровськ · вул. Центральна, 84</div>
+              <div className="wuf-wm-caption-city">10 років відродження</div>
             </div>
           </div>
 
-          {/* 2 — Pokrovsk before */}
-          <div className="wuf-war-card">
-            <div className="wuf-war-card-img">
-              <img src="assets/pokrovsk-main.jpg" alt="Головний корпус ДонНТУ у Покровську, 2021" loading="lazy"/>
-              <div className="wuf-war-card-badge wuf-war-card-badge--teal">2021 · до удару</div>
-            </div>
-            <div className="wuf-war-card-body">
-              <div className="wuf-war-card-period">2014 — 2024</div>
-              <h3 className="wuf-war-card-city">Покровськ</h3>
-              <p className="wuf-war-card-addr">вул. Центральна, 84</p>
-              <p className="wuf-war-card-text">
-                Після евакуації з окупованого Донецька університет відродився
-                у Покровську. Новий кампус — відбудований, живий.
-                10 років наукової роботи і навчання.
-              </p>
+          {/* 3 — Покровськ знищено */}
+          <div className="wuf-wm-cell wuf-wm-pokr-d wuf-wm-ruins">
+            <img src="https://pokrovsk.news/uploads/news/1200x675/llmuisleiwryfhi4kvyezgca5m78fj70.jpg" alt="Університет після удару" loading="lazy"/>
+            <div className="wuf-wm-badge wuf-wm-badge--red">28.02.2024 · 00:50 · знищено</div>
+            <div className="wuf-wm-caption">
+              <div className="wuf-wm-caption-period">4 ракети · 2 влучили в університет</div>
+              <div className="wuf-wm-caption-city">Знищено</div>
             </div>
           </div>
 
-          {/* 3 — Pokrovsk destroyed */}
-          <div className="wuf-war-card wuf-war-card--ruins">
-            <div className="wuf-war-card-img">
-              <img src="assets/pokrovsk-war-2024.jpg" alt="ДонНТУ після ракетного удару, лютий 2024" loading="lazy"/>
-              <div className="wuf-war-card-badge wuf-war-card-badge--red">28.02.2024 · знищено</div>
-            </div>
-            <div className="wuf-war-card-body">
-              <div className="wuf-war-card-period">Покровськ · 2024</div>
-              <h3 className="wuf-war-card-city">Знищено</h3>
-              <p className="wuf-war-card-text">
-                Ракетний удар 28 лютого 2024 року зрівняв головний корпус
-                із землею. Викладачі вели заняття онлайн наступного ж дня.
-                Навчання не зупинялось жодної хвилини.
-              </p>
+          {/* 4 — Луцьк */}
+          <div className="wuf-wm-cell wuf-wm-lutsk">
+            <img src="https://donntu.edu.ua/wp-content/uploads/2022/04/1649868313173.jpeg" alt="Евакуація ДонНТУ до Луцька, квітень 2022" loading="lazy"/>
+            <div className="wuf-wm-badge wuf-wm-badge--teal">квітень 2022 – 2024</div>
+            <div className="wuf-wm-caption">
+              <div className="wuf-wm-caption-period">Третя адреса · Луцьк / ЛНТУ</div>
+              <div className="wuf-wm-caption-city">2 роки евакуації</div>
             </div>
           </div>
 
-          {/* 4 — Lutsk */}
-          <div className="wuf-war-card">
-            <div className="wuf-war-card-img">
-              <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?w=600&h=400&fit=crop" alt="ДонНТУ у Луцьку, 2022" loading="lazy"/>
-              <div className="wuf-war-card-badge wuf-war-card-badge--teal">квітень 2022 – 2024</div>
-            </div>
-            <div className="wuf-war-card-body">
-              <div className="wuf-war-card-period">2022 — 2024</div>
-              <h3 className="wuf-war-card-city">Луцьк</h3>
-              <p className="wuf-war-card-addr">Волинська обл. · на базі ЛНТУ</p>
-              <p className="wuf-war-card-text">
-                У квітні 2022 університет евакуювався до Луцька. Два роки навчання
-                на базі Луцького НТУ — до офіційного переміщення до Дрогобича.
-              </p>
+          {/* 5 — Рятувальна операція */}
+          <div className="wuf-wm-cell wuf-wm-rescue wuf-wm-ruins">
+            <img src="https://pokrovsk.news/uploads/news/resize/w/750x750/rxj0nmbs8i1nc9oh.jpg" alt="Рятувальники" loading="lazy"/>
+            <div className="wuf-wm-badge wuf-wm-badge--red">28.02.2024 · рятувальники</div>
+            <div className="wuf-wm-caption">
+              <div className="wuf-wm-caption-period">Покровськ · 00:50</div>
+              <div className="wuf-wm-caption-city">Жертв не було</div>
             </div>
           </div>
 
-          {/* 5 — Drohobych */}
-          <div className="wuf-war-card wuf-war-card--alive">
-            <div className="wuf-war-card-img">
-              <img src="assets/drohobych-campus.jpg" alt="Кампус ДонНТУ у Дрогобичі, вул. Шевченка 18" loading="lazy"/>
-              <div className="wuf-war-card-badge wuf-war-card-badge--green">серпень 2024 → зараз</div>
+          {/* 6 — Центр міста */}
+          <div className="wuf-wm-cell wuf-wm-center wuf-wm-ruins">
+            <img src="https://pokrovsk.news/uploads/news/resize/w/750x750/otwbqh4z06ncgbuk.jpg" alt="Центр Покровська" loading="lazy"/>
+            <div className="wuf-wm-badge wuf-wm-badge--red">14+ будівель · пошкоджено</div>
+            <div className="wuf-wm-caption">
+              <div className="wuf-wm-caption-period">Покровськ · лютий 2024</div>
+              <div className="wuf-wm-caption-city">Центр міста</div>
             </div>
-            <div className="wuf-war-card-body">
-              <div className="wuf-war-card-period">2024 → сьогодні</div>
-              <h3 className="wuf-war-card-city">Дрогобич</h3>
-              <p className="wuf-war-card-addr">вул. Шевченка, 18 · Львівська обл.</p>
-              <p className="wuf-war-card-text">
-                Офіційне переміщення до Дрогобича за наказом МОН від 28 серпня 2024.
-                «Дім з фресками» — пам'ятка архітектури XIX ст. — новий дім університету.
-              </p>
+          </div>
+
+          {/* 7 — Навчання не зупинилось · фото + оверлей */}
+          <div className="wuf-wm-cell wuf-wm-online">
+            <img src="https://pokrovsk.news/uploads/news/resize/w/750x750/spfejone5rx5accl.jpg" alt="Навчання тривало після удару" loading="lazy"/>
+            <div className="wuf-wm-badge wuf-wm-badge--teal">01.03.2024 · навчання тривало</div>
+            <div className="wuf-wm-caption">
+              <div className="wuf-wm-caption-period">Березень 2024 · онлайн</div>
+              <div className="wuf-wm-caption-city">Навчання не зупинилось</div>
+              <div className="wuf-wm-caption-sub">
+                Наступного ж дня після удару — заняття онлайн. Жодної спеціальності не закрито.
+              </div>
+            </div>
+          </div>
+
+          {/* 8 — Дрогобич */}
+          <div className="wuf-wm-cell wuf-wm-dro">
+            <img src="assets/drohobych-campus.jpg" alt="Кампус ДонНТУ у Дрогобичі" loading="lazy"/>
+            <div className="wuf-wm-badge wuf-wm-badge--green">серпень 2024 → зараз</div>
+            <div className="wuf-wm-caption">
+              <div className="wuf-wm-caption-period">Четверта адреса · Дрогобич · вул. Шевченка, 18</div>
+              <div className="wuf-wm-caption-city">Новий дім університету</div>
             </div>
           </div>
 
@@ -517,114 +636,107 @@ const OverviewPage = ({ onNavigate }) => {
 
       {/* ══ LIBRARY / UNREALIZED DREAM ══ */}
       <section className="wuf-library">
-        {/* Section strip */}
-        <div className="wuf-sec-strip wuf-sec-strip--teal" style={{position:'relative',zIndex:2}}>
-          <span className="wuf-sec-strip-num">СЕКЦІЯ 04</span>
-          <span className="wuf-sec-strip-rule"/>
-          <span className="wuf-sec-strip-label">НТБ ДОННТУ · НАУКОВО-ТЕХНІЧНА БІБЛІОТЕКА</span>
-        </div>
-        {/* Full-bleed background photo */}
-        <div className="wuf-library-bg">
-          <img src="assets/donetsk-library.jpg" alt="НТБ ДонНТУ — будівля бібліотеки у Донецьку" loading="lazy"/>
-          <div className="wuf-library-bg-overlay"/>
-        </div>
-        <div className="wuf-library-inner">
-          <div className="wuf-library-left">
-            <span className="wuf-library-label">БІБЛІОТЕКА · ЗАСНОВАНО 1921</span>
-            <h2 className="wuf-library-h">НТБ ДонНТУ</h2>
-            <p className="wuf-library-lead">
-              Понад 1 300 000 томів. Сто років зібраних знань.
-              Залишилась у Донецьку.
-            </p>
-
-            <div className="wuf-library-stats">
-              <div className="wuf-library-stat">
-                <span className="wuf-library-stat-n">1,3 млн</span>
-                <span className="wuf-library-stat-l">томів до 2014 року</span>
-              </div>
-              <div className="wuf-library-stat">
-                <span className="wuf-library-stat-n">250 000</span>
-                <span className="wuf-library-stat-l">записів в електронному каталозі</span>
-              </div>
-              <div className="wuf-library-stat">
-                <span className="wuf-library-stat-n">32 000+</span>
-                <span className="wuf-library-stat-l">документів у репозиторії ELARDONTU</span>
-              </div>
-              <div className="wuf-library-stat">
-                <span className="wuf-library-stat-n">0</span>
-                <span className="wuf-library-stat-l">томів евакуйовано у 2014</span>
-              </div>
+        {/* Mondrian grid — same style as СЕКЦІЯ 01 */}
+        <div className="wuf-host-grid">
+          {/* ① Blue — heading + intro */}
+          <div className="wuf-host-blue">
+            <h2 className="wuf-host-blue-h">
+              НТБ ДонНТУ<br/>Науково-технічна<br/>бібліотека
+            </h2>
+            <p className="wuf-host-blue-p">Понад 1 300 000 томів. Сто років зібраних знань. Залишилась у Донецьку.</p>
+            <p className="wuf-host-blue-p">Заснована у 1921 році — одна з найбільших технічних бібліотек України.</p>
+          </div>
+          {/* ② Pink — stats */}
+          <div className="wuf-host-pink">
+            <p className="wuf-host-pink-p">1,3 млн томів до 2014 року</p>
+            <p className="wuf-host-pink-p">250 000 записів в електронному каталозі</p>
+            <p className="wuf-host-pink-p">32 000+ документів у репозиторії ELARDONTU</p>
+          </div>
+          {/* ③ Photo — бібліотека */}
+          <div className="wuf-host-photo-box">
+            <div className="wuf-host-photo-inner">
+              <img src="assets/donetsk-library.jpg" alt="НТБ ДонНТУ — будівля бібліотеки у Донецьку" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} loading="lazy"/>
             </div>
-
-            <p className="wuf-library-body">
-              Науково-технічна бібліотека ДонНТУ — одна з найбільших технічних
-              бібліотек України — залишилась у захопленому Донецьку. Заснована у 1921 році
-              з 200 рукописних методичних посібників, до 1940-го вона налічувала понад
-              650 тисяч видань. Унікальне зібрання гірничих, металургійних та інженерних
-              видань, архіви дисертацій, рідкісні фонди — все це досі перебуває в окупації.
+          </div>
+          {/* ④ Wide photo — читальний зал */}
+          <div className="wuf-host-city-photo">
+            <img src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?w=1200&h=600&fit=crop" alt="Читальний зал" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} loading="lazy"/>
+          </div>
+          {/* ⑤ Illustration — архів */}
+          <div className="wuf-host-illustration">
+            <img src="https://images.unsplash.com/photo-1507842217343-583bb7270b66?w=600&h=500&fit=crop" alt="Книжковий архів" style={{width:'100%',height:'100%',objectFit:'cover',display:'block'}} loading="lazy"/>
+          </div>
+          {/* ⑥ Quote — цифрова спадщина */}
+          <div className="wuf-host-quote">
+            <div className="wuf-library-dream-tag" style={{marginBottom:'1rem'}}>Цифрова спадщина</div>
+            <p className="wuf-host-quote-text">
+              Попри втрату фізичного фонду, бібліотека продовжує роботу онлайн. Електронний каталог — ~250 000 записів, репозиторій ELARDONTU — понад 32 000 документів. Доступ до Web of Science, Scopus та EBSCO.
             </p>
-
-            <div className="wuf-library-dream">
-              <div className="wuf-library-dream-tag">Цифрова спадщина</div>
-              <p className="wuf-library-dream-text">
-                Попри втрату фізичного фонду, бібліотека продовжує роботу: електронний
-                каталог налічує ~250 000 записів, репозиторій ELARDONTU — понад 32 000
-                документів. Бібліотека має доступ до Web of Science, Scopus та EBSCO.
-                У 2012 році посіла 2-ге місце на Всеукраїнському інтернет-конкурсі
-                «Найкращий сайт бібліотеки».
-              </p>
-            </div>
+            <p className="wuf-host-quote-text" style={{marginTop:'1rem',color:'#c0392b',fontWeight:600}}>
+              0 томів евакуйовано у 2014
+            </p>
           </div>
         </div>
       </section>
 
-      {/* ══ Arrow: Базова стаття ══ */}
-      <section className="wuf-arrow-section">
-        <div className="wuf-arrow-section-inner">
-          <button className="wuf-arrow-link" onClick={() => onNavigate('heritage')}>
-            <div className="wuf-arrow-link-top">
-              <span className="wuf-arrow-link-label">Сторічна історія ДонНТУ: від технікуму до національного університету</span>
-              <span className="wuf-arrow-link-arrow">→</span>
+      {/* ══ TIMELINE STRIP ══ */}
+      <section className="wuf-tl-strip">
+        {[
+          { yr:'1921', label:'Заснування' },
+          { yr:'1941', label:'Евакуація I' },
+          { yr:'2001', label:'Національний статус' },
+          { yr:'2014', label:'Окупація' },
+          { yr:'2022', label:'Евакуація II' },
+          { yr:'2024', label:'Дрогобич' },
+          { yr:'2026', label:'Heritage OS' },
+        ].map((t, i, arr) => (
+          <React.Fragment key={t.yr}>
+            <div className="wuf-tl-item">
+              <div className="wuf-tl-yr">{t.yr}</div>
+              <div className="wuf-tl-dot"/>
+              <div className="wuf-tl-label">{t.label}</div>
             </div>
-          </button>
-        </div>
+            {i < arr.length - 1 && <div className="wuf-tl-line"/>}
+          </React.Fragment>
+        ))}
       </section>
 
       {/* ══ FOOTER ══ */}
       <footer className="wuf-footer">
         <div className="wuf-footer-inner">
           <div className="wuf-footer-top">
+
+            {/* Brand */}
             <div>
-              <div className="wuf-footer-brand">{footerBrand}</div>
-              <p className="wuf-footer-tagline">
-                {footerTagline.split('\n').map((l,i,a)=>(
-                  <React.Fragment key={i}>{l}{i<a.length-1&&<br/>}</React.Fragment>
-                ))}
-              </p>
+              <div className="wuf-footer-brand">DONNTU</div>
+              <div className="wuf-footer-brand" style={{fontSize:'1rem',letterSpacing:'0.06em',opacity:.55,marginTop:'-0.25rem',marginBottom:'1rem'}}>HERITAGE OS</div>
+              <p className="wuf-footer-tagline">Цифрова спадщина<br/>сторічної інженерної освіти<br/>Донбасу.</p>
             </div>
-            {[
-              { heading:'РОЗДІЛИ', links:[
-                { l:'Спадщина', p:'heritage' }, { l:'Архів',  p:'archive'  },
-                { l:'Панно',    p:'panneau'  }, { l:'Кампус', p:'campus'   },
-              ]},
-              { heading:'НАВЧАННЯ', links:[
-                { l:'Абітурієнту', p:'applicant' }, { l:'Кафедри',    p:'departments' },
-                { l:'Наука',       p:'science'    }, { l:'Бібліотека', p:'library'     },
-              ]},
-              { heading:'УНІВЕРСИТЕТ', links:[
-                { l:'Карта', p:'map' }, { l:'Часова капсула', p:'timecapsule' },
-                { l:'Досягнення', p:'achievements' }, { l:'Майбутнє', p:'future' },
-              ]},
-            ].map((col, i) => (
-              <div key={i}>
-                <div className="wuf-footer-heading">{col.heading}</div>
-                <div className="wuf-footer-links">
-                  {col.links.map((lk,j) => (
-                    <button key={j} className="wuf-footer-link" onClick={() => onNavigate(lk.p)}>{lk.l}</button>
-                  ))}
-                </div>
+
+            {/* Спадщина */}
+            <div>
+              <div className="wuf-footer-heading">СПАДЩИНА</div>
+              <div className="wuf-footer-links">
+                <button className="wuf-footer-link" onClick={() => onNavigate('heritage')}>Сторічна історія</button>
+                <button className="wuf-footer-link" onClick={() => onNavigate('panneau')}>Інтерактивне панно</button>
+                <button className="wuf-footer-link" onClick={() => onNavigate('archive')}>Цифровий архів</button>
+                <button className="wuf-footer-link" onClick={() => onNavigate('campus')}>Кампус та адреси</button>
+                <button className="wuf-footer-link" onClick={() => onNavigate('library')}>Бібліотека НТБ</button>
               </div>
-            ))}
+            </div>
+
+            {/* Heritage OS */}
+            <div>
+              <div className="wuf-footer-heading">HERITAGE OS</div>
+              <div className="wuf-footer-links">
+                <button className="wuf-footer-link" onClick={() => onNavigate('future')}>Майбутнє</button>
+                <button className="wuf-footer-link" onClick={() => onNavigate('certs')}>Сертифікація</button>
+                <button className="wuf-footer-link" onClick={() => onNavigate('simulation')}>Симуляція</button>
+                <button className="wuf-footer-link" onClick={() => onNavigate('timecapsule')}>Часова капсула</button>
+                <button className="wuf-footer-link" onClick={() => onNavigate('applicant')}>Абітурієнту</button>
+              </div>
+            </div>
+
           </div>
           <div className="wuf-footer-bottom">
             <span className="wuf-footer-copy">{footerCopy}</span>

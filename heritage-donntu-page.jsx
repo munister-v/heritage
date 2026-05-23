@@ -744,8 +744,9 @@ const PANNEAU_PERSONS = [
 ];
 
 /* ── Hotspot dot ── */
-const Dot = ({ person, onClick, active }) => {
+const Dot = ({ person, onClick, active, mobile }) => {
   const isTraitor = person.traitor;
+  const sz = mobile ? (isTraitor ? 26 : 22) : (isTraitor ? 17 : 14);
   return (
     <button
       onClick={() => onClick(person)}
@@ -754,10 +755,8 @@ const Dot = ({ person, onClick, active }) => {
         position: 'absolute',
         left: `${person.x}%`,
         top:  `${person.y}%`,
-        /* center the dot ON the coordinate — not offset by half-size */
-        transform: active ? 'translate(-50%,-50%) scale(1.45)' : 'translate(-50%,-50%)',
-        width:  isTraitor ? 17 : 14,
-        height: isTraitor ? 17 : 14,
+        transform: active ? 'translate(-50%,-50%) scale(1.35)' : 'translate(-50%,-50%)',
+        width:  sz, height: sz,
         borderRadius: '50%',
         background: active
           ? (isTraitor ? '#e53935' : '#3498db')
@@ -766,20 +765,18 @@ const Dot = ({ person, onClick, active }) => {
           ? `2px solid ${isTraitor ? '#ff9090' : '#fff'}`
           : `2px solid ${isTraitor ? 'rgba(229,57,53,0.95)' : 'rgba(0,0,0,0.25)'}`,
         boxShadow: active
-          ? `0 0 0 4px ${isTraitor ? 'rgba(229,57,53,0.3)' : 'rgba(52,152,219,0.35)'}, 0 2px 8px rgba(0,0,0,0.5)`
+          ? `0 0 0 ${mobile?6:4}px ${isTraitor ? 'rgba(229,57,53,0.3)' : 'rgba(52,152,219,0.35)'}, 0 2px 8px rgba(0,0,0,0.5)`
           : '0 1px 4px rgba(0,0,0,0.65)',
         cursor: 'pointer',
         padding: 0,
         transition: 'transform .14s ease, background .14s, box-shadow .14s',
         zIndex: active ? 20 : (isTraitor ? 7 : 5),
         touchAction: 'manipulation',
+        minWidth: mobile ? 44 : 0, minHeight: mobile ? 44 : 0,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
       }}
-      onMouseEnter={e => {
-        if (!active) e.currentTarget.style.transform = 'translate(-50%,-50%) scale(1.6)';
-      }}
-      onMouseLeave={e => {
-        if (!active) e.currentTarget.style.transform = 'translate(-50%,-50%)';
-      }}
+      onMouseEnter={e => { if (!active && !mobile) e.currentTarget.style.transform = 'translate(-50%,-50%) scale(1.6)'; }}
+      onMouseLeave={e => { if (!active && !mobile) e.currentTarget.style.transform = 'translate(-50%,-50%)'; }}
     />
   );
 };
@@ -866,6 +863,56 @@ const PersonCard = ({ person, onClose }) => {
   );
 };
 
+/* ── Mobile inline card (below image) ── */
+const MobileInlineCard = ({ person, onClose, idx, total, onPrev, onNext }) => {
+  if (!person) return null;
+  const isTraitor = person.traitor;
+  const accent = isTraitor ? '#e53935' : 'var(--ac)';
+  return (
+    <div style={{background:'var(--bg)', borderTop:`3px solid ${accent}`, animation:'slideDown .22s ease'}}>
+
+      {/* Header: photo · name · close */}
+      <div style={{display:'flex',alignItems:'flex-start',gap:14,padding:'16px 16px 12px',borderBottom:'1px solid var(--b1)'}}>
+        {person.photo ? (
+          <img src={person.photo} alt={person.name}
+            style={{width:72,height:72,objectFit:'cover',objectPosition:'top center',flexShrink:0,borderRadius:6,border:'2px solid var(--b2)',filter:isTraitor?'grayscale(60%)':'none'}}
+            onError={e=>{e.currentTarget.style.display='none';}}/>
+        ) : (
+          <div style={{width:72,height:72,flexShrink:0,borderRadius:6,background:'var(--s2)',border:'1px solid var(--b2)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:'2rem',opacity:0.25}}>👤</div>
+        )}
+        <div style={{flex:1,minWidth:0,paddingTop:2}}>
+          <div style={{fontFamily:'var(--mono)',fontSize:'0.6rem',letterSpacing:'0.14em',color:accent,marginBottom:5,textTransform:'uppercase'}}>
+            {isTraitor ? '⚠ Зрадник' : '▸ Портрет · ДонНТУ'}
+          </div>
+          <h3 style={{fontFamily:'var(--display)',fontSize:'1.1rem',fontWeight:700,color:isTraitor?'#ff6b6b':'var(--t1)',lineHeight:1.3,margin:'0 0 4px'}}>{person.name}</h3>
+          <div style={{fontFamily:'var(--mono)',fontSize:'0.62rem',color:'var(--t3)',letterSpacing:'0.06em'}}>
+            {idx+1} / {total}
+          </div>
+        </div>
+        <button onClick={onClose}
+          style={{background:'none',border:'1px solid var(--b2)',color:'var(--t3)',cursor:'pointer',fontSize:13,padding:'6px 11px',borderRadius:3,flexShrink:0,lineHeight:1}}>✕</button>
+      </div>
+
+      {/* Bio */}
+      <div style={{padding:'16px 16px 4px'}}>
+        <p style={{fontSize:'1rem',lineHeight:1.8,color:'var(--t2)',margin:0}}>{person.bio}</p>
+      </div>
+
+      {/* Prev / Next navigation */}
+      <div style={{display:'flex',borderTop:'1px solid var(--b1)',marginTop:16}}>
+        <button onClick={onPrev}
+          style={{flex:1,background:'none',border:'none',borderRight:'1px solid var(--b1)',padding:'14px 0',cursor:'pointer',fontFamily:'var(--mono)',fontSize:'0.75rem',color:'var(--t2)',display:'flex',alignItems:'center',justifyContent:'center',gap:8}}>
+          ‹ <span>Попередній</span>
+        </button>
+        <button onClick={onNext}
+          style={{flex:1,background:'none',border:'none',padding:'14px 0',cursor:'pointer',fontFamily:'var(--mono)',fontSize:'0.75rem',color:'var(--t2)',display:'flex',alignItems:'center',justifyContent:'center',gap:8}}>
+          <span>Наступний</span> ›
+        </button>
+      </div>
+    </div>
+  );
+};
+
 /* ── Mobile bottom sheet card ── */
 const MobileCard = ({ person, onClose }) => {
   if (!person) return null;
@@ -941,6 +988,8 @@ const HeritageDonntuPage = ({ onNavigate }) => {
   const [search, setSearch]     = React.useState('');
   const [showSearch, setShowSearch] = React.useState(false);
   const [isMobile, setIsMobile] = React.useState(window.innerWidth < 768);
+  const [zoom, setZoom]         = React.useState(1);
+  const scrollRef               = React.useRef(null);
 
   React.useEffect(() => {
     const onResize = () => setIsMobile(window.innerWidth < 768);
@@ -954,12 +1003,112 @@ const HeritageDonntuPage = ({ onNavigate }) => {
         p.name.toLowerCase().includes(q) || p.bio.toLowerCase().includes(q))
     : PANNEAU_PERSONS;
 
-  const handleSelect = p => setSelected(sel => sel?.id === p.id ? null : p);
+  const currentIdx = selected ? PANNEAU_PERSONS.findIndex(p => p.id === selected.id) : -1;
+
+  const handleSelect = p => {
+    const next = selected?.id === p.id ? null : p;
+    setSelected(next);
+    if (next && scrollRef.current) {
+      const el = scrollRef.current;
+      const imgW = el.scrollWidth;
+      const imgH = el.scrollHeight;
+      const cx = (next.x / 100) * imgW - el.clientWidth / 2;
+      const cy = (next.y / 100) * imgH - el.clientHeight / 2;
+      el.scrollTo({ left: Math.max(0, cx), top: Math.max(0, cy), behavior: 'smooth' });
+    }
+  };
   const handleClose  = () => setSelected(null);
+
+  const goNext = () => {
+    if (currentIdx < 0) { handleSelect(PANNEAU_PERSONS[0]); return; }
+    handleSelect(PANNEAU_PERSONS[(currentIdx + 1) % PANNEAU_PERSONS.length]);
+  };
+  const goPrev = () => {
+    if (currentIdx < 0) { handleSelect(PANNEAU_PERSONS[PANNEAU_PERSONS.length - 1]); return; }
+    handleSelect(PANNEAU_PERSONS[(currentIdx - 1 + PANNEAU_PERSONS.length) % PANNEAU_PERSONS.length]);
+  };
+
+  const zoomIn  = () => setZoom(z => Math.min(3, +(z + 0.25).toFixed(2)));
+  const zoomOut = () => setZoom(z => Math.max(0.5, +(z - 0.25).toFixed(2)));
+  const zoomReset = () => setZoom(1);
 
   /* side panel width (desktop only) */
   const PANEL_W = 300;
 
+  /* ── MOBILE layout ── */
+  if (isMobile) {
+    return (
+      <div style={{display:'flex',flexDirection:'column',background:'#0e1117'}}>
+        {/* Mobile top bar — compact */}
+        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',padding:'10px 14px',background:'var(--s1)',borderBottom:'1px solid var(--b1)',gap:8}}>
+          <div style={{minWidth:0}}>
+            <div style={{fontFamily:'var(--mono)',fontSize:'0.6rem',letterSpacing:'0.12em',color:'var(--ac)'}}>ВИДАТНІ ПОСТАТІ · ДОННТУ</div>
+            <div style={{fontFamily:'var(--mono)',fontSize:'0.7rem',color:'var(--t3)',marginTop:2}}>
+              {currentIdx >= 0 ? `${currentIdx+1} / ${PANNEAU_PERSONS.length} осіб` : `${PANNEAU_PERSONS.length} осіб на картині`}
+            </div>
+          </div>
+          <button
+            onClick={() => { setShowSearch(s=>!s); setSearch(''); setSelected(null); }}
+            style={{background:showSearch?'var(--ac)':'var(--s2)',border:'1px solid var(--b2)',color:showSearch?'#fff':'var(--t2)',padding:'8px 14px',cursor:'pointer',fontSize:'0.8rem',fontFamily:'var(--mono)',borderRadius:2,flexShrink:0}}>
+            🔍
+          </button>
+        </div>
+
+        {/* Search bar */}
+        {showSearch && (
+          <div style={{padding:'8px 14px',background:'var(--s2)',borderBottom:'1px solid var(--b1)',display:'flex',gap:8,alignItems:'center'}}>
+            <input autoFocus type="search" placeholder="Прізвище…" value={search} onChange={e=>setSearch(e.target.value)}
+              style={{flex:1,background:'var(--bg)',border:'1px solid var(--b2)',color:'var(--t1)',padding:'8px 12px',fontSize:'0.9rem',fontFamily:'var(--mono)',outline:'none',borderRadius:2}}/>
+            {search && <span style={{fontFamily:'var(--mono)',fontSize:'0.7rem',color:'var(--t3)',whiteSpace:'nowrap'}}>{filtered.length}</span>}
+          </div>
+        )}
+        {showSearch && search && (
+          <div style={{maxHeight:200,overflowY:'auto',borderBottom:'1px solid var(--b1)',background:'var(--bg)'}}>
+            {filtered.length===0 && <div style={{padding:'10px 14px',color:'var(--t3)',fontSize:'0.8rem',fontFamily:'var(--mono)'}}>Не знайдено</div>}
+            {filtered.map(p=>(
+              <button key={p.id} onClick={()=>{handleSelect(p);setShowSearch(false);setSearch('');}}
+                style={{display:'flex',alignItems:'center',gap:10,width:'100%',textAlign:'left',background:selected?.id===p.id?'rgba(52,152,219,0.12)':'none',border:'none',borderBottom:'1px solid var(--b1)',padding:'12px 14px',cursor:'pointer'}}>
+                <span style={{fontSize:'0.88rem',color:'var(--t1)',fontFamily:'var(--sans)'}}>{p.name}</span>
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Image area with floating nav */}
+        <div style={{position:'relative'}}>
+          <div ref={scrollRef} style={{overflow:'auto',WebkitOverflowScrolling:'touch'}}>
+            <div style={{position:'relative',lineHeight:0,display:'inline-block',minWidth:'100%'}}>
+              <img src={PANNEAU_IMG} alt="Видатні постаті ДонНТУ"
+                style={{display:'block',width:'100%',height:'auto',userSelect:'none',minWidth:560}} draggable={false}/>
+            </div>
+          </div>
+
+          {/* Floating prev/next bar */}
+          <div style={{
+            position:'absolute',bottom:0,left:0,right:0,
+            background:'rgba(10,10,14,0.82)',backdropFilter:'blur(8px)',
+            display:'flex',alignItems:'center',gap:0,
+          }}>
+            <button onClick={goPrev} style={{background:'none',border:'none',borderRight:'1px solid rgba(255,255,255,0.1)',color:'#fff',padding:'14px 20px',cursor:'pointer',fontSize:'1.2rem',flexShrink:0}}>‹</button>
+            <div style={{flex:1,textAlign:'center',padding:'0 12px',overflow:'hidden'}}>
+              {selected
+                ? <span style={{fontFamily:'var(--display)',fontSize:'0.82rem',color:'#fff',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',display:'block'}}>{selected.name}</span>
+                : <span style={{fontFamily:'var(--mono)',fontSize:'0.65rem',color:'rgba(255,255,255,0.45)',letterSpacing:'0.08em'}}>‹ › НАВІГАЦІЯ СТРІЛКАМИ</span>
+              }
+            </div>
+            <button onClick={goNext} style={{background:'none',border:'none',borderLeft:'1px solid rgba(255,255,255,0.1)',color:'#fff',padding:'14px 20px',cursor:'pointer',fontSize:'1.2rem',flexShrink:0}}>›</button>
+          </div>
+        </div>
+
+        {/* Inline person card */}
+        {selected && <MobileInlineCard person={selected} onClose={handleClose} idx={currentIdx} total={PANNEAU_PERSONS.length} onPrev={goPrev} onNext={goNext}/>}
+
+        <style>{`@keyframes slideDown { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }`}</style>
+      </div>
+    );
+  }
+
+  /* ── DESKTOP layout ── */
   return (
     <div style={{display:'flex', flexDirection:'column', height:'100%', overflow:'hidden'}}>
 
@@ -976,20 +1125,21 @@ const HeritageDonntuPage = ({ onNavigate }) => {
             Інтерактивна картина «Видатні постаті ДонНТУ»
           </h2>
         </div>
-        <div style={{display:'flex', alignItems:'center', gap:8, flexShrink:0}}>
-          {/* Search toggle */}
-          <button
-            onClick={() => { setShowSearch(s => !s); setSearch(''); setSelected(null); }}
-            style={{
-              background: showSearch ? 'var(--ac)' : 'var(--s2)',
-              border:'1px solid var(--b2)', color: showSearch ? '#fff' : 'var(--t2)',
-              padding:'5px 10px', cursor:'pointer', fontSize:'0.8rem',
-              fontFamily:'var(--mono)', borderRadius:2, letterSpacing:'0.05em',
-            }}
-          >🔍 {!isMobile && 'Пошук'}</button>
-          <span style={{fontFamily:'var(--mono)', fontSize:'0.65rem', color:'var(--t3)', whiteSpace:'nowrap'}}>
-            {PANNEAU_PERSONS.length} осіб
+        <div style={{display:'flex', alignItems:'center', gap:6, flexShrink:0}}>
+          <button onClick={goPrev} title="Попередня особа" style={{background:'var(--s2)',border:'1px solid var(--b2)',color:'var(--t1)',padding:'5px 9px',cursor:'pointer',fontSize:'0.85rem',borderRadius:2}}>‹</button>
+          <span style={{fontFamily:'var(--mono)',fontSize:'0.65rem',color:'var(--t3)',whiteSpace:'nowrap',minWidth:52,textAlign:'center'}}>
+            {currentIdx >= 0 ? `${currentIdx+1} / ${PANNEAU_PERSONS.length}` : `${PANNEAU_PERSONS.length} осіб`}
           </span>
+          <button onClick={goNext} title="Наступна особа" style={{background:'var(--s2)',border:'1px solid var(--b2)',color:'var(--t1)',padding:'5px 9px',cursor:'pointer',fontSize:'0.85rem',borderRadius:2}}>›</button>
+          <div style={{display:'flex',alignItems:'center',gap:3,marginLeft:4}}>
+            <button onClick={zoomOut} style={{background:'var(--s2)',border:'1px solid var(--b2)',color:'var(--t1)',padding:'4px 8px',cursor:'pointer',fontSize:'0.8rem',borderRadius:2}}>−</button>
+            <button onClick={zoomReset} style={{background:'var(--s2)',border:'1px solid var(--b2)',color:'var(--t3)',padding:'4px 7px',cursor:'pointer',fontSize:'0.65rem',fontFamily:'var(--mono)',borderRadius:2,minWidth:38,textAlign:'center'}}>{Math.round(zoom*100)}%</button>
+            <button onClick={zoomIn} style={{background:'var(--s2)',border:'1px solid var(--b2)',color:'var(--t1)',padding:'4px 8px',cursor:'pointer',fontSize:'0.8rem',borderRadius:2}}>+</button>
+          </div>
+          <button onClick={() => { setShowSearch(s => !s); setSearch(''); setSelected(null); }}
+            style={{background: showSearch ? 'var(--ac)' : 'var(--s2)',border:'1px solid var(--b2)',color: showSearch ? '#fff' : 'var(--t2)',padding:'5px 10px',cursor:'pointer',fontSize:'0.8rem',fontFamily:'var(--mono)',borderRadius:2}}>
+            🔍 Пошук
+          </button>
         </div>
       </div>
 
@@ -1056,7 +1206,7 @@ const HeritageDonntuPage = ({ onNavigate }) => {
       <div style={{flex:1, overflow:'hidden', position:'relative', background:'#0e1117'}}>
 
         {/* Scrollable image area — full width always, panel overlays on top */}
-        <div style={{
+        <div ref={scrollRef} style={{
           position:'absolute', inset:0,
           overflow:'auto',
           WebkitOverflowScrolling:'touch',
@@ -1069,10 +1219,9 @@ const HeritageDonntuPage = ({ onNavigate }) => {
               alt="Інтерактивна картина «Видатні постаті ДонНТУ»"
               style={{
                 display:'block',
-                width:'100%',
+                width: zoom === 1 ? '100%' : `${zoom * 100}%`,
                 height:'auto',
                 userSelect:'none',
-                /* minimum useful size — enables horizontal scroll on small screens */
                 minWidth: isMobile ? 600 : 900,
               }}
               draggable={false}
@@ -1124,13 +1273,10 @@ const HeritageDonntuPage = ({ onNavigate }) => {
             color:'var(--t3)', pointerEvents:'none', whiteSpace:'nowrap',
             borderRadius:3, backdropFilter:'blur(4px)',
           }}>
-            {isMobile ? 'Торкніться точки для перегляду біографії' : 'Клікніть на точку · Scroll/прокрутіть для огляду · ДонНТУ © 2018'}
+            Клікніть на точку · Scroll/прокрутіть для огляду · ДонНТУ © 2018
           </div>
         )}
       </div>
-
-      {/* Slide-up keyframe — injected once */}
-      <style>{`@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }`}</style>
     </div>
   );
 };
