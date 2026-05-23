@@ -320,20 +320,20 @@ const OverviewPage = ({ onNavigate }) => {
         <div style={{display:'grid', gridTemplateColumns:'2fr 1fr', minHeight:440}}>
 
           {/* Dark title tile */}
-          <div style={{background:'#0d0f14', color:'#f0ede6', padding:'4rem 3rem',
-            display:'flex', flexDirection:'column', justifyContent:'flex-end', gap:'1.25rem',
+          <div style={{background:'#0d0f14', color:'#f0ede6', padding:'3rem',
+            display:'flex', flexDirection:'column', justifyContent:'center', gap:'1.5rem',
             borderRight:'1px solid rgba(255,255,255,0.07)', borderBottom:'1px solid rgba(255,255,255,0.07)'}}>
             <div style={{fontFamily:'var(--mono)', fontSize:'0.6rem', letterSpacing:'0.16em',
               textTransform:'uppercase', color:'rgba(240,237,230,0.35)'}}>
               ЦИФРОВА ПЛАТФОРМА · DONNTU
             </div>
-            <h2 style={{fontFamily:'var(--display)', fontWeight:800, margin:0,
-              fontSize:'clamp(2.5rem,5vw,4.5rem)', lineHeight:1.05, color:'#f0ede6'}}>
-              DONNTU<br/>
-              <em style={{fontStyle:'italic', color:'#f26522'}}>HERITAGE</em>{' '}OS
+            <h2 style={{fontFamily:'var(--display)', fontWeight:400, margin:0,
+              fontSize:'2rem', lineHeight:'2.5rem', color:'#f0ede6'}}>
+              DONNTU{' '}
+              <em style={{fontStyle:'italic', color:'#f26522'}}>Heritage</em>{' '}OS
             </h2>
-            <p style={{fontFamily:'var(--display)', fontSize:'1.125rem', lineHeight:'1.75rem',
-              color:'rgba(240,237,230,0.6)', margin:0, maxWidth:520}}>
+            <p style={{fontFamily:'var(--display)', fontSize:'1.5rem', lineHeight:'2rem',
+              fontWeight:400, color:'rgba(240,237,230,0.75)', margin:0}}>
               Цифровий двійник університету — архів, симуляції, сертифікаційна платформа
               та часова капсула. Університет, що існує незалежно від адреси.
             </p>
@@ -379,12 +379,12 @@ const OverviewPage = ({ onNavigate }) => {
                 textTransform:'uppercase', color:'rgba(255,255,255,0.5)', marginBottom:'1.25rem'}}>
                 01 · ЦЕНТР СЕРТИФІКАЦІЇ
               </div>
-              <h3 style={{fontFamily:'var(--display)', fontWeight:800, fontSize:'1.75rem',
-                lineHeight:1.2, color:'#fff', margin:'0 0 1rem'}}>
+              <h3 style={{fontFamily:'var(--display)', fontWeight:400, fontSize:'2rem',
+                lineHeight:'2.5rem', color:'#fff', margin:'0 0 1rem'}}>
                 Цифрові сертифікати
               </h3>
-              <p style={{fontFamily:'var(--display)', fontSize:'1rem', lineHeight:'1.625rem',
-                color:'rgba(255,255,255,0.75)', margin:0}}>
+              <p style={{fontFamily:'var(--display)', fontSize:'1.5rem', lineHeight:'2rem',
+                fontWeight:400, color:'rgba(255,255,255,0.75)', margin:0}}>
                 Верифіковані цифрові документи для студентів та випускників ДонНТУ.
                 Підтвердження ідентичності та освіти — незалежно від того, де ви зараз.
               </p>
@@ -405,12 +405,12 @@ const OverviewPage = ({ onNavigate }) => {
                 textTransform:'uppercase', color:'rgba(255,255,255,0.5)', marginBottom:'1.25rem'}}>
                 02 · ЦЕНТР ЕМУЛЯЦІЇ
               </div>
-              <h3 style={{fontFamily:'var(--display)', fontWeight:800, fontSize:'1.75rem',
-                lineHeight:1.2, color:'#fff', margin:'0 0 1rem'}}>
+              <h3 style={{fontFamily:'var(--display)', fontWeight:400, fontSize:'2rem',
+                lineHeight:'2.5rem', color:'#fff', margin:'0 0 1rem'}}>
                 Симуляція кампусу
               </h3>
-              <p style={{fontFamily:'var(--display)', fontSize:'1rem', lineHeight:'1.625rem',
-                color:'rgba(255,255,255,0.75)', margin:0}}>
+              <p style={{fontFamily:'var(--display)', fontSize:'1.5rem', lineHeight:'2rem',
+                fontWeight:400, color:'rgba(255,255,255,0.75)', margin:0}}>
                 Інтерактивні лабораторії, симульований кампус ДонНТУ та навчальні
                 модулі — доступні з будь-якої точки світу.
               </p>
@@ -430,12 +430,12 @@ const OverviewPage = ({ onNavigate }) => {
                 textTransform:'uppercase', color:'rgba(255,255,255,0.5)', marginBottom:'1.25rem'}}>
                 03 · ЧАСОВА КАПСУЛА
               </div>
-              <h3 style={{fontFamily:'var(--display)', fontWeight:800, fontSize:'1.75rem',
-                lineHeight:1.2, color:'#fff', margin:'0 0 1rem'}}>
+              <h3 style={{fontFamily:'var(--display)', fontWeight:400, fontSize:'2rem',
+                lineHeight:'2.5rem', color:'#fff', margin:'0 0 1rem'}}>
                 Послання майбутньому
               </h3>
-              <p style={{fontFamily:'var(--display)', fontSize:'1rem', lineHeight:'1.625rem',
-                color:'rgba(255,255,255,0.85)', margin:0}}>
+              <p style={{fontFamily:'var(--display)', fontSize:'1.5rem', lineHeight:'2rem',
+                fontWeight:400, color:'rgba(255,255,255,0.85)', margin:0}}>
                 Залиште своє послання для майбутніх поколінь ДонНТУ. Відкриється,
                 коли університет повернеться до Донецька.
               </p>
